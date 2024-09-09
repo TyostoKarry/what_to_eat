@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 
 class EntryScreen extends StatelessWidget {
+  final Function onItemTapped;
+
+  EntryScreen({required this.onItemTapped});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,11 +17,24 @@ class EntryScreen extends StatelessWidget {
               color: AppColors.whatToEatButtonColor,
               child: InkWell(
                 onTap: () {
-                  // Add action for left button
+                  onItemTapped(2);
                 },
                 splashColor: AppColors.splashColor,
                 child: Center(
-                  child: Text('What to Eat'),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.fastfood_outlined, size: 36),
+                      Text(
+                        'What',
+                        style: TextStyle(fontSize: 36),
+                      ),
+                      Text(
+                        'to Eat',
+                        style: TextStyle(fontSize: 36),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -27,11 +44,24 @@ class EntryScreen extends StatelessWidget {
               color: AppColors.whereToEatButtonColor,
               child: InkWell(
                 onTap: () {
-                  // Add action for right button
+                  onItemTapped(3);
                 },
                 splashColor: AppColors.splashColor,
                 child: Center(
-                  child: Text('Where to Eat'),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.restaurant_sharp, size: 36),
+                      Text(
+                        'Where',
+                        style: TextStyle(fontSize: 36),
+                      ),
+                      Text(
+                        'to Eat',
+                        style: TextStyle(fontSize: 36),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

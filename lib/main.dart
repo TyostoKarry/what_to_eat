@@ -28,13 +28,6 @@ class MyNavigationBar extends StatefulWidget {
 class _MyNavigationBarState extends State<MyNavigationBar> {
   int _currentScreenIndex = 1;
 
-  static List<Widget> _widgetOptions = <Widget>[
-    Text('Settings'),
-    EntryScreen(),
-    Text('Screen 2'),
-    Text('Screen 3'),
-  ];
-
   void _onItemTapped(int index) {
     setState(() {
       _currentScreenIndex = index;
@@ -43,10 +36,14 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> _widgetOptions = <Widget>[
+      Text('Settings'),
+      EntryScreen(onItemTapped: _onItemTapped),
+      Text('Screen 2'),
+      Text('Screen 3'),
+    ];
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text('BottomNavigationBar'),
-      ),
       body: Center(
         child: _widgetOptions.elementAt(_currentScreenIndex),
       ),
