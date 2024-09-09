@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:what_to_eat/theme/app_colors.dart';
+
 class EntryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -8,7 +10,7 @@ class EntryScreen extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              color: Colors.blue[100],
+              color: AppColors.whatToEatButtonColor,
               child: Center(
                 child: ElevatedButton(
                   onPressed: () {
@@ -21,7 +23,7 @@ class EntryScreen extends StatelessWidget {
           ),
           Expanded(
             child: Container(
-              color: Colors.green[100],
+              color: AppColors.whereToEatButtonColor,
               child: Center(
                 child: ElevatedButton(
                   onPressed: () {
