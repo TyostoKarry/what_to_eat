@@ -10,4 +10,5 @@ class AppColors {
   // entry_screen.dart
   static const Color whatToEatButtonColor = Color.fromARGB(255, 187, 222, 251);
   static const Color whereToEatButtonColor = Color.fromARGB(255, 200, 230, 201);
+  static const Color splashColor = Color.fromARGB(100, 255, 255, 128);
 }
