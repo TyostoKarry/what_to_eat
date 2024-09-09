@@ -9,26 +9,26 @@ class EntryScreen extends StatelessWidget {
       body: Row(
         children: [
           Expanded(
-            child: Container(
-              color: AppColors.whatToEatButtonColor,
-              child: Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Add action for left button
-                  },
+            child: InkWell(
+              onTap: () {
+                // Add action for left button
+              },
+              child: Container(
+                color: AppColors.whatToEatButtonColor,
+                child: Center(
                   child: Text('What to Eat'),
                 ),
               ),
             ),
           ),
           Expanded(
-            child: Container(
-              color: AppColors.whereToEatButtonColor,
-              child: Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Add action for right button
-                  },
+            child: InkWell(
+              onTap: () {
+                // Add action for right button
+              },
+              child: Container(
+                color: AppColors.whereToEatButtonColor,
+                child: Center(
                   child: Text('Where to Eat'),
                 ),
               ),
