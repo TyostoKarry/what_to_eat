@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'screens/entry_screen.dart';
+
+import 'package:what_to_eat/screens/entry_screen.dart';
+import 'package:what_to_eat/theme/app_colors.dart';
 
 void main() {
   runApp(MainApp());
@@ -68,8 +70,8 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
           ),
         ],
         currentIndex: _currentScreenIndex,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: AppColors.navBarSelectedColor,
+        unselectedItemColor: AppColors.navBarUnselectedColor,
         onTap: _onItemTapped,
       ),
     );
