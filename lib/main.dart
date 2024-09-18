@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:what_to_eat/screens/entry_screen.dart';
+import 'package:what_to_eat/screens/what_to_eat_screen.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 
 void main() {
@@ -39,7 +40,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
     List<Widget> _widgetOptions = <Widget>[
       Text('Settings'),
       EntryScreen(onItemTapped: _onItemTapped),
-      Text('Screen 2'),
+      WhatToEatScreen(),
       Text('Screen 3'),
     ];
 
