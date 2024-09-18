@@ -27,7 +27,7 @@ class _WhatToEatScreenState extends State<WhatToEatScreen> {
 Widget _buildBodyBasedOnStete(WhatToEatScreenState _currentState) {
   switch (_currentState) {
     case WhatToEatScreenState.categories:
-      return Text('Categories');
+      return WhatToEatCategories();
     case WhatToEatScreenState.wheelOfFortune:
       return Text('Wheel of Fortune');
     case WhatToEatScreenState.foodSelected:
