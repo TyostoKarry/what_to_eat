@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:what_to_eat/components/what_to_eat_categories.dart';
-
-enum WhatToEatScreenState { categories, wheelOfFortune, foodSelected }
+import 'package:what_to_eat/models/what_to_eat_model.dart';
 
 class WhatToEatScreen extends StatefulWidget {
   const WhatToEatScreen({super.key});

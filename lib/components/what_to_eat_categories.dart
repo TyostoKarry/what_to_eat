@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
+
+import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 
 class WhatToEatCategories extends StatelessWidget {
-  final List<String> categories = [
-    'Category 1',
-    'Category 2',
-    'Category 3',
-    'Category 4',
-    'Category 5',
-    'Category 6',
-  ];
+  const WhatToEatCategories({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +36,7 @@ class WhatToEatCategories extends StatelessWidget {
                   mainAxisSpacing: 10,
                   childAspectRatio: 1, // square-shaped items
                 ),
-                itemCount: categories.length,
+                itemCount: WhatToEatModel.categories.length,
                 itemBuilder: (context, index) {
                   return Material(
                     color: AppColors.whatToEatSecondaryColor,
@@ -55,7 +50,8 @@ class WhatToEatCategories extends StatelessWidget {
                       },
                       child: Center(
                         child: Text(
-                          categories[index], // Use the category from the list
+                          WhatToEatModel.categories[
+                              index], // Use the category from the list
                           style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
