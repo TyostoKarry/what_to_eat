@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:what_to_eat/theme/app_colors.dart';
 
 class WhatToEatCategories extends StatelessWidget {
   final List<String> categories = [
@@ -13,6 +14,7 @@ class WhatToEatCategories extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.whatToEatPrimaryColor,
       body: Column(
         children: [
           Container(
@@ -22,6 +24,7 @@ class WhatToEatCategories extends StatelessWidget {
               child: Text(
                 'Select Food Category',
                 style: TextStyle(
+                  color: AppColors.textPrimaryColor,
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
@@ -41,12 +44,12 @@ class WhatToEatCategories extends StatelessWidget {
                 itemCount: categories.length,
                 itemBuilder: (context, index) {
                   return Material(
-                    color: Colors.blue[200],
+                    color: AppColors.whatToEatSecondaryColor,
                     elevation: 4,
                     borderRadius: BorderRadius.circular(16),
                     child: InkWell(
                       borderRadius: BorderRadius.circular(16),
-                      splashColor: Colors.blue[800],
+                      splashColor: AppColors.splashColor,
                       onTap: () {
                         // Handle the onTap event here
                       },
@@ -54,10 +57,9 @@ class WhatToEatCategories extends StatelessWidget {
                         child: Text(
                           categories[index], // Use the category from the list
                           style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.textPrimaryColor),
                         ),
                       ),
                     ),

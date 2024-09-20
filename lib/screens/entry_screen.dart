@@ -14,7 +14,7 @@ class EntryScreen extends StatelessWidget {
         children: [
           Expanded(
             child: Material(
-              color: AppColors.whatToEatButtonColor,
+              color: AppColors.whatToEatPrimaryColor,
               child: InkWell(
                 onTap: () {
                   onItemTapped(2);
@@ -24,14 +24,20 @@ class EntryScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.fastfood_outlined, size: 36),
+                      Icon(
+                        Icons.fastfood_outlined,
+                        size: 36,
+                        color: AppColors.textPrimaryColor,
+                      ),
                       Text(
                         'What',
-                        style: TextStyle(fontSize: 36),
+                        style: TextStyle(
+                            fontSize: 36, color: AppColors.textPrimaryColor),
                       ),
                       Text(
                         'to Eat',
-                        style: TextStyle(fontSize: 36),
+                        style: TextStyle(
+                            fontSize: 36, color: AppColors.textPrimaryColor),
                       ),
                     ],
                   ),
@@ -41,7 +47,7 @@ class EntryScreen extends StatelessWidget {
           ),
           Expanded(
             child: Material(
-              color: AppColors.whereToEatButtonColor,
+              color: AppColors.whereToEatPrimaryColor,
               child: InkWell(
                 onTap: () {
                   onItemTapped(3);
@@ -51,14 +57,17 @@ class EntryScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.restaurant_sharp, size: 36),
+                      Icon(Icons.restaurant_sharp,
+                          size: 36, color: AppColors.textPrimaryColor),
                       Text(
                         'Where',
-                        style: TextStyle(fontSize: 36),
+                        style: TextStyle(
+                            fontSize: 36, color: AppColors.textPrimaryColor),
                       ),
                       Text(
                         'to Eat',
-                        style: TextStyle(fontSize: 36),
+                        style: TextStyle(
+                            fontSize: 36, color: AppColors.textPrimaryColor),
                       ),
                     ],
                   ),
