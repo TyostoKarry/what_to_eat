@@ -11,20 +11,20 @@ class WhatToEatScreen extends StatefulWidget {
 }
 
 class _WhatToEatScreenState extends State<WhatToEatScreen> {
-  WhatToEatScreenState _currentState = WhatToEatScreenState.categories;
+  final WhatToEatModel _whatToEatModel = WhatToEatModel();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: _buildBodyBasedOnStete(_currentState),
+        child: _buildBodyBasedOnStete(_whatToEatModel.whatToEatScreenState),
       ),
     );
   }
 }
 
-Widget _buildBodyBasedOnStete(WhatToEatScreenState _currentState) {
-  switch (_currentState) {
+Widget _buildBodyBasedOnStete(WhatToEatScreenState _whatToEatScreenState) {
+  switch (_whatToEatScreenState) {
     case WhatToEatScreenState.categories:
       return WhatToEatCategories();
     case WhatToEatScreenState.wheelOfFortune:

@@ -31,12 +31,12 @@ class WhatToEatCategories extends StatelessWidget {
               padding: const EdgeInsets.all(8.0),
               child: GridView.builder(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2, // 2 items per row
+                  crossAxisCount: 2,
                   crossAxisSpacing: 10,
                   mainAxisSpacing: 10,
-                  childAspectRatio: 1, // square-shaped items
+                  childAspectRatio: 1,
                 ),
-                itemCount: WhatToEatModel.categories.length,
+                itemCount: WhatToEatModel.foodCategories.length,
                 itemBuilder: (context, index) {
                   return Material(
                     color: AppColors.whatToEatSecondaryColor,
@@ -50,8 +50,7 @@ class WhatToEatCategories extends StatelessWidget {
                       },
                       child: Center(
                         child: Text(
-                          WhatToEatModel.categories[
-                              index], // Use the category from the list
+                          WhatToEatModel.foodCategories[index].name,
                           style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
