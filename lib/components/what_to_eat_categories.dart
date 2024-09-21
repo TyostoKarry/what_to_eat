@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
@@ -46,7 +47,11 @@ class WhatToEatCategories extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                       splashColor: AppColors.splashColor,
                       onTap: () {
-                        // Handle the onTap event here
+                        Provider.of<WhatToEatModel>(context, listen: false)
+                          ..setWhatToEatScreenState(
+                              WhatToEatScreenState.wheelOfFortune)
+                          ..setSelectedCategory(
+                              WhatToEatModel.foodCategories[index]);
                       },
                       child: Center(
                         child: Text(

@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/screens/entry_screen.dart';
 import 'package:what_to_eat/screens/what_to_eat_screen.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 
 void main() {
-  runApp(MainApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => WhatToEatModel(),
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {

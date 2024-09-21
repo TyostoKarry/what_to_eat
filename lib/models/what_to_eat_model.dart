@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 enum WhatToEatScreenState { categories, wheelOfFortune, foodSelected }
 
 class FoodCategory {
@@ -9,11 +11,21 @@ class FoodCategory {
   });
 }
 
-class WhatToEatModel {
+class WhatToEatModel extends ChangeNotifier {
   WhatToEatScreenState _whatToEatScreenState = WhatToEatScreenState.categories;
   WhatToEatScreenState get whatToEatScreenState => _whatToEatScreenState;
+
+  FoodCategory? _selectedCategory; // Store the selected category
+  FoodCategory? get selectedCategory => _selectedCategory;
+
   void setWhatToEatScreenState(WhatToEatScreenState newState) {
     _whatToEatScreenState = newState;
+    notifyListeners();
+  }
+
+  void setSelectedCategory(FoodCategory category) {
+    _selectedCategory = category;
+    notifyListeners();
   }
 
   static const List<FoodCategory> foodCategories = [
