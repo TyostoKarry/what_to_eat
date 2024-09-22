@@ -14,4 +14,10 @@ class AppColors {
       const Color.fromARGB(255, 33, 150, 243);
   static const Color navBarUnselectedColor =
       const Color.fromARGB(255, 158, 158, 158);
+
+  // what_to_eat_wheel_of_fortune.dart
+  static const Color vetoTicketColor = const Color.fromARGB(255, 156, 39, 176);
+  static const Color vetoCrossColor = const Color.fromARGB(255, 244, 67, 54);
+  static const Color resultBackgroundColor =
+      const Color.fromARGB(255, 255, 255, 255);
 }
