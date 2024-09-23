@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:provider/provider.dart';
@@ -26,6 +27,28 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
   String categoryName = '';
   List<String> sessionItems = [];
 
+  final Color primarySliceColor = AppColors.primarySliceColor;
+  final Color secondarySliceColor = AppColors.secondarySliceColor;
+  final Color thirdSliceColor = AppColors.thirdSliceColor;
+
+  // Function to generate color pattern based on the number of items
+  List<Color> generateColorPattern(int itemCount) {
+    List<Color> colorPattern = [];
+
+    // Alternate between primaryColor and secondaryColor
+    for (int i = 0; i < itemCount; i++) {
+      if (itemCount % 2 != 0 && i == itemCount - 1) {
+        // If odd number of items, assign thirdColor to the last item
+        colorPattern.add(thirdSliceColor);
+      } else {
+        // Otherwise alternate between primary and secondary colors
+        colorPattern.add(i % 2 == 0 ? primarySliceColor : secondarySliceColor);
+      }
+    }
+
+    return colorPattern;
+  }
+
   @override
   void dispose() {
     // Close the StreamController to avoid memory leaks
@@ -42,9 +65,11 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
     sessionItems = List<String>.from(selectedCategory?.foodItems ?? []);
 
     // Determine the number of veto tickets based on the number of food items
-    if (sessionItems.length >= 4) {
+    if (sessionItems.length >= 12) {
+      vetoesLeft = 3;
+    } else if (sessionItems.length >= 7) {
       vetoesLeft = 2;
-    } else if (sessionItems.length == 3) {
+    } else if (sessionItems.length >= 3) {
       vetoesLeft = 1;
     } else {
       vetoesLeft = 0;
@@ -70,26 +95,49 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
 
   @override
   Widget build(BuildContext context) {
+    List<Color> colorPattern = generateColorPattern(sessionItems.length);
+
     return Scaffold(
       backgroundColor: AppColors.whatToEatPrimaryColor,
       body: Column(
         children: [
           Padding(
             padding: EdgeInsets.symmetric(vertical: 20),
-            child: Text(
+            child: AutoSizeText(
               categoryName,
               style: const TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
                 color: AppColors.textPrimaryColor,
               ),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              minFontSize: 16,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           Expanded(
             child: FortuneWheel(
               selected: selected.stream,
               items: [
-                for (var it in sessionItems) FortuneItem(child: Text(it)),
+                for (int i = 0; i < sessionItems.length; i++)
+                  FortuneItem(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: AutoSizeText(
+                        sessionItems[i],
+                        style: const TextStyle(color: AppColors.wheelTextColor),
+                        textAlign: TextAlign.center,
+                        maxLines: 1,
+                        minFontSize: 8,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    style: FortuneItemStyle(
+                      color: colorPattern[i],
+                      borderWidth: 0,
+                    ),
+                  ),
               ],
               physics: NoPanPhysics(),
               animateFirst: false,
@@ -157,7 +205,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                 ],
               ),
               child: Center(
-                child: Text(
+                child: AutoSizeText(
                   resultText.isNotEmpty ? resultText : '',
                   style: const TextStyle(
                     fontSize: 20,
@@ -165,6 +213,9 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                     color: AppColors.textPrimaryColor,
                   ),
                   textAlign: TextAlign.center,
+                  maxLines: 1,
+                  minFontSize: 12,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),

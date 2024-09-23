@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,6 +25,7 @@ class WhatToEatCategories extends StatelessWidget {
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                 ),
+                textAlign: TextAlign.center,
               ),
             ),
           ),
@@ -54,12 +56,16 @@ class WhatToEatCategories extends StatelessWidget {
                               WhatToEatModel.foodCategories[index]);
                       },
                       child: Center(
-                        child: Text(
+                        child: AutoSizeText(
                           WhatToEatModel.foodCategories[index].name,
                           style: const TextStyle(
-                              fontSize: 16,
+                              fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: AppColors.textPrimaryColor),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          minFontSize: 16,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ),

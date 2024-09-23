@@ -25,7 +25,7 @@ class EntryScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.fastfood_outlined,
+                        Icons.restaurant_sharp,
                         size: 36,
                         color: AppColors.textPrimaryColor,
                       ),
@@ -57,7 +57,7 @@ class EntryScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.restaurant_sharp,
+                      Icon(Icons.location_on,
                           size: 36, color: AppColors.textPrimaryColor),
                       Text(
                         'Where',

@@ -60,18 +60,22 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
+            backgroundColor: AppColors.navBarBackgroundColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.fastfood_outlined),
-            label: 'What to Eat',
+            backgroundColor: AppColors.navBarBackgroundColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.restaurant_sharp),
+            label: 'What to Eat',
+            backgroundColor: AppColors.navBarBackgroundColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.location_on),
             label: 'Where to Eat',
+            backgroundColor: AppColors.navBarBackgroundColor,
           ),
         ],
         currentIndex: _currentScreenIndex,
