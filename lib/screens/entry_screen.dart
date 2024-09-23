@@ -13,8 +13,10 @@ class EntryScreen extends StatelessWidget {
       body: Row(
         children: [
           Expanded(
-            child: Material(
-              color: AppColors.whatToEatPrimaryColor,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: AppColors.getWhatToEatBackground(),
+              ),
               child: InkWell(
                 onTap: () {
                   onItemTapped(2);
@@ -46,8 +48,10 @@ class EntryScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Material(
-              color: AppColors.whereToEatPrimaryColor,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: AppColors.getWhereToEatBackground(),
+              ),
               child: InkWell(
                 onTap: () {
                   onItemTapped(3);

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:what_to_eat/components/what_to_eat_categories.dart';
-import 'package:what_to_eat/components/what_to_eat_wheel_of_fortune.dart';
+import 'package:what_to_eat/components/what_to_eat/what_to_eat_categories.dart';
+import 'package:what_to_eat/components/what_to_eat/what_to_eat_food_selected.dart';
+import 'package:what_to_eat/components/what_to_eat/what_to_eat_wheel_of_fortune.dart';
 import 'package:what_to_eat/models/what_to_eat_model.dart';
 
 class WhatToEatScreen extends StatefulWidget {
@@ -43,7 +44,7 @@ class _WhatToEatScreenState extends State<WhatToEatScreen> {
       case WhatToEatScreenState.wheelOfFortune:
         return WhatToEatWheelOfFortune();
       case WhatToEatScreenState.foodSelected:
-        return Text('Feed Selected');
+        return WhatToEatFoodSelected();
     }
   }
 }

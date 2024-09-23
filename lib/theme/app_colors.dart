@@ -2,9 +2,7 @@ import "package:flutter/material.dart";
 
 class AppColors {
   // General colors
-  static const Color whatToEatPrimaryColor = Color.fromARGB(255, 187, 222, 251);
-  static const Color whatToEatSecondaryColor =
-      Color.fromARGB(255, 31, 154, 255);
+  static const Color whatToEatPrimaryColor = Color.fromARGB(255, 31, 154, 255);
   static const Color whereToEatPrimaryColor =
       Color.fromARGB(255, 200, 230, 201);
   static const Color splashColor = Color.fromARGB(100, 255, 255, 128);
@@ -26,4 +24,27 @@ class AppColors {
   static const Color secondarySliceColor = Color.fromARGB(255, 84, 99, 164);
   static const Color thirdSliceColor = Color.fromARGB(255, 132, 140, 188);
   static const Color wheelTextColor = Color.fromARGB(255, 255, 255, 255);
+
+  // Gradients
+  static LinearGradient getWhatToEatBackground() {
+    return LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        const Color.fromARGB(255, 179, 229, 252),
+        const Color.fromARGB(255, 79, 195, 247),
+      ],
+    );
+  }
+
+  static LinearGradient getWhereToEatBackground() {
+    return LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        const Color.fromARGB(255, 197, 225, 165),
+        const Color.fromARGB(255, 156, 204, 101),
+      ],
+    );
+  }
 }
