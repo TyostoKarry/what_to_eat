@@ -37,6 +37,10 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   int _currentScreenIndex = 1;
 
   void _onItemTapped(int index) {
+    if (_currentScreenIndex == 2 && index != 2) {
+      Provider.of<WhatToEatModel>(context, listen: false)
+          .setWhatToEatScreenState(WhatToEatScreenState.categories);
+    }
     setState(() {
       _currentScreenIndex = index;
     });

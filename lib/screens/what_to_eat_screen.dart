@@ -15,16 +15,6 @@ class WhatToEatScreen extends StatefulWidget {
 
 class _WhatToEatScreenState extends State<WhatToEatScreen> {
   @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<WhatToEatModel>(context, listen: false)
-          .setWhatToEatScreenState(WhatToEatScreenState.categories);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
