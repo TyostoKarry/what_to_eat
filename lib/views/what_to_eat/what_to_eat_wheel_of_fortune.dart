@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:provider/provider.dart';
 
+import 'package:what_to_eat/components/wte_button.dart';
 import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 
@@ -226,118 +227,58 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: SizedBox(
-                height: 60,
-                width: double.infinity,
-                child: resultFoodItem == null
-                    ? Material(
-                        color: AppColors.whatToEatPrimaryColor
-                            .withOpacity(spinning ? 0.3 : 1.0),
-                        elevation: spinning ? 0 : 4,
-                        borderRadius: BorderRadius.circular(12),
-                        child: InkWell(
-                          splashColor: spinning
-                              ? Colors.transparent
-                              : AppColors.splashColor,
-                          borderRadius: BorderRadius.circular(12),
-                          onTap: spinning
-                              ? null
-                              : () {
-                                  if (sessionItems.isNotEmpty) {
-                                    final randomIndex = Fortune.randomInt(
-                                        0, sessionItems.length);
-                                    selected.add(randomIndex);
-                                    setState(() {
-                                      resultIndex = randomIndex;
-                                    });
-                                  }
-                                },
-                          child: Padding(
-                            padding: const EdgeInsets.all(12),
-                            child: const Text(
-                              "Spin the Wheel",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.textPrimaryColor,
-                              ),
-                            ),
+              child: resultFoodItem == null
+                  ? WTEButton(
+                      text: "Spin the Wheel",
+                      color: AppColors.whatToEatPrimaryColor,
+                      textColor: AppColors.textPrimaryColor,
+                      isEnabled: !spinning,
+                      onTap: () {
+                        if (sessionItems.isNotEmpty) {
+                          final randomIndex =
+                              Fortune.randomInt(0, sessionItems.length);
+                          selected.add(randomIndex);
+                          setState(() {
+                            resultIndex = randomIndex;
+                          });
+                        }
+                      },
+                    )
+                  : Row(
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: WTEButton(
+                            text: "Use Veto",
+                            color: AppColors.whatToEatPrimaryColor,
+                            textColor: AppColors.textPrimaryColor,
+                            isEnabled: vetoesLeft > 0,
+                            onTap: () {
+                              if (!spinning) {
+                                useVeto();
+                              }
+                            },
                           ),
                         ),
-                      )
-                    : Row(
-                        children: [
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              height: 60,
-                              child: Material(
-                                color: AppColors.whatToEatPrimaryColor
-                                    .withOpacity(vetoesLeft > 0 ? 1.0 : 0.3),
-                                elevation: vetoesLeft > 0 ? 4 : 0,
-                                borderRadius: BorderRadius.circular(12),
-                                child: InkWell(
-                                  splashColor: vetoesLeft > 0
-                                      ? AppColors.splashColor
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(12),
-                                  onTap: vetoesLeft > 0 && !spinning
-                                      ? () {
-                                          useVeto();
-                                        }
-                                      : null,
-                                  child: Center(
-                                    child: Text(
-                                      "Use Veto",
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.textPrimaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                        const SizedBox(width: 10),
+                        Flexible(
+                          flex: 1,
+                          child: WTEButton(
+                            text: "Select Food",
+                            color: AppColors.whatToEatPrimaryColor,
+                            textColor: AppColors.textPrimaryColor,
+                            isEnabled: !spinning,
+                            onTap: () {
+                              if (resultFoodItem != null) {
+                                Provider.of<WhatToEatModel>(context,
+                                        listen: false)
+                                    .setSelectedFood(resultFoodItem!);
+                              }
+                            },
                           ),
-                          const SizedBox(width: 10),
-                          Flexible(
-                            flex: 1,
-                            child: Container(
-                              height: 60,
-                              child: Material(
-                                color: AppColors.whatToEatPrimaryColor
-                                    .withOpacity(spinning ? 0.3 : 1.0),
-                                elevation: 4,
-                                borderRadius: BorderRadius.circular(12),
-                                child: InkWell(
-                                  splashColor: AppColors.splashColor,
-                                  borderRadius: BorderRadius.circular(12),
-                                  onTap: () {
-                                    Provider.of<WhatToEatModel>(context,
-                                            listen: false)
-                                        .setSelectedFood(resultFoodItem!);
-                                  },
-                                  child: Center(
-                                    child: Text(
-                                      "Select Food",
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.textPrimaryColor,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-              ),
+                        ),
+                      ],
+                    ),
             ),
           ],
         ),
