@@ -153,13 +153,15 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 20),
+                          SizedBox(width: 15),
                           Container(
-                            width: 40,
-                            height: 40,
+                            width: 45,
+                            height: 45,
                             decoration: BoxDecoration(
                               color: AppColors.wteDanger,
                               shape: BoxShape.circle,
+                              border: Border.all(
+                                  color: AppColors.textPrimaryColor, width: 1),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black.withOpacity(0.1),
