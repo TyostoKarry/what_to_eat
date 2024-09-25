@@ -26,7 +26,7 @@ class WhatToEatFoodSelected extends StatelessWidget {
   Widget build(BuildContext context) {
     final model = context.watch<WhatToEatModel>();
     final selectedFood = model.selectedFood ??
-        SelectedFood(foodItem: FoodItem(name: '', description: ''));
+        SelectedFood(foodItem: FoodItem(name: '', image: '', description: ''));
 
     return Scaffold(
       body: Container(
@@ -56,6 +56,32 @@ class WhatToEatFoodSelected extends StatelessWidget {
             ),
             Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 10,
+                          offset: Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16),
+                      child: AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: Image.asset(
+                          'assets/images/${selectedFood.foodItem.image}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 15),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
@@ -89,21 +115,24 @@ class WhatToEatFoodSelected extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: AutoSizeText(
-                    selectedFood.foodItem.description,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      color: AppColors.textPrimaryColor,
+                const SizedBox(height: 15),
+                if (selectedFood.foodItem.description.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Container(
+                      height: 155,
+                      child: SingleChildScrollView(
+                        child: Text(
+                          selectedFood.foodItem.description,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            color: AppColors.textPrimaryColor,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                     ),
-                    textAlign: TextAlign.center,
-                    maxLines: 5,
-                    minFontSize: 12,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
               ],
             ),
             Padding(
