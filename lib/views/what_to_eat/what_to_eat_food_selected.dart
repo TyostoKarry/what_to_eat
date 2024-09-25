@@ -89,7 +89,7 @@ class WhatToEatFoodSelected extends StatelessWidget {
                     height: 60,
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: AppColors.resultBackgroundColor,
+                      color: AppColors.foodItemBackgroundColor,
                       borderRadius: BorderRadius.circular(12),
                       boxShadow: [
                         BoxShadow(

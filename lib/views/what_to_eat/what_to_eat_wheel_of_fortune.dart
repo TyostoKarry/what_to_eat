@@ -183,7 +183,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                         if (vetoUsed[index])
                           Icon(
                             Icons.block,
-                            color: AppColors.vetoCrossColor,
+                            color: AppColors.wteDanger,
                             size: 70,
                           ),
                       ],
@@ -199,7 +199,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                 height: 60,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppColors.resultBackgroundColor,
+                  color: AppColors.foodItemBackgroundColor,
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -271,8 +271,10 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                             onTap: () {
                               if (resultFoodItem != null) {
                                 Provider.of<WhatToEatModel>(context,
-                                        listen: false)
-                                    .setSelectedFood(resultFoodItem!);
+                                    listen: false)
+                                  ..setSelectedFood(resultFoodItem!)
+                                  ..setWhatToEatScreenState(
+                                      WhatToEatScreenState.foodSelected);
                               }
                             },
                           ),

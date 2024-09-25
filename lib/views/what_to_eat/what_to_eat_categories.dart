@@ -6,8 +6,23 @@ import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 import 'package:what_to_eat/components/what_to_eat/what_to_eat_food_item_popup.dart';
 
-class WhatToEatCategories extends StatelessWidget {
+class WhatToEatCategories extends StatefulWidget {
   const WhatToEatCategories({super.key});
+
+  @override
+  _WhatToEatCategoriesState createState() => _WhatToEatCategoriesState();
+}
+
+class _WhatToEatCategoriesState extends State<WhatToEatCategories> {
+  @override
+  void initState() {
+    super.initState();
+
+    final whatToEatModel = Provider.of<WhatToEatModel>(context, listen: false);
+    whatToEatModel
+      ..clearCustomCategory()
+      ..addFoodToCustomCategory(whatToEatModel.defaultCustomFoodItem);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +71,11 @@ class WhatToEatCategories extends StatelessWidget {
                             splashColor: AppColors.splashColor,
                             onTap: () {
                               Provider.of<WhatToEatModel>(context,
-                                      listen: false)
-                                  .setSelectedCategory(
-                                      WhatToEatModel.foodCategories[index]);
+                                  listen: false)
+                                ..setSelectedCategory(
+                                    WhatToEatModel.foodCategories[index])
+                                ..setWhatToEatScreenState(WhatToEatModel
+                                    .foodCategories[index].nextState);
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),
