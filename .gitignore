@@ -1,3 +1,9 @@
+# Exclude unnecessary platform-specific folders
+windows/
+linux/
+macos/
+web/
+
 # Miscellaneous
 .env
 *.class
