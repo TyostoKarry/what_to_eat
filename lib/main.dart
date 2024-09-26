@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/screens/entry_screen.dart';
+import 'package:what_to_eat/screens/what_to_eat_screen.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 
 void main() {
-  runApp(MainApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => WhatToEatModel(),
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -29,6 +37,10 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   int _currentScreenIndex = 1;
 
   void _onItemTapped(int index) {
+    if (_currentScreenIndex == 2 && index != 2) {
+      Provider.of<WhatToEatModel>(context, listen: false)
+          .setWhatToEatScreenState(WhatToEatScreenState.categories);
+    }
     setState(() {
       _currentScreenIndex = index;
     });
@@ -39,7 +51,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
     List<Widget> _widgetOptions = <Widget>[
       Text('Settings'),
       EntryScreen(onItemTapped: _onItemTapped),
-      Text('Screen 2'),
+      WhatToEatScreen(),
       Text('Screen 3'),
     ];
 
@@ -52,18 +64,22 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             label: 'Settings',
+            backgroundColor: AppColors.navBarBackgroundColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.fastfood_outlined),
-            label: 'What to Eat',
+            backgroundColor: AppColors.navBarBackgroundColor,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.restaurant_sharp),
+            label: 'What to Eat',
+            backgroundColor: AppColors.navBarBackgroundColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.location_on),
             label: 'Where to Eat',
+            backgroundColor: AppColors.navBarBackgroundColor,
           ),
         ],
         currentIndex: _currentScreenIndex,

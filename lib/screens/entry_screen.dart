@@ -13,8 +13,10 @@ class EntryScreen extends StatelessWidget {
       body: Row(
         children: [
           Expanded(
-            child: Material(
-              color: AppColors.whatToEatButtonColor,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: AppColors.getWhatToEatBackground(),
+              ),
               child: InkWell(
                 onTap: () {
                   onItemTapped(2);
@@ -24,14 +26,20 @@ class EntryScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.fastfood_outlined, size: 36),
+                      Icon(
+                        Icons.restaurant_sharp,
+                        size: 36,
+                        color: AppColors.textPrimaryColor,
+                      ),
                       Text(
                         'What',
-                        style: TextStyle(fontSize: 36),
+                        style: TextStyle(
+                            fontSize: 36, color: AppColors.textPrimaryColor),
                       ),
                       Text(
                         'to Eat',
-                        style: TextStyle(fontSize: 36),
+                        style: TextStyle(
+                            fontSize: 36, color: AppColors.textPrimaryColor),
                       ),
                     ],
                   ),
@@ -40,8 +48,10 @@ class EntryScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Material(
-              color: AppColors.whereToEatButtonColor,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: AppColors.getWhereToEatBackground(),
+              ),
               child: InkWell(
                 onTap: () {
                   onItemTapped(3);
@@ -51,14 +61,17 @@ class EntryScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.restaurant_sharp, size: 36),
+                      Icon(Icons.location_on,
+                          size: 36, color: AppColors.textPrimaryColor),
                       Text(
                         'Where',
-                        style: TextStyle(fontSize: 36),
+                        style: TextStyle(
+                            fontSize: 36, color: AppColors.textPrimaryColor),
                       ),
                       Text(
                         'to Eat',
-                        style: TextStyle(fontSize: 36),
+                        style: TextStyle(
+                            fontSize: 36, color: AppColors.textPrimaryColor),
                       ),
                     ],
                   ),

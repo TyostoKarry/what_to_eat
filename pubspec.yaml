@@ -1,14 +1,18 @@
 name: what_to_eat
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
   sdk: ^3.5.2
 
 dependencies:
+  auto_size_text: ^3.0.0
   flutter:
     sdk: flutter
+  flutter_fortune_wheel: ^1.3.1
+  provider: ^6.1.2
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   flutter_test:
@@ -16,4 +20,6 @@ dev_dependencies:
   flutter_lints: ^4.0.0
 
 flutter:
+  assets:
+    - assets/images/
   uses-material-design: true
