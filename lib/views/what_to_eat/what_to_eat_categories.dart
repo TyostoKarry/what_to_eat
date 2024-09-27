@@ -18,10 +18,13 @@ class _WhatToEatCategoriesState extends State<WhatToEatCategories> {
   void initState() {
     super.initState();
 
-    final whatToEatModel = Provider.of<WhatToEatModel>(context, listen: false);
-    whatToEatModel
-      ..clearCustomCategory()
-      ..addFoodToCustomCategory(whatToEatModel.defaultCustomFoodItem);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final whatToEatModel =
+          Provider.of<WhatToEatModel>(context, listen: false);
+      whatToEatModel
+        ..clearCustomCategory()
+        ..addFoodToCustomCategory(whatToEatModel.defaultCustomFoodItem);
+    });
   }
 
   @override
