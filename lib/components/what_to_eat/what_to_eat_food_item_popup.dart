@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:what_to_eat/theme/app_colors.dart';
 import 'package:what_to_eat/models/what_to_eat_model.dart';
+import 'package:what_to_eat/theme/app_colors.dart';
 
 class FoodItemsPopup extends StatelessWidget {
   final FoodCategory foodCategory;

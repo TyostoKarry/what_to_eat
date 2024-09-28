@@ -5,6 +5,7 @@ import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:provider/provider.dart';
 
 import 'package:what_to_eat/components/wte_button.dart';
+import 'package:what_to_eat/components/wte_view_title.dart';
 import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 
@@ -105,20 +106,9 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
         ),
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              child: AutoSizeText(
-                categoryName,
-                style: const TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.textPrimaryColor,
-                ),
-                textAlign: TextAlign.center,
-                maxLines: 2,
-                minFontSize: 16,
-                overflow: TextOverflow.ellipsis,
-              ),
+            WTEViewTitle(
+              titleText: categoryName,
+              padding: EdgeInsets.only(top: 60),
             ),
             Expanded(
               child: FortuneWheel(
@@ -232,7 +222,9 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                       text: "Spin the Wheel",
                       color: AppColors.whatToEatPrimaryColor,
                       textColor: AppColors.textPrimaryColor,
-                      isEnabled: !spinning,
+                      colorEnabled: !spinning,
+                      splashEnabled: !spinning,
+                      tapEnabled: !spinning,
                       onTap: () {
                         if (sessionItems.isNotEmpty) {
                           final randomIndex =
@@ -252,7 +244,9 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                             text: "Use Veto",
                             color: AppColors.whatToEatPrimaryColor,
                             textColor: AppColors.textPrimaryColor,
-                            isEnabled: vetoesLeft > 0,
+                            colorEnabled: vetoesLeft > 0,
+                            splashEnabled: vetoesLeft > 0,
+                            tapEnabled: vetoesLeft > 0,
                             onTap: () {
                               if (!spinning) {
                                 useVeto();
@@ -267,7 +261,9 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                             text: "Select Food",
                             color: AppColors.whatToEatPrimaryColor,
                             textColor: AppColors.textPrimaryColor,
-                            isEnabled: !spinning,
+                            colorEnabled: !spinning,
+                            splashEnabled: !spinning,
+                            tapEnabled: !spinning,
                             onTap: () {
                               if (resultFoodItem != null) {
                                 Provider.of<WhatToEatModel>(context,

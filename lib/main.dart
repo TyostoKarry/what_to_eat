@@ -20,7 +20,13 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(
+          cursorColor: AppColors.textPrimaryColor,
+          selectionHandleColor: AppColors.textPrimaryColor,
+        ),
+      ),
       home: MyNavigationBar(),
     );
   }
