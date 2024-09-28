@@ -10,6 +10,8 @@ class AppColors {
   static const Color foodItemBackgroundColor =
       const Color.fromARGB(255, 255, 255, 255);
   static const Color wteDanger = const Color.fromARGB(255, 244, 67, 54);
+  static const Color cursorColor = Color.fromARGB(255, 0, 0, 0);
+  static const Color selectionHandleColor = Color.fromARGB(255, 0, 0, 0);
 
   // main.dart
   static const Color navBarBackgroundColor = Color.fromARGB(255, 255, 255, 255);

@@ -18,6 +18,8 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
   List<double> _foodItemOpacities = [];
   bool _isAnimating = false;
 
+  static const Duration disableButtonDuration = Duration(milliseconds: 300);
+
   @override
   void initState() {
     super.initState();
@@ -39,7 +41,7 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
       });
     });
 
-    await Future.delayed(Duration(milliseconds: 300));
+    await Future.delayed(disableButtonDuration);
     setState(() {
       _isAnimating = false;
     });
@@ -61,7 +63,7 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
       });
     });
 
-    await Future.delayed(Duration(milliseconds: 300));
+    await Future.delayed(disableButtonDuration);
     setState(() {
       _isAnimating = false;
     });

@@ -23,8 +23,8 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         textSelectionTheme: TextSelectionThemeData(
-          cursorColor: AppColors.textPrimaryColor,
-          selectionHandleColor: AppColors.textPrimaryColor,
+          cursorColor: AppColors.cursorColor,
+          selectionHandleColor: AppColors.selectionHandleColor,
         ),
       ),
       home: MyNavigationBar(),
