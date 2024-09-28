@@ -2,9 +2,10 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'package:what_to_eat/components/what_to_eat/what_to_eat_food_item_popup.dart';
+import 'package:what_to_eat/components/wte_view_title.dart';
 import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
-import 'package:what_to_eat/components/what_to_eat/what_to_eat_food_item_popup.dart';
 
 class WhatToEatCategories extends StatefulWidget {
   const WhatToEatCategories({super.key});
@@ -36,20 +37,9 @@ class _WhatToEatCategoriesState extends State<WhatToEatCategories> {
         ),
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              width: double.infinity,
-              child: const Center(
-                child: Text(
-                  'Select Food Category',
-                  style: TextStyle(
-                    color: AppColors.textPrimaryColor,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
+            WTEViewTitle(
+              titleText: 'Select Food Category',
+              padding: EdgeInsets.only(top: 60, bottom: 20),
             ),
             Expanded(
               child: Padding(

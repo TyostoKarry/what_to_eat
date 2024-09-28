@@ -7,14 +7,18 @@ class WTEButton extends StatelessWidget {
   final Color color;
   final Color textColor;
   final VoidCallback onTap;
-  final bool isEnabled;
+  final bool colorEnabled;
+  final bool splashEnabled;
+  final bool tapEnabled;
 
   const WTEButton({
     required this.text,
     required this.color,
     required this.textColor,
     required this.onTap,
-    this.isEnabled = true,
+    this.colorEnabled = true,
+    this.splashEnabled = true,
+    this.tapEnabled = true,
     Key? key,
   }) : super(key: key);
 
@@ -24,13 +28,14 @@ class WTEButton extends StatelessWidget {
       height: 60,
       width: double.infinity,
       child: Material(
-        color: isEnabled ? color : color.withOpacity(0.3),
-        elevation: isEnabled ? 4 : 0,
+        color: colorEnabled ? color : color.withOpacity(0.3),
+        elevation: colorEnabled ? 4 : 0,
         borderRadius: BorderRadius.circular(12),
         child: InkWell(
-          splashColor: isEnabled ? AppColors.splashColor : Colors.transparent,
+          splashColor:
+              splashEnabled ? AppColors.splashColor : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
-          onTap: isEnabled ? onTap : null,
+          onTap: tapEnabled ? onTap : null,
           child: Center(
             child: Text(
               text,

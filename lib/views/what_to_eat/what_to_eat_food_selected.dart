@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:what_to_eat/components/wte_button.dart';
+import 'package:what_to_eat/components/wte_view_title.dart';
 import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 
@@ -36,23 +37,9 @@ class WhatToEatFoodSelected extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 20),
-              width: double.infinity,
-              child: Center(
-                child: AutoSizeText(
-                  'Today I Will Eat',
-                  style: const TextStyle(
-                    color: AppColors.textPrimaryColor,
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  minFontSize: 16,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
+            WTEViewTitle(
+              titleText: 'Today I Will Eat',
+              padding: EdgeInsets.only(top: 60),
             ),
             Column(
               children: [
