@@ -19,7 +19,7 @@ class EntryScreen extends StatelessWidget {
               ),
               child: InkWell(
                 onTap: () {
-                  onItemTapped(2);
+                  onItemTapped(1);
                 },
                 splashColor: AppColors.splashColor,
                 child: Center(
@@ -54,7 +54,7 @@ class EntryScreen extends StatelessWidget {
               ),
               child: InkWell(
                 onTap: () {
-                  onItemTapped(3);
+                  onItemTapped(2);
                 },
                 splashColor: AppColors.splashColor,
                 child: Center(
