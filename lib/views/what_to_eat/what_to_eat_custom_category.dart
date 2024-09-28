@@ -230,7 +230,6 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: WTEButton(
                 text: "Add Food Item",
-                color: AppColors.whatToEatPrimaryColor,
                 textColor: AppColors.textPrimaryColor,
                 onTap: _addFoodField,
                 splashEnabled: !_isAnimating,
@@ -241,7 +240,6 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: WTEButton(
                 text: "Save and Proceed to Wheel",
-                color: AppColors.whatToEatPrimaryColor,
                 textColor: AppColors.textPrimaryColor,
                 onTap: _saveCustomCategory,
               ),

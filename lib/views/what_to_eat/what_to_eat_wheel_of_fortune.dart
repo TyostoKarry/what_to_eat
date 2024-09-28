@@ -220,7 +220,6 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
               child: resultFoodItem == null
                   ? WTEButton(
                       text: "Spin the Wheel",
-                      color: AppColors.whatToEatPrimaryColor,
                       textColor: AppColors.textPrimaryColor,
                       colorEnabled: !spinning,
                       splashEnabled: !spinning,
@@ -242,7 +241,6 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                           flex: 1,
                           child: WTEButton(
                             text: "Use Veto",
-                            color: AppColors.whatToEatPrimaryColor,
                             textColor: AppColors.textPrimaryColor,
                             colorEnabled: vetoesLeft > 0,
                             splashEnabled: vetoesLeft > 0,
@@ -259,7 +257,6 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                           flex: 1,
                           child: WTEButton(
                             text: "Select Food",
-                            color: AppColors.whatToEatPrimaryColor,
                             textColor: AppColors.textPrimaryColor,
                             colorEnabled: !spinning,
                             splashEnabled: !spinning,
