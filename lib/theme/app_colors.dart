@@ -2,9 +2,10 @@ import "package:flutter/material.dart";
 
 class AppColors {
   // General colors
-  static const Color whatToEatPrimaryColor = Color.fromARGB(255, 41, 128, 185);
-  static const Color whatToEatSecondaryColor =
-      Color.fromARGB(255, 52, 152, 219);
+  static const Color whatToEatButtonPrimaryColor =
+      Color.fromARGB(255, 31, 154, 255);
+  static const Color whatToEatButtonSecondaryColor =
+      Color.fromARGB(255, 81, 177, 255);
   static const Color whereToEatPrimaryColor =
       Color.fromARGB(255, 200, 230, 201);
   static const Color splashColor = Color.fromARGB(100, 255, 255, 128);

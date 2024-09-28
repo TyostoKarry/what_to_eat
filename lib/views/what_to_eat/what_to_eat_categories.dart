@@ -39,7 +39,7 @@ class _WhatToEatCategoriesState extends State<WhatToEatCategories> {
           children: [
             WTEViewTitle(
               titleText: 'Select Food Category',
-              padding: EdgeInsets.only(top: 60, bottom: 20),
+              padding: EdgeInsets.only(top: 60),
             ),
             Expanded(
               child: Padding(
@@ -54,35 +54,47 @@ class _WhatToEatCategoriesState extends State<WhatToEatCategories> {
                   itemCount: WhatToEatModel.foodCategories.length,
                   itemBuilder: (context, index) {
                     return Material(
-                      color: AppColors.whatToEatPrimaryColor,
+                      color: Colors.transparent,
                       elevation: 4,
                       borderRadius: BorderRadius.circular(16),
                       child: Stack(
                         children: [
-                          InkWell(
-                            borderRadius: BorderRadius.circular(16),
-                            splashColor: AppColors.splashColor,
-                            onTap: () {
-                              Provider.of<WhatToEatModel>(context,
-                                  listen: false)
-                                ..setSelectedCategory(
-                                    WhatToEatModel.foodCategories[index])
-                                ..setWhatToEatScreenState(WhatToEatModel
-                                    .foodCategories[index].nextState);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Center(
-                                child: AutoSizeText(
-                                  WhatToEatModel.foodCategories[index].name,
-                                  style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.textPrimaryColor),
-                                  textAlign: TextAlign.center,
-                                  maxLines: 2,
-                                  minFontSize: 16,
-                                  overflow: TextOverflow.ellipsis,
+                          Ink(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                gradient: LinearGradient(
+                                  colors: [
+                                    AppColors.whatToEatButtonPrimaryColor,
+                                    AppColors.whatToEatButtonSecondaryColor
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                )),
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(16),
+                              splashColor: AppColors.splashColor,
+                              onTap: () {
+                                Provider.of<WhatToEatModel>(context,
+                                    listen: false)
+                                  ..setSelectedCategory(
+                                      WhatToEatModel.foodCategories[index])
+                                  ..setWhatToEatScreenState(WhatToEatModel
+                                      .foodCategories[index].nextState);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Center(
+                                  child: AutoSizeText(
+                                    WhatToEatModel.foodCategories[index].name,
+                                    style: const TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.textPrimaryColor),
+                                    textAlign: TextAlign.center,
+                                    maxLines: 2,
+                                    minFontSize: 16,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
                             ),

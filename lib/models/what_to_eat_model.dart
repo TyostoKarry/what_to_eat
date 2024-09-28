@@ -54,8 +54,8 @@ class WhatToEatModel extends ChangeNotifier {
   SelectedFood? _selectedFood;
   SelectedFood? get selectedFood => _selectedFood;
 
-  FoodCategory get customCategory =>
-      foodCategories.firstWhere((category) => category.name == 'Custom');
+  FoodCategory get customCategory => foodCategories
+      .firstWhere((category) => category.name == 'Create Custom Category');
 
   void setWhatToEatScreenState(WhatToEatScreenState newState) {
     _whatToEatScreenState = newState;
@@ -808,7 +808,7 @@ class WhatToEatModel extends ChangeNotifier {
           ),
         ]),
     FoodCategory(
-        name: 'Custom',
+        name: 'Create Custom Category',
         nextState: WhatToEatScreenState.customCategory,
         foodItems: []),
   ];
