@@ -259,9 +259,11 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                           final randomIndex =
                               Fortune.randomInt(0, sessionItems.length);
                           selected.add(randomIndex);
-                          setState(() {
-                            resultIndex = randomIndex;
-                          });
+                          setState(
+                            () {
+                              resultIndex = randomIndex;
+                            },
+                          );
                         }
                       },
                     )
@@ -294,10 +296,8 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                             onTap: () {
                               if (resultFoodItem != null) {
                                 Provider.of<WhatToEatModel>(context,
-                                    listen: false)
-                                  ..setSelectedFood(resultFoodItem!)
-                                  ..setWhatToEatScreenState(
-                                      WhatToEatScreenState.foodSelected);
+                                        listen: false)
+                                    .setSelectedFood(resultFoodItem!);
                               }
                             },
                           ),

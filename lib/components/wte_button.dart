@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:what_to_eat/theme/app_colors.dart';
@@ -52,7 +53,7 @@ class WTEButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             onTap: tapEnabled ? onTap : null,
             child: Center(
-              child: Text(
+              child: AutoSizeText(
                 text,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -67,6 +68,8 @@ class WTEButton extends StatelessWidget {
                     )
                   ],
                 ),
+                minFontSize: 12,
+                maxLines: 1,
               ),
             ),
           ),

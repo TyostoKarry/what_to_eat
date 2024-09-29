@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:what_to_eat/components/what_to_eat/what_to_eat_food_item_popup.dart';
+import 'package:what_to_eat/components/wte_button.dart';
 import 'package:what_to_eat/components/wte_view_title.dart';
 import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
@@ -15,19 +16,6 @@ class WhatToEatCategories extends StatefulWidget {
 }
 
 class _WhatToEatCategoriesState extends State<WhatToEatCategories> {
-  @override
-  void initState() {
-    super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      final whatToEatModel =
-          Provider.of<WhatToEatModel>(context, listen: false);
-      whatToEatModel
-        ..clearCustomCategory()
-        ..addFoodToCustomCategory(whatToEatModel.defaultCustomFoodItem);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,11 +63,9 @@ class _WhatToEatCategoriesState extends State<WhatToEatCategories> {
                               splashColor: AppColors.splashColor,
                               onTap: () {
                                 Provider.of<WhatToEatModel>(context,
-                                    listen: false)
-                                  ..setSelectedCategory(
-                                      WhatToEatModel.foodCategories[index])
-                                  ..setWhatToEatScreenState(WhatToEatModel
-                                      .foodCategories[index].nextState);
+                                        listen: false)
+                                    .setSelectedCategory(
+                                        WhatToEatModel.foodCategories[index]);
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -121,6 +107,18 @@ class _WhatToEatCategoriesState extends State<WhatToEatCategories> {
                     );
                   },
                 ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              child: WTEButton(
+                text: 'Create Custom Category',
+                textColor: AppColors.textSecondaryColor,
+                onTap: () {
+                  Provider.of<WhatToEatModel>(context, listen: false)
+                      .setWhatToEatScreenState(
+                          WhatToEatScreenState.customCategory);
+                },
               ),
             ),
           ],

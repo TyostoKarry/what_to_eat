@@ -72,20 +72,21 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
   void _saveCustomCategory() {
     final whatToEatModel = Provider.of<WhatToEatModel>(context, listen: false);
 
-    whatToEatModel.clearCustomCategory();
-
+    FoodCategory customCategory =
+        FoodCategory(name: 'Custom Category', foodItems: []);
     int validFoodItemsCount = 0;
 
     for (var foodItem in _foodItems) {
       if (foodItem.text.isNotEmpty) {
         validFoodItemsCount++;
-        whatToEatModel.addFoodToCustomCategory(FoodItem(
+        customCategory.foodItems.add(FoodItem(
           name: foodItem.text,
           image: 'empty_plate.jpg',
           description: '',
         ));
       }
     }
+
     if (validFoodItemsCount < 2) {
       showDialog(
         context: context,
@@ -106,9 +107,7 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
         },
       );
     } else {
-      whatToEatModel.setSelectedCategory(whatToEatModel.customCategory);
-      whatToEatModel
-          .setWhatToEatScreenState(WhatToEatScreenState.wheelOfFortune);
+      whatToEatModel.setSelectedCategory(customCategory);
     }
   }
 
