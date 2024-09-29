@@ -59,6 +59,13 @@ class WTEButton extends StatelessWidget {
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                   color: textColor,
+                  shadows: [
+                    Shadow(
+                      offset: Offset(2, 2),
+                      blurRadius: 3,
+                      color: AppColors.textSecondaryShadowColor,
+                    )
+                  ],
                 ),
               ),
             ),

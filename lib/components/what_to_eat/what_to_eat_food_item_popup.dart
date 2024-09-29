@@ -14,7 +14,17 @@ class FoodItemsPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.info_outlined, color: AppColors.textPrimaryColor),
+      icon: Icon(
+        Icons.info_outlined,
+        color: AppColors.textSecondaryColor,
+        shadows: [
+          Shadow(
+            offset: Offset(2, 2),
+            blurRadius: 3,
+            color: AppColors.textSecondaryShadowColor,
+          ),
+        ],
+      ),
       onPressed: () {
         _showFoodItemsPopup(context);
       },

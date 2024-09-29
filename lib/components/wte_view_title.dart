@@ -26,9 +26,9 @@ class WTEViewTitle extends StatelessWidget {
           color: AppColors.textPrimaryColor,
           shadows: [
             Shadow(
-              color: Color.fromARGB(66, 0, 0, 0),
-              blurRadius: 3,
               offset: Offset(1, 2),
+              blurRadius: 3,
+              color: Color.fromARGB(66, 0, 0, 0),
             ),
           ],
         ),

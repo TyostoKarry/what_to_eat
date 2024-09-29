@@ -43,13 +43,13 @@ class _WhatToEatCategoriesState extends State<WhatToEatCategories> {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(12.0),
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 10,
-                    childAspectRatio: 1,
+                    crossAxisSpacing: 16,
+                    mainAxisSpacing: 20,
+                    childAspectRatio: 1.7,
                   ),
                   itemCount: WhatToEatModel.foodCategories.length,
                   itemBuilder: (context, index) {
@@ -87,9 +87,18 @@ class _WhatToEatCategoriesState extends State<WhatToEatCategories> {
                                   child: AutoSizeText(
                                     WhatToEatModel.foodCategories[index].name,
                                     style: const TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold,
-                                        color: AppColors.textPrimaryColor),
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      color: AppColors.textSecondaryColor,
+                                      shadows: [
+                                        Shadow(
+                                          offset: Offset(2, 2),
+                                          blurRadius: 3,
+                                          color: AppColors
+                                              .textSecondaryShadowColor,
+                                        )
+                                      ],
+                                    ),
                                     textAlign: TextAlign.center,
                                     maxLines: 2,
                                     minFontSize: 16,
@@ -100,8 +109,8 @@ class _WhatToEatCategoriesState extends State<WhatToEatCategories> {
                             ),
                           ),
                           Positioned(
-                            bottom: 8,
-                            right: 8,
+                            bottom: -2,
+                            right: 4,
                             child: FoodItemsPopup(
                               foodCategory:
                                   WhatToEatModel.foodCategories[index],

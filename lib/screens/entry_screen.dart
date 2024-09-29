@@ -30,16 +30,41 @@ class EntryScreen extends StatelessWidget {
                         Icons.restaurant_sharp,
                         size: 36,
                         color: AppColors.textPrimaryColor,
+                        shadows: [
+                          Shadow(
+                            offset: Offset(2, 2),
+                            blurRadius: 3,
+                            color: Color.fromARGB(140, 110, 110, 110),
+                          ),
+                        ],
                       ),
                       Text(
                         'What',
                         style: TextStyle(
-                            fontSize: 36, color: AppColors.textPrimaryColor),
+                          fontSize: 36,
+                          color: AppColors.textPrimaryColor,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(2, 2),
+                              blurRadius: 3,
+                              color: Color.fromARGB(140, 110, 110, 110),
+                            ),
+                          ],
+                        ),
                       ),
                       Text(
                         'to Eat',
                         style: TextStyle(
-                            fontSize: 36, color: AppColors.textPrimaryColor),
+                          fontSize: 36,
+                          color: AppColors.textPrimaryColor,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(2, 2),
+                              blurRadius: 3,
+                              color: Color.fromARGB(140, 110, 110, 110),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -61,17 +86,45 @@ class EntryScreen extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.location_on,
-                          size: 36, color: AppColors.textPrimaryColor),
+                      Icon(
+                        Icons.location_on,
+                        size: 36,
+                        color: AppColors.textPrimaryColor,
+                        shadows: [
+                          Shadow(
+                            offset: Offset(2, 2),
+                            blurRadius: 3,
+                            color: Color.fromARGB(140, 110, 110, 110),
+                          ),
+                        ],
+                      ),
                       Text(
                         'Where',
                         style: TextStyle(
-                            fontSize: 36, color: AppColors.textPrimaryColor),
+                          fontSize: 36,
+                          color: AppColors.textPrimaryColor,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(2, 2),
+                              blurRadius: 3,
+                              color: Color.fromARGB(140, 110, 110, 110),
+                            ),
+                          ],
+                        ),
                       ),
                       Text(
                         'to Eat',
                         style: TextStyle(
-                            fontSize: 36, color: AppColors.textPrimaryColor),
+                          fontSize: 36,
+                          color: AppColors.textPrimaryColor,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(2, 2),
+                              blurRadius: 3,
+                              color: Color.fromARGB(140, 110, 110, 110),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

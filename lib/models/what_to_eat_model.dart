@@ -262,7 +262,7 @@ class WhatToEatModel extends ChangeNotifier {
           ),
         ]),
     FoodCategory(
-        name: 'Light and Healthy',
+        name: 'Light & Healthy',
         nextState: WhatToEatScreenState.wheelOfFortune,
         foodItems: [
           FoodItem(
@@ -351,7 +351,7 @@ class WhatToEatModel extends ChangeNotifier {
           ),
         ]),
     FoodCategory(
-        name: 'Grilling and BBQ',
+        name: 'Grilling & BBQ',
         nextState: WhatToEatScreenState.wheelOfFortune,
         foodItems: [
           FoodItem(
