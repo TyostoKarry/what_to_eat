@@ -1,14 +1,36 @@
 import 'package:flutter/material.dart';
 
 import 'package:what_to_eat/theme/app_colors.dart';
+import 'package:what_to_eat/components/wte_split_screen_animation.dart';
 
-class EntryScreen extends StatelessWidget {
+class EntryScreen extends StatefulWidget {
   final Function onItemTapped;
 
   EntryScreen({required this.onItemTapped});
 
   @override
+  _EntryScreenState createState() => _EntryScreenState();
+}
+
+class _EntryScreenState extends State<EntryScreen> {
+  int? _selectedSide;
+
+  void _onSideSelected(int side) {
+    setState(() {
+      _selectedSide = side;
+    });
+
+    Future.delayed(Duration(milliseconds: 150), () {
+      widget.onItemTapped(side);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    if (_selectedSide != null) {
+      return WTESplitScreenAnimation(expandLeft: _selectedSide == 1);
+    }
+
     return Scaffold(
       body: Row(
         children: [
@@ -19,7 +41,7 @@ class EntryScreen extends StatelessWidget {
               ),
               child: InkWell(
                 onTap: () {
-                  onItemTapped(1);
+                  _onSideSelected(1);
                 },
                 splashColor: AppColors.splashColor,
                 child: Center(
@@ -79,7 +101,7 @@ class EntryScreen extends StatelessWidget {
               ),
               child: InkWell(
                 onTap: () {
-                  onItemTapped(2);
+                  _onSideSelected(2);
                 },
                 splashColor: AppColors.splashColor,
                 child: Center(
