@@ -120,8 +120,16 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
                         child: AutoSizeText(
                           sessionItems[i].name,
-                          style:
-                              const TextStyle(color: AppColors.wheelTextColor),
+                          style: const TextStyle(
+                            color: AppColors.wheelTextColor,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(2, 2),
+                                blurRadius: 3,
+                                color: AppColors.wheelTextShadowColor,
+                              )
+                            ],
+                          ),
                           textAlign: TextAlign.center,
                           maxLines: 1,
                           minFontSize: 8,
@@ -168,6 +176,13 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                             Icons.local_activity,
                             color: AppColors.vetoTicketColor,
                             size: 40,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(2, 2),
+                                blurRadius: 3,
+                                color: AppColors.vetoTicketShadowColor,
+                              ),
+                            ],
                           ),
                         ),
                         if (vetoUsed[index])
@@ -175,6 +190,13 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                             Icons.block,
                             color: AppColors.wteDanger,
                             size: 70,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(2, 2),
+                                blurRadius: 3,
+                                color: AppColors.vetoTicketShadowColor,
+                              ),
+                            ],
                           ),
                       ],
                     ),
@@ -182,6 +204,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                 );
               }),
             ),
+            SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(
@@ -206,6 +229,13 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: AppColors.textPrimaryColor,
+                      shadows: [
+                        Shadow(
+                          offset: Offset(2, 2),
+                          blurRadius: 3,
+                          color: AppColors.textPrimaryShadowColor,
+                        ),
+                      ],
                     ),
                     textAlign: TextAlign.center,
                     maxLines: 1,
@@ -220,8 +250,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
               child: resultFoodItem == null
                   ? WTEButton(
                       text: "Spin the Wheel",
-                      color: AppColors.whatToEatPrimaryColor,
-                      textColor: AppColors.textPrimaryColor,
+                      textColor: AppColors.textSecondaryColor,
                       colorEnabled: !spinning,
                       splashEnabled: !spinning,
                       tapEnabled: !spinning,
@@ -230,9 +259,11 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                           final randomIndex =
                               Fortune.randomInt(0, sessionItems.length);
                           selected.add(randomIndex);
-                          setState(() {
-                            resultIndex = randomIndex;
-                          });
+                          setState(
+                            () {
+                              resultIndex = randomIndex;
+                            },
+                          );
                         }
                       },
                     )
@@ -242,8 +273,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                           flex: 1,
                           child: WTEButton(
                             text: "Use Veto",
-                            color: AppColors.whatToEatPrimaryColor,
-                            textColor: AppColors.textPrimaryColor,
+                            textColor: AppColors.textSecondaryColor,
                             colorEnabled: vetoesLeft > 0,
                             splashEnabled: vetoesLeft > 0,
                             tapEnabled: vetoesLeft > 0,
@@ -259,18 +289,15 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                           flex: 1,
                           child: WTEButton(
                             text: "Select Food",
-                            color: AppColors.whatToEatPrimaryColor,
-                            textColor: AppColors.textPrimaryColor,
+                            textColor: AppColors.textSecondaryColor,
                             colorEnabled: !spinning,
                             splashEnabled: !spinning,
                             tapEnabled: !spinning,
                             onTap: () {
                               if (resultFoodItem != null) {
                                 Provider.of<WhatToEatModel>(context,
-                                    listen: false)
-                                  ..setSelectedFood(resultFoodItem!)
-                                  ..setWhatToEatScreenState(
-                                      WhatToEatScreenState.foodSelected);
+                                        listen: false)
+                                    .setSelectedFood(resultFoodItem!);
                               }
                             },
                           ),

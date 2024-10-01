@@ -93,6 +93,13 @@ class WhatToEatFoodSelected extends StatelessWidget {
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: AppColors.textPrimaryColor,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(2, 2),
+                              blurRadius: 3,
+                              color: AppColors.textPrimaryShadowColor,
+                            ),
+                          ],
                         ),
                         textAlign: TextAlign.center,
                         maxLines: 1,
@@ -126,8 +133,7 @@ class WhatToEatFoodSelected extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: WTEButton(
                 text: "Search The Web",
-                color: AppColors.whatToEatPrimaryColor,
-                textColor: AppColors.textPrimaryColor,
+                textColor: AppColors.textSecondaryColor,
                 onTap: () {
                   _launchGoogleSearch(selectedFood.foodItem.name);
                 },

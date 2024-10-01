@@ -23,8 +23,8 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         textSelectionTheme: TextSelectionThemeData(
-          cursorColor: AppColors.textPrimaryColor,
-          selectionHandleColor: AppColors.textPrimaryColor,
+          cursorColor: AppColors.cursorColor,
+          selectionHandleColor: AppColors.selectionHandleColor,
         ),
       ),
       home: MyNavigationBar(),
@@ -40,10 +40,10 @@ class MyNavigationBar extends StatefulWidget {
 }
 
 class _MyNavigationBarState extends State<MyNavigationBar> {
-  int _currentScreenIndex = 1;
+  int _currentScreenIndex = 0;
 
   void _onItemTapped(int index) {
-    if (_currentScreenIndex == 2 && index != 2) {
+    if (_currentScreenIndex == 1 && index != 1) {
       Provider.of<WhatToEatModel>(context, listen: false)
           .setWhatToEatScreenState(WhatToEatScreenState.categories);
     }
@@ -55,10 +55,10 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetOptions = <Widget>[
-      Text('Settings'),
       EntryScreen(onItemTapped: _onItemTapped),
       WhatToEatScreen(),
       Text('Screen 3'),
+      Text('Settings'),
     ];
 
     return Scaffold(
@@ -67,11 +67,6 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-            backgroundColor: AppColors.navBarBackgroundColor,
-          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
@@ -85,6 +80,11 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
           BottomNavigationBarItem(
             icon: Icon(Icons.location_on),
             label: 'Where to Eat',
+            backgroundColor: AppColors.navBarBackgroundColor,
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
             backgroundColor: AppColors.navBarBackgroundColor,
           ),
         ],

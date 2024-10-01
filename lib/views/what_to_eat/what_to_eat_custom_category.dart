@@ -18,6 +18,8 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
   List<double> _foodItemOpacities = [];
   bool _isAnimating = false;
 
+  static const Duration disableButtonDuration = Duration(milliseconds: 300);
+
   @override
   void initState() {
     super.initState();
@@ -39,7 +41,7 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
       });
     });
 
-    await Future.delayed(Duration(milliseconds: 300));
+    await Future.delayed(disableButtonDuration);
     setState(() {
       _isAnimating = false;
     });
@@ -61,7 +63,7 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
       });
     });
 
-    await Future.delayed(Duration(milliseconds: 300));
+    await Future.delayed(disableButtonDuration);
     setState(() {
       _isAnimating = false;
     });
@@ -70,20 +72,21 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
   void _saveCustomCategory() {
     final whatToEatModel = Provider.of<WhatToEatModel>(context, listen: false);
 
-    whatToEatModel.clearCustomCategory();
-
+    FoodCategory customCategory =
+        FoodCategory(name: 'Custom Category', foodItems: []);
     int validFoodItemsCount = 0;
 
     for (var foodItem in _foodItems) {
       if (foodItem.text.isNotEmpty) {
         validFoodItemsCount++;
-        whatToEatModel.addFoodToCustomCategory(FoodItem(
+        customCategory.foodItems.add(FoodItem(
           name: foodItem.text,
           image: 'empty_plate.jpg',
           description: '',
         ));
       }
     }
+
     if (validFoodItemsCount < 2) {
       showDialog(
         context: context,
@@ -104,9 +107,7 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
         },
       );
     } else {
-      whatToEatModel.setSelectedCategory(whatToEatModel.customCategory);
-      whatToEatModel
-          .setWhatToEatScreenState(WhatToEatScreenState.wheelOfFortune);
+      whatToEatModel.setSelectedCategory(customCategory);
     }
   }
 
@@ -153,6 +154,13 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.textPrimaryColor,
+                                  shadows: [
+                                    Shadow(
+                                      offset: Offset(2, 2),
+                                      blurRadius: 3,
+                                      color: AppColors.textPrimaryShadowColor,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -167,9 +175,9 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
                                   ),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.1),
-                                      blurRadius: 6,
                                       offset: Offset(0, 3),
+                                      blurRadius: 6,
+                                      color: Colors.black.withOpacity(0.1),
                                     ),
                                   ],
                                 ),
@@ -204,6 +212,14 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
                                       icon: Icon(
                                         Icons.delete,
                                         color: AppColors.textPrimaryColor,
+                                        shadows: [
+                                          Shadow(
+                                            offset: Offset(2, 2),
+                                            blurRadius: 3,
+                                            color: AppColors
+                                                .textPrimaryShadowColor,
+                                          ),
+                                        ],
                                       ),
                                       onPressed: _isAnimating
                                           ? null
@@ -228,8 +244,7 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: WTEButton(
                 text: "Add Food Item",
-                color: AppColors.whatToEatPrimaryColor,
-                textColor: AppColors.textPrimaryColor,
+                textColor: AppColors.textSecondaryColor,
                 onTap: _addFoodField,
                 splashEnabled: !_isAnimating,
                 tapEnabled: !_isAnimating,
@@ -239,8 +254,7 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: WTEButton(
                 text: "Save and Proceed to Wheel",
-                color: AppColors.whatToEatPrimaryColor,
-                textColor: AppColors.textPrimaryColor,
+                textColor: AppColors.textSecondaryColor,
                 onTap: _saveCustomCategory,
               ),
             ),
