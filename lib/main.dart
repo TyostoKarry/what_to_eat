@@ -2,14 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:what_to_eat/models/what_to_eat_model.dart';
+import 'package:what_to_eat/models/where_to_eat_model.dart';
 import 'package:what_to_eat/screens/entry_screen.dart';
 import 'package:what_to_eat/screens/what_to_eat_screen.dart';
+import 'package:what_to_eat/screens/where_to_eat_screen.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => WhatToEatModel(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => WhatToEatModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => WhereToEatModel(),
+        )
+      ],
       child: const MainApp(),
     ),
   );
@@ -57,7 +66,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
     List<Widget> _widgetOptions = <Widget>[
       EntryScreen(onItemTapped: _onItemTapped),
       WhatToEatScreen(),
-      Text('Screen 3'),
+      WhereToEatScreen(),
       Text('Settings'),
     ];
 
