@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:what_to_eat/models/where_to_eat_model.dart';
+import 'package:what_to_eat/views/where_to_eat/where_to_eat_search.dart';
 
 class WhereToEatScreen extends StatefulWidget {
   const WhereToEatScreen({super.key});
@@ -26,8 +27,8 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
 
   Widget _buildBodyBasedOnState(WhereToEatScreenState _whereToEatScreenState) {
     switch (_whereToEatScreenState) {
-      case WhereToEatScreenState.landing:
-        return Text("Landing Screen");
+      case WhereToEatScreenState.search:
+        return WhereToEatSearch();
       case WhereToEatScreenState.restaurantSelected:
         return Text("Restaurant Selected Screen");
     }

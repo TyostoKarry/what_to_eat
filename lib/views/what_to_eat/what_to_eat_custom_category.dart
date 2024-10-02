@@ -166,13 +166,10 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
                             ),
                             Expanded(
                               child: Container(
+                                height: 60,
                                 decoration: BoxDecoration(
                                   color: AppColors.foodItemBackgroundColor,
                                   borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    color: AppColors.textPrimaryColor,
-                                    width: 0.2,
-                                  ),
                                   boxShadow: [
                                     BoxShadow(
                                       offset: Offset(0, 3),
@@ -194,14 +191,10 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
                                           ),
                                           cursorWidth: 1.3,
                                           decoration: InputDecoration(
-                                            labelText: 'Enter food name',
-                                            labelStyle: TextStyle(
+                                            hintText: 'Enter food name',
+                                            hintStyle: TextStyle(
                                               color: AppColors.textPrimaryColor
-                                                  .withOpacity(0.6),
-                                            ),
-                                            floatingLabelStyle: TextStyle(
-                                              color: AppColors.textPrimaryColor
-                                                  .withOpacity(0.6),
+                                                  .withOpacity(0.4),
                                             ),
                                             border: InputBorder.none,
                                           ),

@@ -6,8 +6,10 @@ class AppColors {
       Color.fromARGB(255, 29, 94, 179);
   static const Color whatToEatButtonSecondaryColor =
       Color.fromARGB(255, 9, 78, 167);
-  static const Color whereToEatPrimaryColor =
-      Color.fromARGB(255, 200, 230, 201);
+  static const Color whereToEatButtonPrimaryColor =
+      Color.fromARGB(255, 39, 120, 24);
+  static const Color whereToEatButtonSecondaryColor =
+      Color.fromARGB(255, 24, 94, 18);
   static const Color textPrimaryColor = Color.fromARGB(255, 0, 0, 0);
   static const Color textPrimaryShadowColor = Color.fromARGB(25, 0, 0, 0);
   static const Color textSecondaryColor = Color.fromARGB(255, 211, 211, 211);
