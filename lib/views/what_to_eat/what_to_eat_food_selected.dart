@@ -1,9 +1,9 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'package:what_to_eat/components/wte_button.dart';
+import 'package:what_to_eat/components/wte_text.dart';
 import 'package:what_to_eat/components/wte_view_title.dart';
 import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
@@ -87,24 +87,15 @@ class WhatToEatFoodSelected extends StatelessWidget {
                       ],
                     ),
                     child: Center(
-                      child: AutoSizeText(
-                        selectedFood.foodItem.name,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimaryColor,
-                          shadows: [
-                            Shadow(
-                              offset: Offset(2, 2),
-                              blurRadius: 3,
-                              color: AppColors.textPrimaryShadowColor,
-                            ),
-                          ],
-                        ),
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
+                      child: WTEText(
+                        text: selectedFood.foodItem.name,
+                        color: AppColors.textPrimaryColor,
+                        shadowColor: AppColors.textPrimaryShadowColor,
+                        offset: Offset(2, 2),
+                        fontSize: 20,
                         minFontSize: 12,
-                        overflow: TextOverflow.ellipsis,
+                        fontWeight: FontWeight.bold,
+                        maxLines: 1,
                       ),
                     ),
                   ),
@@ -116,13 +107,13 @@ class WhatToEatFoodSelected extends StatelessWidget {
                     child: Container(
                       height: 155,
                       child: SingleChildScrollView(
-                        child: Text(
-                          selectedFood.foodItem.description,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            color: AppColors.textPrimaryColor,
-                          ),
-                          textAlign: TextAlign.center,
+                        child: WTEText(
+                          text: selectedFood.foodItem.description,
+                          color: AppColors.textPrimaryColor,
+                          shadowColor: Colors.transparent,
+                          fontSize: 18,
+                          minFontSize: 18,
+                          maxLines: 10,
                         ),
                       ),
                     ),

@@ -1,10 +1,10 @@
 import 'dart:async';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:provider/provider.dart';
 
 import 'package:what_to_eat/components/wte_button.dart';
+import 'package:what_to_eat/components/wte_text.dart';
 import 'package:what_to_eat/components/wte_view_title.dart';
 import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
@@ -117,22 +117,13 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                     FortuneItem(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: AutoSizeText(
-                          sessionItems[i].name,
-                          style: const TextStyle(
-                            color: AppColors.wheelTextColor,
-                            shadows: [
-                              Shadow(
-                                offset: Offset(2, 2),
-                                blurRadius: 3,
-                                color: AppColors.wheelTextShadowColor,
-                              )
-                            ],
-                          ),
-                          textAlign: TextAlign.center,
-                          maxLines: 1,
+                        child: WTEText(
+                          text: sessionItems[i].name,
+                          color: AppColors.wheelTextColor,
+                          shadowColor: AppColors.wheelTextShadowColor,
+                          offset: Offset(2, 2),
+                          fontSize: 14,
                           minFontSize: 8,
-                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       style: FortuneItemStyle(
@@ -222,24 +213,14 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                   ],
                 ),
                 child: Center(
-                  child: AutoSizeText(
-                    resultFoodItem != null ? resultFoodItem!.name : '',
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.textPrimaryColor,
-                      shadows: [
-                        Shadow(
-                          offset: Offset(2, 2),
-                          blurRadius: 3,
-                          color: AppColors.textPrimaryShadowColor,
-                        ),
-                      ],
-                    ),
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
+                  child: WTEText(
+                    text: resultFoodItem != null ? resultFoodItem!.name : '',
+                    color: AppColors.textPrimaryColor,
+                    shadowColor: AppColors.textPrimaryShadowColor,
+                    offset: Offset(2, 2),
+                    fontSize: 20,
                     minFontSize: 12,
-                    overflow: TextOverflow.ellipsis,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),

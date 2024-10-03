@@ -1,6 +1,6 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
+import 'package:what_to_eat/components/wte_text.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 
 class WTEViewTitle extends StatelessWidget {
@@ -17,24 +17,14 @@ class WTEViewTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: padding,
-      child: AutoSizeText(
-        titleText,
-        textAlign: TextAlign.center,
-        style: const TextStyle(
-          fontSize: 32,
-          fontWeight: FontWeight.bold,
-          color: AppColors.textPrimaryColor,
-          shadows: [
-            Shadow(
-              offset: Offset(1, 2),
-              blurRadius: 3,
-              color: Color.fromARGB(66, 0, 0, 0),
-            ),
-          ],
-        ),
-        maxLines: 2,
+      child: WTEText(
+        text: titleText,
+        color: AppColors.textPrimaryColor,
+        shadowColor: Color.fromARGB(66, 0, 0, 0),
+        fontSize: 32,
         minFontSize: 16,
-        overflow: TextOverflow.ellipsis,
+        fontWeight: FontWeight.bold,
+        maxLines: 2,
       ),
     );
   }

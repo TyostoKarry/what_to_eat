@@ -1,9 +1,9 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:what_to_eat/components/what_to_eat/what_to_eat_food_item_popup.dart';
 import 'package:what_to_eat/components/wte_button.dart';
+import 'package:what_to_eat/components/wte_text.dart';
 import 'package:what_to_eat/components/wte_view_title.dart';
 import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
@@ -70,25 +70,17 @@ class _WhatToEatCategoriesState extends State<WhatToEatCategories> {
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Center(
-                                  child: AutoSizeText(
-                                    WhatToEatModel.foodCategories[index].name,
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      color: AppColors.textSecondaryColor,
-                                      shadows: [
-                                        Shadow(
-                                          offset: Offset(2, 2),
-                                          blurRadius: 3,
-                                          color: AppColors
-                                              .textSecondaryShadowColor,
-                                        )
-                                      ],
-                                    ),
-                                    textAlign: TextAlign.center,
-                                    maxLines: 2,
+                                  child: WTEText(
+                                    text: WhatToEatModel
+                                        .foodCategories[index].name,
+                                    color: AppColors.textSecondaryColor,
+                                    shadowColor:
+                                        AppColors.textSecondaryShadowColor,
+                                    offset: Offset(2, 2),
+                                    fontSize: 20,
                                     minFontSize: 16,
-                                    overflow: TextOverflow.ellipsis,
+                                    fontWeight: FontWeight.bold,
+                                    maxLines: 2,
                                   ),
                                 ),
                               ),
