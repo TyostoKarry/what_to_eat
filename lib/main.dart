@@ -56,6 +56,10 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       Provider.of<WhatToEatModel>(context, listen: false)
           .setWhatToEatScreenState(WhatToEatScreenState.categories);
     }
+    if (_currentScreenIndex == 2 && index != 2) {
+      Provider.of<WhereToEatModel>(context, listen: false)
+          .setWhereToEatScreenState(WhereToEatScreenState.initial);
+    }
     setState(() {
       _currentScreenIndex = index;
     });

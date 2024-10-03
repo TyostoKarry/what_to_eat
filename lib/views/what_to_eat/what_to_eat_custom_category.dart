@@ -70,7 +70,7 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
   }
 
   void _saveCustomCategory() {
-    final whatToEatModel = Provider.of<WhatToEatModel>(context, listen: false);
+    final model = Provider.of<WhatToEatModel>(context, listen: false);
 
     FoodCategory customCategory =
         FoodCategory(name: 'Custom Category', foodItems: []);
@@ -107,13 +107,12 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
         },
       );
     } else {
-      whatToEatModel.setSelectedCategory(customCategory);
+      model.setSelectedCategory(customCategory);
     }
   }
 
   @override
   void dispose() {
-    // Dispose all TextEditingControllers to prevent memory leaks
     for (var foodItem in _foodItems) {
       foodItem.dispose();
     }

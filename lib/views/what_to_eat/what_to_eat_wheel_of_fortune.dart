@@ -53,7 +53,6 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
 
   @override
   void dispose() {
-    // Close the StreamController to avoid memory leaks
     selected.close();
     super.dispose();
   }
