@@ -8,7 +8,7 @@ enum WhereToEatScreenState {
   loading,
   locationServiceDisabled,
   apiError,
-  rolling,
+  slotMachine,
   result
 }
 
@@ -16,8 +16,16 @@ class WhereToEatModel extends ChangeNotifier {
   WhereToEatScreenState _whereToEatScreenState = WhereToEatScreenState.initial;
   WhereToEatScreenState get whereToEatScreenState => _whereToEatScreenState;
 
+  int _resultIndex = 0;
+  int get resultIndex => _resultIndex;
+
   void setWhereToEatScreenState(WhereToEatScreenState newState) {
     _whereToEatScreenState = newState;
+    notifyListeners();
+  }
+
+  void setResultIndex(int newIndex) {
+    _resultIndex = newIndex;
     notifyListeners();
   }
 

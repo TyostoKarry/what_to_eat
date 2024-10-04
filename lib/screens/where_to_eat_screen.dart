@@ -6,6 +6,13 @@ import 'package:what_to_eat/components/wte_button.dart';
 import 'package:what_to_eat/components/wte_view_title.dart';
 import 'package:what_to_eat/models/where_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
+import 'package:what_to_eat/views/where_to_eat/where_to_eat_api_error.dart';
+import 'package:what_to_eat/views/where_to_eat/where_to_eat_initial.dart';
+import 'package:what_to_eat/views/where_to_eat/where_to_eat_loading.dart';
+import 'package:what_to_eat/views/where_to_eat/where_to_eat_location_service_disabled.dart';
+import 'package:what_to_eat/views/where_to_eat/where_to_eat_no_restaurants.dart';
+import 'package:what_to_eat/views/where_to_eat/where_to_eat_result.dart';
+import 'package:what_to_eat/views/where_to_eat/where_to_eat_slot_machine.dart';
 
 class WhereToEatScreen extends StatefulWidget {
   const WhereToEatScreen({super.key});
@@ -21,6 +28,11 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
     final model = Provider.of<WhereToEatModel>(context, listen: false);
     model.setWhereToEatScreenState(WhereToEatScreenState.loading);
     Position position;
+
+    if (_restaurants.isNotEmpty) {
+      model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
+      return;
+    }
 
     try {
       position = await model.getUserLocation();
@@ -38,7 +50,8 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
       setState(() {
         _restaurants = restaurants;
       });
-      model.setWhereToEatScreenState(WhereToEatScreenState.rolling);
+      model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
+      return;
     } catch (error) {
       print("Error getting restaurants: $error");
       model.setWhereToEatScreenState(WhereToEatScreenState.apiError);
@@ -71,7 +84,10 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
               child: Consumer<WhereToEatModel>(
                 builder: (context, model, child) {
                   return WTEButton(
-                    text: "Where To Eat",
+                    text: model.whereToEatScreenState ==
+                            WhereToEatScreenState.apiError
+                        ? "Retry"
+                        : "Where To Eat",
                     textColor: AppColors.textSecondaryColor,
                     gradientColors: [
                       AppColors.whereToEatButtonPrimaryColor,
@@ -80,15 +96,15 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                     colorEnabled: model.whereToEatScreenState !=
                             WhereToEatScreenState.loading &&
                         model.whereToEatScreenState !=
-                            WhereToEatScreenState.rolling,
+                            WhereToEatScreenState.slotMachine,
                     splashEnabled: model.whereToEatScreenState !=
                             WhereToEatScreenState.loading &&
                         model.whereToEatScreenState !=
-                            WhereToEatScreenState.rolling,
+                            WhereToEatScreenState.slotMachine,
                     tapEnabled: model.whereToEatScreenState !=
                             WhereToEatScreenState.loading &&
                         model.whereToEatScreenState !=
-                            WhereToEatScreenState.rolling,
+                            WhereToEatScreenState.slotMachine,
                     onTap: () async {
                       await _searchNearbyRestaurants();
                     },
@@ -105,36 +121,24 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
   Widget _buildContent(WhereToEatScreenState _WhereToEatScreenState) {
     switch (_WhereToEatScreenState) {
       case WhereToEatScreenState.initial:
-        return Center(
-          child: Text("Initial"),
-        );
+        return WhereToEatInitial();
       case WhereToEatScreenState.loading:
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        return WhereToEatLoading();
       case WhereToEatScreenState.locationServiceDisabled:
-        return Center(
-          child: Text("locationServiceDisabled"),
-        );
+        return WhereToEatLocationServiceDisabled();
       case WhereToEatScreenState.apiError:
-        return Center(
-          child: Text("apiError"),
-        );
-      case WhereToEatScreenState.rolling:
-        return const Center(
-          child: CircularProgressIndicator(
-            color: Colors.red,
-          ),
-        );
+        return WhereToEatApiError();
+      case WhereToEatScreenState.slotMachine:
+        final List<String> restaurantNames = _restaurants
+            .where((restaurant) => restaurant['tags']['name'] != null)
+            .map((restaurant) => restaurant['tags']['name'] as String)
+            .toList();
+        return WhereToEatSlotMachine(restaurantNames: restaurantNames);
       case WhereToEatScreenState.result:
         if (_restaurants.isEmpty) {
-          return const Center(
-            child: Text("No restaurants found"),
-          );
+          return WhereToEatNoRestaurants();
         } else {
-          return Center(
-            child: Text(_restaurants[0]['tags']['name']),
-          );
+          return WhereToEatResult(restaurants: _restaurants);
         }
     }
   }
