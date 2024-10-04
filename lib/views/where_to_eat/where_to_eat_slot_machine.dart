@@ -70,7 +70,6 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine>
       Future.delayed(
         const Duration(milliseconds: 1500),
         () {
-          print(_currentIndex);
           Provider.of<WhereToEatModel>(context, listen: false)
             ..setResultIndex(_currentIndex)
             ..setWhereToEatScreenState(WhereToEatScreenState.result);

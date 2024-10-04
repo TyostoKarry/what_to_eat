@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:what_to_eat/components/wte_button.dart';
+import 'package:what_to_eat/components/wte_text.dart';
 import 'package:what_to_eat/components/wte_view_title.dart';
 import 'package:what_to_eat/models/where_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
@@ -23,6 +25,16 @@ class WhereToEatScreen extends StatefulWidget {
 
 class _WhereToEatScreenState extends State<WhereToEatScreen> {
   List<dynamic> _restaurants = [];
+
+  void _launchOpenStreetMapCopyright() async {
+    final Uri searchUrl = Uri.parse('https://www.openstreetmap.org/copyright');
+    if (!await launchUrl(
+      searchUrl,
+      mode: LaunchMode.inAppWebView,
+    )) {
+      throw Exception('Could not launch $searchUrl');
+    }
+  }
 
   Future<void> _searchNearbyRestaurants() async {
     final model = Provider.of<WhereToEatModel>(context, listen: false);
@@ -50,6 +62,10 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
       setState(() {
         _restaurants = restaurants;
       });
+      if (_restaurants.isEmpty) {
+        model.setWhereToEatScreenState(WhereToEatScreenState.noRestaurants);
+        return;
+      }
       model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
       return;
     } catch (error) {
@@ -79,8 +95,26 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                 },
               ),
             ),
+            GestureDetector(
+              onTap: _launchOpenStreetMapCopyright,
+              child: const WTEText(
+                  text: "Map data from OpenStreetMap",
+                  color: AppColors.textPrimaryColor,
+                  fontSize: 12,
+                  minFontSize: 12,
+                  textDecoration: TextDecoration.underline),
+            ),
+            GestureDetector(
+              onTap: _launchOpenStreetMapCopyright,
+              child: const WTEText(
+                  text: "Providing real-time location-based restaurant data",
+                  color: AppColors.textPrimaryColor,
+                  fontSize: 12,
+                  minFontSize: 12,
+                  textDecoration: TextDecoration.underline),
+            ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
               child: Consumer<WhereToEatModel>(
                 builder: (context, model, child) {
                   return WTEButton(
@@ -134,12 +168,10 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
             .map((restaurant) => restaurant['tags']['name'] as String)
             .toList();
         return WhereToEatSlotMachine(restaurantNames: restaurantNames);
+      case WhereToEatScreenState.noRestaurants:
+        return WhereToEatNoRestaurants();
       case WhereToEatScreenState.result:
-        if (_restaurants.isEmpty) {
-          return WhereToEatNoRestaurants();
-        } else {
-          return WhereToEatResult(restaurants: _restaurants);
-        }
+        return WhereToEatResult(restaurants: _restaurants);
     }
   }
 }

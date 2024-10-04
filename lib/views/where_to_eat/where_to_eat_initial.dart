@@ -1,21 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'package:what_to_eat/components/wte_text.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 
 class WhereToEatInitial extends StatelessWidget {
   const WhereToEatInitial({super.key});
-
-  void _launchOpenStreetMapCopyright() async {
-    final Uri searchUrl = Uri.parse('https://www.openstreetmap.org/copyright');
-    if (!await launchUrl(
-      searchUrl,
-      mode: LaunchMode.inAppWebView,
-    )) {
-      throw Exception('Could not launch $searchUrl');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,22 +48,6 @@ class WhereToEatInitial extends StatelessWidget {
         WTEText(
           text: "Restaurants Near You",
           color: AppColors.textPrimaryColor,
-        ),
-        SizedBox(height: 10),
-        GestureDetector(
-          onTap: _launchOpenStreetMapCopyright,
-          child: const WTEText(
-              text: "Map data from OpenStreetMap",
-              color: AppColors.textPrimaryColor,
-              fontSize: 12,
-              minFontSize: 12,
-              textDecoration: TextDecoration.underline),
-        ),
-        WTEText(
-          text: "Providing real-time location-based restaurant data",
-          color: AppColors.textPrimaryColor,
-          fontSize: 12,
-          minFontSize: 12,
         ),
       ],
     );

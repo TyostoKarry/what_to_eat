@@ -9,6 +9,7 @@ enum WhereToEatScreenState {
   locationServiceDisabled,
   apiError,
   slotMachine,
+  noRestaurants,
   result
 }
 
@@ -70,7 +71,8 @@ class WhereToEatModel extends ChangeNotifier {
     );
 
     if (response.statusCode == 200) {
-      final json = jsonDecode(response.body);
+      final decodedBody = utf8.decode(response.bodyBytes);
+      final json = jsonDecode(decodedBody);
       return json['elements'];
     } else {
       throw Exception('Failed to load data');
