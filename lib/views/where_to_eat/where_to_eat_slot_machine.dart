@@ -81,7 +81,6 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine>
       _timer?.cancel();
 
       _measureTextSize();
-      print(_nameTextHeight);
 
       Future.delayed(
         const Duration(milliseconds: 1500),
@@ -107,13 +106,16 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine>
             gradient: AppColors.getWhereToEatResultBackground(),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: Center(
-            child: WTEText(
-              key: _nameTextKey,
-              text: widget.restaurantNames[_currentIndex],
-              color: AppColors.textPrimaryColor,
-              fontSize: 32,
-              fontWeight: FontWeight.bold,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Center(
+              child: WTEText(
+                key: _nameTextKey,
+                text: widget.restaurantNames[_currentIndex],
+                color: AppColors.textPrimaryColor,
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
