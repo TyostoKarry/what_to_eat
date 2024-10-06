@@ -1,15 +1,15 @@
 import "package:flutter/material.dart";
 
 class AppColors {
-  // General colors
+  // General c
   static const Color whatToEatButtonPrimaryColor =
       Color.fromARGB(255, 29, 94, 179);
   static const Color whatToEatButtonSecondaryColor =
       Color.fromARGB(255, 9, 78, 167);
   static const Color whereToEatButtonPrimaryColor =
-      Color.fromARGB(255, 39, 120, 24);
+      Color.fromARGB(255, 30, 148, 9);
   static const Color whereToEatButtonSecondaryColor =
-      Color.fromARGB(255, 24, 94, 18);
+      Color.fromARGB(255, 15, 104, 7);
   static const Color textPrimaryColor = Color.fromARGB(255, 0, 0, 0);
   static const Color textPrimaryShadowColor = Color.fromARGB(25, 0, 0, 0);
   static const Color textSecondaryColor = Color.fromARGB(255, 211, 211, 211);
@@ -56,6 +56,17 @@ class AppColors {
       colors: [
         const Color.fromARGB(255, 174, 241, 97),
         const Color.fromARGB(255, 116, 201, 25),
+      ],
+    );
+  }
+
+  static LinearGradient getWhereToEatResultBackground() {
+    return LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        const Color.fromARGB(255, 202, 255, 141),
+        const Color.fromARGB(255, 185, 255, 110),
       ],
     );
   }

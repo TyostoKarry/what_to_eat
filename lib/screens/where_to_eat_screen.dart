@@ -5,7 +5,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:what_to_eat/components/wte_button.dart';
 import 'package:what_to_eat/components/wte_text.dart';
-import 'package:what_to_eat/components/wte_view_title.dart';
 import 'package:what_to_eat/models/where_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_api_error.dart';
@@ -84,10 +83,6 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
         ),
         child: Column(
           children: [
-            WTEViewTitle(
-              titleText: "Where To Eat",
-              padding: EdgeInsets.only(top: 60, bottom: 20),
-            ),
             Expanded(
               child: Consumer<WhereToEatModel>(
                 builder: (context, model, child) {
