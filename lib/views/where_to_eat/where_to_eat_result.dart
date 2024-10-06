@@ -7,9 +7,42 @@ import 'package:what_to_eat/components/wte_text.dart';
 import 'package:what_to_eat/models/where_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 
-class WhereToEatResult extends StatelessWidget {
+class WhereToEatResult extends StatefulWidget {
   final List<dynamic> restaurants;
-  const WhereToEatResult({Key? key, required this.restaurants});
+
+  const WhereToEatResult({Key? key, required this.restaurants})
+      : super(key: key);
+
+  @override
+  _WhereToEatResultState createState() => _WhereToEatResultState();
+}
+
+class _WhereToEatResultState extends State<WhereToEatResult>
+    with SingleTickerProviderStateMixin {
+  bool _expanded = false;
+  double _calculatedHeight = 60.0;
+  final GlobalKey _contentKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _calculateContentHeight();
+    });
+  }
+
+  void _calculateContentHeight() {
+    final RenderBox renderBox =
+        _contentKey.currentContext?.findRenderObject() as RenderBox;
+
+    if (renderBox.hasSize) {
+      setState(() {
+        _calculatedHeight = renderBox.size.height;
+        _expanded = true;
+      });
+    }
+  }
 
   Future<void> _launchGoogleSearch(String query) async {
     final Uri searchUrl = Uri.parse(
@@ -86,19 +119,25 @@ class WhereToEatResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<WhereToEatModel>(context, listen: false);
-    final tags = restaurants[model.resultIndex]['tags'];
+    final tags = widget.restaurants[model.resultIndex]['tags'];
 
     return Center(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Container(
+        child: AnimatedContainer(
+          duration: Duration(seconds: 1),
+          curve: Curves.easeInOut,
+          width: double.infinity,
+          height: _expanded ? _calculatedHeight : 60,
           decoration: BoxDecoration(
             gradient: AppColors.getWhereToEatResultBackground(),
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(_expanded ? 20 : 10),
           ),
           child: SingleChildScrollView(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+              key: _contentKey,
+              padding: EdgeInsets.symmetric(
+                  horizontal: 20, vertical: ((60 - model.nameTextHeight) / 2)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -251,7 +290,7 @@ class WhereToEatResult extends StatelessWidget {
                   ],
                   if (tags['website'] != null)
                     Padding(
-                      padding: const EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
                       child: WTEButton(
                         text: "Restaurant Website",
                         textColor: AppColors.textSecondaryColor,
@@ -266,7 +305,7 @@ class WhereToEatResult extends StatelessWidget {
                     )
                   else
                     Padding(
-                      padding: const EdgeInsets.only(top: 20),
+                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
                       child: WTEButton(
                         text: "Search on Google",
                         textColor: AppColors.textSecondaryColor,

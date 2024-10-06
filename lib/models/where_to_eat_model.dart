@@ -20,6 +20,9 @@ class WhereToEatModel extends ChangeNotifier {
   int _resultIndex = 0;
   int get resultIndex => _resultIndex;
 
+  double _nameTextHeight = 0.0;
+  double get nameTextHeight => _nameTextHeight;
+
   void setWhereToEatScreenState(WhereToEatScreenState newState) {
     _whereToEatScreenState = newState;
     notifyListeners();
@@ -27,6 +30,11 @@ class WhereToEatModel extends ChangeNotifier {
 
   void setResultIndex(int newIndex) {
     _resultIndex = newIndex;
+    notifyListeners();
+  }
+
+  void setNameTextHeight(double newHeight) {
+    _nameTextHeight = newHeight;
     notifyListeners();
   }
 

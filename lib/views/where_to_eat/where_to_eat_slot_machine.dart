@@ -27,6 +27,8 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine>
   Timer? _timer;
   final Random _random = Random();
   int _currentIndex = 0;
+  double _nameTextHeight = 0.0;
+  final GlobalKey _nameTextKey = GlobalKey();
 
   @override
   void initState() {
@@ -54,6 +56,17 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine>
     super.dispose();
   }
 
+  void _measureTextSize() {
+    final RenderBox renderBox =
+        _nameTextKey.currentContext!.findRenderObject() as RenderBox;
+
+    if (renderBox.hasSize) {
+      setState(() {
+        _nameTextHeight = renderBox.size.height;
+      });
+    }
+  }
+
   void _startRandomization() {
     // Create a repetitive timer to simulate the slot machine rolling effect
     _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
@@ -67,10 +80,14 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine>
     _controller.forward().then((_) {
       _timer?.cancel();
 
+      _measureTextSize();
+      print(_nameTextHeight);
+
       Future.delayed(
         const Duration(milliseconds: 1500),
         () {
           Provider.of<WhereToEatModel>(context, listen: false)
+            ..setNameTextHeight(_nameTextHeight)
             ..setResultIndex(_currentIndex)
             ..setWhereToEatScreenState(WhereToEatScreenState.result);
         },
@@ -81,16 +98,25 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine>
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          WTEText(
-            text: widget.restaurantNames[_currentIndex],
-            color: AppColors.textPrimaryColor,
-            fontSize: 32,
-            fontWeight: FontWeight.bold,
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: Container(
+          width: double.infinity,
+          height: 60,
+          decoration: BoxDecoration(
+            gradient: AppColors.getWhereToEatResultBackground(),
+            borderRadius: BorderRadius.circular(10),
           ),
-        ],
+          child: Center(
+            child: WTEText(
+              key: _nameTextKey,
+              text: widget.restaurantNames[_currentIndex],
+              color: AppColors.textPrimaryColor,
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
     );
   }
