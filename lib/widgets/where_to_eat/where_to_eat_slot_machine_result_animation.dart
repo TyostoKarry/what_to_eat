@@ -67,7 +67,7 @@ class _WhereToEatSlotMachineResultAnimationState
 
     _fontSizeAnimation = Tween<double>(
       begin: 16.0,
-      end: 32.0,
+      end: 28.0,
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,

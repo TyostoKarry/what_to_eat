@@ -25,6 +25,8 @@ class WhereToEatScreen extends StatefulWidget {
 
 class _WhereToEatScreenState extends State<WhereToEatScreen> {
   List<dynamic> _restaurants = [];
+  Set<String> selected = {'Restaurants', 'Fast Food'};
+  Set<String> previousSelected = {};
 
   void _launchOpenStreetMapCopyright() async {
     final Uri searchUrl = Uri.parse('https://www.openstreetmap.org/copyright');
@@ -41,10 +43,13 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
     model.setWhereToEatScreenState(WhereToEatScreenState.loading);
     Position position;
 
-    if (_restaurants.isNotEmpty) {
+    if (_restaurants.isNotEmpty &&
+        previousSelected.length == selected.length &&
+        previousSelected.containsAll(selected)) {
       model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
       return;
     }
+    previousSelected = selected;
 
     try {
       position = await model.getUserLocation();
@@ -54,9 +59,19 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
       return;
     }
 
+    List<String> selectedAmenities = [];
+    if (selected.contains('Restaurants')) {
+      selectedAmenities.add('restaurant');
+    }
+
+    if (selected.contains('Fast Food')) {
+      selectedAmenities.add('fast_food');
+    }
+    String amenitiesQuery = selectedAmenities.join('|');
+
     try {
       List<dynamic> restaurants = await model.searchRestaurantsNearby(
-          position.latitude, position.longitude);
+          position.latitude, position.longitude, amenitiesQuery);
 
       setState(() {
         _restaurants = restaurants;
@@ -110,10 +125,109 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                     minFontSize: 12,
                     textDecoration: TextDecoration.underline),
               ),
+              SizedBox(height: 10),
+              Consumer<WhereToEatModel>(
+                builder: (context, model, child) {
+                  bool isEnabled = model.whereToEatScreenState !=
+                          WhereToEatScreenState.loading &&
+                      model.whereToEatScreenState !=
+                          WhereToEatScreenState.slotMachine;
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: SegmentedButton<String>(
+                        segments: const <ButtonSegment<String>>[
+                          ButtonSegment<String>(
+                            value: 'Restaurants',
+                            label: Text('Restaurants'),
+                            icon: Icon(Icons.close),
+                          ),
+                          ButtonSegment<String>(
+                            value: 'Fast Food',
+                            label: Text('Fast Food'),
+                            icon: Icon(Icons.close),
+                          ),
+                        ],
+                        selected: selected,
+                        multiSelectionEnabled: true,
+                        emptySelectionAllowed: true,
+                        style: ButtonStyle(
+                          backgroundColor:
+                              WidgetStateProperty.resolveWith<Color>(
+                            (Set<WidgetState> states) {
+                              if (states.contains(WidgetState.selected)) {
+                                return AppColors.whereToEatButtonPrimaryColor
+                                    .withOpacity(0.5);
+                              }
+                              return Colors.transparent;
+                            },
+                          ),
+                          side: WidgetStateProperty.all(
+                            BorderSide(
+                              color: AppColors.textPrimaryColor,
+                            ),
+                          ),
+                          textStyle: WidgetStateProperty.resolveWith<TextStyle>(
+                            (Set<WidgetState> states) {
+                              if (states.contains(WidgetState.selected)) {
+                                return TextStyle(
+                                  color: AppColors.textPrimaryColor,
+                                  fontWeight: FontWeight.bold,
+                                  shadows: [
+                                    Shadow(
+                                      offset: Offset(1, 2),
+                                      blurRadius: 3,
+                                      color: const Color.fromARGB(20, 0, 0, 0),
+                                    ),
+                                  ],
+                                );
+                              }
+                              return TextStyle(
+                                color: AppColors.textPrimaryColor,
+                                fontWeight: FontWeight.normal,
+                                shadows: [
+                                  Shadow(
+                                    offset: Offset(1, 2),
+                                    blurRadius: 3,
+                                    color: const Color.fromARGB(20, 0, 0, 0),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                        onSelectionChanged: isEnabled
+                            ? (Set<String> newSelection) {
+                                setState(() {
+                                  if (newSelection.isEmpty &&
+                                      selected.first == 'Restaurants') {
+                                    selected = {'Fast Food'};
+                                    return;
+                                  }
+                                  if (newSelection.isEmpty &&
+                                      selected.first == 'Fast Food') {
+                                    selected = {'Restaurants'};
+                                    return;
+                                  }
+                                  selected = newSelection;
+                                });
+                              }
+                            : null,
+                      ),
+                    ),
+                  );
+                },
+              ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
                 child: Consumer<WhereToEatModel>(
                   builder: (context, model, child) {
+                    bool isEnabled = model.whereToEatScreenState !=
+                            WhereToEatScreenState.loading &&
+                        model.whereToEatScreenState !=
+                            WhereToEatScreenState.slotMachine;
+
                     return WTEButton(
                       text: model.whereToEatScreenState ==
                               WhereToEatScreenState.apiError
@@ -124,18 +238,9 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                         AppColors.whereToEatButtonPrimaryColor,
                         AppColors.whereToEatButtonSecondaryColor
                       ],
-                      colorEnabled: model.whereToEatScreenState !=
-                              WhereToEatScreenState.loading &&
-                          model.whereToEatScreenState !=
-                              WhereToEatScreenState.slotMachine,
-                      splashEnabled: model.whereToEatScreenState !=
-                              WhereToEatScreenState.loading &&
-                          model.whereToEatScreenState !=
-                              WhereToEatScreenState.slotMachine,
-                      tapEnabled: model.whereToEatScreenState !=
-                              WhereToEatScreenState.loading &&
-                          model.whereToEatScreenState !=
-                              WhereToEatScreenState.slotMachine,
+                      colorEnabled: isEnabled,
+                      splashEnabled: isEnabled,
+                      tapEnabled: isEnabled,
                       onTap: () async {
                         await _searchNearbyRestaurants();
                       },

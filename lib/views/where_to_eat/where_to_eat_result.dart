@@ -144,8 +144,10 @@ class WhereToEatResultState extends State<WhereToEatResult>
                     child: WTEText(
                       text: tags['name'],
                       color: AppColors.textPrimaryColor,
-                      fontSize: 32,
+                      fontSize: 28,
+                      minFontSize: 28,
                       fontWeight: FontWeight.bold,
+                      maxLines: 3,
                     ),
                   ),
                   SizedBox(height: 20),

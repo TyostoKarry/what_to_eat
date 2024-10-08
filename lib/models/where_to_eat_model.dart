@@ -62,13 +62,14 @@ class WhereToEatModel extends ChangeNotifier {
     return await Geolocator.getCurrentPosition();
   }
 
-  Future<List<dynamic>> searchRestaurantsNearby(double lat, double lon) async {
+  Future<List<dynamic>> searchRestaurantsNearby(
+      double lat, double lon, String amenitiesQuery) async {
     String overpassUrl = 'https://overpass-api.de/api/interpreter';
 
     String overpassQuery = """
   [out:json];
   node
-    ["amenity"="restaurant"]
+    ["amenity"~"$amenitiesQuery"]
     (around:200,$lat,$lon);
   out body;
   """;
