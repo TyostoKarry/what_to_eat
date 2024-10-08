@@ -10,12 +10,12 @@ class WhatToEatCustomCategory extends StatefulWidget {
   const WhatToEatCustomCategory({super.key});
 
   @override
-  _WhatToEatCustomCategory createState() => _WhatToEatCustomCategory();
+  WhatToEatCustomCategoryState createState() => WhatToEatCustomCategoryState();
 }
 
-class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
-  List<TextEditingController> _foodItems = [];
-  List<double> _foodItemOpacities = [];
+class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
+  final List<TextEditingController> _foodItems = [];
+  final List<double> _foodItemOpacities = [];
   bool _isAnimating = false;
 
   static const Duration disableButtonDuration = Duration(milliseconds: 300);

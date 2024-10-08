@@ -11,13 +11,13 @@ class WhereToEatSlotMachineScrollAnimation extends StatefulWidget {
   final int totalItems;
 
   const WhereToEatSlotMachineScrollAnimation({
-    Key? key,
+    super.key,
     required this.restaurantName,
     required this.animationDuration,
     required this.delayBetweenItems,
     required this.index,
     required this.totalItems,
-  }) : super(key: key);
+  });
 
   @override
   State<WhereToEatSlotMachineScrollAnimation> createState() =>

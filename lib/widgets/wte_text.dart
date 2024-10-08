@@ -13,7 +13,7 @@ class WTEText extends StatelessWidget {
   final TextDecoration textDecoration;
 
   const WTEText({
-    Key? key,
+    super.key,
     required this.text,
     required this.color,
     this.shadowColor = const Color.fromARGB(66, 0, 0, 0),
@@ -23,7 +23,7 @@ class WTEText extends StatelessWidget {
     this.fontWeight = FontWeight.normal,
     this.maxLines = 1,
     this.textDecoration = TextDecoration.none,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

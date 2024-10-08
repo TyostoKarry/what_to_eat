@@ -7,13 +7,13 @@ import 'package:what_to_eat/widgets/wte_split_screen_animation.dart';
 class EntryScreen extends StatefulWidget {
   final Function onItemTapped;
 
-  EntryScreen({required this.onItemTapped});
+  const EntryScreen({super.key, required this.onItemTapped});
 
   @override
-  _EntryScreenState createState() => _EntryScreenState();
+  EntryScreenState createState() => EntryScreenState();
 }
 
-class _EntryScreenState extends State<EntryScreen> {
+class EntryScreenState extends State<EntryScreen> {
   int? _selectedSide;
 
   void _onSideSelected(int side) {

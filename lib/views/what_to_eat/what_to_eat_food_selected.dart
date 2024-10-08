@@ -103,7 +103,7 @@ class WhatToEatFoodSelected extends StatelessWidget {
                 if (selectedFood.foodItem.description.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Container(
+                    child: SizedBox(
                       height: 155,
                       child: SingleChildScrollView(
                         child: WTEText(

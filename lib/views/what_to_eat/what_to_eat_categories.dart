@@ -12,10 +12,10 @@ class WhatToEatCategories extends StatefulWidget {
   const WhatToEatCategories({super.key});
 
   @override
-  _WhatToEatCategoriesState createState() => _WhatToEatCategoriesState();
+  WhatToEatCategoriesState createState() => WhatToEatCategoriesState();
 }
 
-class _WhatToEatCategoriesState extends State<WhatToEatCategories> {
+class WhatToEatCategoriesState extends State<WhatToEatCategories> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

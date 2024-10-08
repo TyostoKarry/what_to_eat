@@ -67,7 +67,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _widgetOptions = <Widget>[
+    List<Widget> widgetOptions = <Widget>[
       EntryScreen(onItemTapped: _onItemTapped),
       WhatToEatScreen(),
       WhereToEatScreen(),
@@ -76,7 +76,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
 
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_currentScreenIndex),
+        child: widgetOptions.elementAt(_currentScreenIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

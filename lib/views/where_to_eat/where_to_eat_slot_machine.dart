@@ -9,9 +9,9 @@ class WhereToEatSlotMachine extends StatefulWidget {
   final List<String> restaurantNames;
 
   const WhereToEatSlotMachine({
-    Key? key,
+    super.key,
     required this.restaurantNames,
-  }) : super(key: key);
+  });
 
   @override
   State<WhereToEatSlotMachine> createState() => _WhereToEatSlotMachineState();

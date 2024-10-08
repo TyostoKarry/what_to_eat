@@ -10,10 +10,10 @@ class WhereToEatSlotMachineResultAnimation extends StatefulWidget {
   final Duration animationDuration;
 
   const WhereToEatSlotMachineResultAnimation({
-    Key? key,
+    super.key,
     required this.finalRestaurantName,
     required this.animationDuration,
-  }) : super(key: key);
+  });
 
   @override
   State<WhereToEatSlotMachineResultAnimation> createState() =>

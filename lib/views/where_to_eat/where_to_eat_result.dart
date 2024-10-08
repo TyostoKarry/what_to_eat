@@ -10,14 +10,13 @@ import 'package:what_to_eat/widgets/wte_text.dart';
 class WhereToEatResult extends StatefulWidget {
   final List<dynamic> restaurants;
 
-  const WhereToEatResult({Key? key, required this.restaurants})
-      : super(key: key);
+  const WhereToEatResult({super.key, required this.restaurants});
 
   @override
-  _WhereToEatResultState createState() => _WhereToEatResultState();
+  WhereToEatResultState createState() => WhereToEatResultState();
 }
 
-class _WhereToEatResultState extends State<WhereToEatResult>
+class WhereToEatResultState extends State<WhereToEatResult>
     with SingleTickerProviderStateMixin {
   bool _expanded = false;
   double _calculatedHeight = 60.0;

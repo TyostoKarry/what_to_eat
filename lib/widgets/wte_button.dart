@@ -23,8 +23,8 @@ class WTEButton extends StatelessWidget {
       AppColors.whatToEatButtonPrimaryColor,
       AppColors.whatToEatButtonSecondaryColor
     ],
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

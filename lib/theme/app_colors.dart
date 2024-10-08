@@ -16,20 +16,18 @@ class AppColors {
   static const Color textSecondaryShadowColor = Color.fromARGB(200, 0, 0, 0);
   static const Color splashColor = Color.fromARGB(40, 255, 255, 128);
   static const Color foodItemBackgroundColor =
-      const Color.fromARGB(255, 255, 255, 255);
+      Color.fromARGB(255, 255, 255, 255);
   static const Color wteDanger = Color.fromARGB(255, 218, 43, 30);
   static const Color cursorColor = Color.fromARGB(255, 0, 0, 0);
   static const Color selectionHandleColor = Color.fromARGB(255, 0, 0, 0);
 
   // main.dart
   static const Color navBarBackgroundColor = Color.fromARGB(255, 255, 255, 255);
-  static const Color navBarSelectedColor =
-      const Color.fromARGB(255, 33, 150, 243);
-  static const Color navBarUnselectedColor =
-      const Color.fromARGB(255, 158, 158, 158);
+  static const Color navBarSelectedColor = Color.fromARGB(255, 33, 150, 243);
+  static const Color navBarUnselectedColor = Color.fromARGB(255, 158, 158, 158);
 
   // what_to_eat_wheel_of_fortune.dart
-  static const Color vetoTicketColor = const Color.fromARGB(255, 156, 39, 176);
+  static const Color vetoTicketColor = Color.fromARGB(255, 156, 39, 176);
   static const Color vetoTicketShadowColor = Color.fromARGB(75, 0, 0, 0);
   static const Color primarySliceColor = Color.fromARGB(255, 64, 123, 239);
   static const Color secondarySliceColor = Color.fromARGB(255, 49, 103, 212);
@@ -38,8 +36,7 @@ class AppColors {
   static const Color wheelTextShadowColor = Color.fromARGB(100, 0, 0, 0);
 
   //wte_safe_area.dart
-  static const Color safeAreaBackgroundColor =
-      const Color.fromARGB(255, 0, 0, 0);
+  static const Color safeAreaBackgroundColor = Color.fromARGB(255, 0, 0, 0);
 
   // Gradients
   static LinearGradient getWhatToEatBackground() {

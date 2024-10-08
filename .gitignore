@@ -37,7 +37,6 @@ migrate_working_dir/
 pubspec.lock
 /build/
 .metadata
-analysis_options.yaml
 devtools_options.yaml
 
 # Symbolication related

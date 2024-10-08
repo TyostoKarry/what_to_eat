@@ -49,7 +49,6 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
     try {
       position = await model.getUserLocation();
     } catch (error) {
-      print("Error getting user location: $error");
       model.setWhereToEatScreenState(
           WhereToEatScreenState.locationServiceDisabled);
       return;
@@ -69,7 +68,6 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
       model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
       return;
     } catch (error) {
-      print("Error getting restaurants: $error");
       model.setWhereToEatScreenState(WhereToEatScreenState.apiError);
       return;
     }
@@ -152,8 +150,8 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
     );
   }
 
-  Widget _buildContent(WhereToEatScreenState _WhereToEatScreenState) {
-    switch (_WhereToEatScreenState) {
+  Widget _buildContent(WhereToEatScreenState whereToEatScreenState) {
+    switch (whereToEatScreenState) {
       case WhereToEatScreenState.initial:
         return WhereToEatInitial();
       case WhereToEatScreenState.loading:

@@ -8,15 +8,14 @@ class WTESplitScreenAnimation extends StatefulWidget {
 
   const WTESplitScreenAnimation({
     required this.expandLeft,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _WTESplitScreenAnimationState createState() =>
-      _WTESplitScreenAnimationState();
+  WTESplitScreenAnimationState createState() => WTESplitScreenAnimationState();
 }
 
-class _WTESplitScreenAnimationState extends State<WTESplitScreenAnimation>
+class WTESplitScreenAnimationState extends State<WTESplitScreenAnimation>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;

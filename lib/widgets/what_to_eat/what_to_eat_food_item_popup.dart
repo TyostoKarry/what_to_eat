@@ -7,9 +7,9 @@ class FoodItemsPopup extends StatelessWidget {
   final FoodCategory foodCategory;
 
   const FoodItemsPopup({
-    Key? key,
+    super.key,
     required this.foodCategory,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class FoodItemsPopup extends StatelessWidget {
                 style: TextStyle(color: AppColors.textPrimaryColor),
               ),
               Text(
-                '${foodCategory.name}',
+                foodCategory.name,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: AppColors.textPrimaryColor),
