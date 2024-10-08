@@ -1,7 +1,7 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:what_to_eat/theme/app_colors.dart';
+import 'package:what_to_eat/widgets/wte_text.dart';
 
 class WTEButton extends StatelessWidget {
   final String text;
@@ -23,8 +23,8 @@ class WTEButton extends StatelessWidget {
       AppColors.whatToEatButtonPrimaryColor,
       AppColors.whatToEatButtonSecondaryColor
     ],
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -53,22 +53,14 @@ class WTEButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             onTap: tapEnabled ? onTap : null,
             child: Center(
-              child: AutoSizeText(
-                text,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: textColor,
-                  shadows: [
-                    Shadow(
-                      offset: Offset(2, 2),
-                      blurRadius: 3,
-                      color: AppColors.textSecondaryShadowColor,
-                    )
-                  ],
-                ),
+              child: WTEText(
+                text: text,
+                color: textColor,
+                shadowColor: AppColors.textSecondaryShadowColor,
+                offset: Offset(2, 2),
+                fontSize: 20,
                 minFontSize: 12,
+                fontWeight: FontWeight.bold,
                 maxLines: 1,
               ),
             ),

@@ -2,14 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:what_to_eat/models/what_to_eat_model.dart';
+import 'package:what_to_eat/models/where_to_eat_model.dart';
 import 'package:what_to_eat/screens/entry_screen.dart';
 import 'package:what_to_eat/screens/what_to_eat_screen.dart';
+import 'package:what_to_eat/screens/where_to_eat_screen.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => WhatToEatModel(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => WhatToEatModel(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => WhereToEatModel(),
+        )
+      ],
       child: const MainApp(),
     ),
   );
@@ -47,6 +56,10 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       Provider.of<WhatToEatModel>(context, listen: false)
           .setWhatToEatScreenState(WhatToEatScreenState.categories);
     }
+    if (_currentScreenIndex == 2 && index != 2) {
+      Provider.of<WhereToEatModel>(context, listen: false)
+          .setWhereToEatScreenState(WhereToEatScreenState.initial);
+    }
     setState(() {
       _currentScreenIndex = index;
     });
@@ -54,16 +67,16 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> _widgetOptions = <Widget>[
+    List<Widget> widgetOptions = <Widget>[
       EntryScreen(onItemTapped: _onItemTapped),
       WhatToEatScreen(),
-      Text('Screen 3'),
+      WhereToEatScreen(),
       Text('Settings'),
     ];
 
     return Scaffold(
       body: Center(
-        child: _widgetOptions.elementAt(_currentScreenIndex),
+        child: widgetOptions.elementAt(_currentScreenIndex),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

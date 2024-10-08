@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:what_to_eat/components/wte_button.dart';
-import 'package:what_to_eat/components/wte_view_title.dart';
 import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
+import 'package:what_to_eat/widgets/wte_button.dart';
+import 'package:what_to_eat/widgets/wte_view_title.dart';
 
 class WhatToEatCustomCategory extends StatefulWidget {
   const WhatToEatCustomCategory({super.key});
 
   @override
-  _WhatToEatCustomCategory createState() => _WhatToEatCustomCategory();
+  WhatToEatCustomCategoryState createState() => WhatToEatCustomCategoryState();
 }
 
-class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
-  List<TextEditingController> _foodItems = [];
-  List<double> _foodItemOpacities = [];
+class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
+  final List<TextEditingController> _foodItems = [];
+  final List<double> _foodItemOpacities = [];
   bool _isAnimating = false;
 
   static const Duration disableButtonDuration = Duration(milliseconds: 300);
@@ -70,7 +70,7 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
   }
 
   void _saveCustomCategory() {
-    final whatToEatModel = Provider.of<WhatToEatModel>(context, listen: false);
+    final model = Provider.of<WhatToEatModel>(context, listen: false);
 
     FoodCategory customCategory =
         FoodCategory(name: 'Custom Category', foodItems: []);
@@ -107,13 +107,12 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
         },
       );
     } else {
-      whatToEatModel.setSelectedCategory(customCategory);
+      model.setSelectedCategory(customCategory);
     }
   }
 
   @override
   void dispose() {
-    // Dispose all TextEditingControllers to prevent memory leaks
     for (var foodItem in _foodItems) {
       foodItem.dispose();
     }
@@ -131,7 +130,7 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
           children: [
             WTEViewTitle(
               titleText: 'Create Custom Category',
-              padding: EdgeInsets.only(top: 60, bottom: 20),
+              padding: EdgeInsets.only(top: 10, bottom: 20),
             ),
             Expanded(
               child: SingleChildScrollView(
@@ -166,13 +165,10 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
                             ),
                             Expanded(
                               child: Container(
+                                height: 60,
                                 decoration: BoxDecoration(
                                   color: AppColors.foodItemBackgroundColor,
                                   borderRadius: BorderRadius.circular(12),
-                                  border: Border.all(
-                                    color: AppColors.textPrimaryColor,
-                                    width: 0.2,
-                                  ),
                                   boxShadow: [
                                     BoxShadow(
                                       offset: Offset(0, 3),
@@ -194,14 +190,10 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
                                           ),
                                           cursorWidth: 1.3,
                                           decoration: InputDecoration(
-                                            labelText: 'Enter food name',
-                                            labelStyle: TextStyle(
+                                            hintText: 'Enter food name',
+                                            hintStyle: TextStyle(
                                               color: AppColors.textPrimaryColor
-                                                  .withOpacity(0.6),
-                                            ),
-                                            floatingLabelStyle: TextStyle(
-                                              color: AppColors.textPrimaryColor
-                                                  .withOpacity(0.6),
+                                                  .withOpacity(0.4),
                                             ),
                                             border: InputBorder.none,
                                           ),
