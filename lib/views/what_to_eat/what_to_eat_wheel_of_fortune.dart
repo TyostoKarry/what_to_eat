@@ -107,7 +107,6 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
           children: [
             WTEViewTitle(
               titleText: categoryName,
-              padding: EdgeInsets.only(top: 60),
             ),
             Expanded(
               child: FortuneWheel(

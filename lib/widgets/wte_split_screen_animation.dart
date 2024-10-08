@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:what_to_eat/theme/app_colors.dart';
+import 'package:what_to_eat/widgets/wte_safe_area.dart';
 
 class WTESplitScreenAnimation extends StatefulWidget {
   final bool expandLeft;
@@ -46,33 +47,35 @@ class _WTESplitScreenAnimationState extends State<WTESplitScreenAnimation>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Positioned.fill(
-          child: FractionallySizedBox(
-            alignment: Alignment.centerLeft,
-            widthFactor:
-                widget.expandLeft ? _animation.value : 1 - _animation.value,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: AppColors.getWhatToEatBackground(),
+    return WTESafeArea(
+      child: Stack(
+        children: [
+          Positioned.fill(
+            child: FractionallySizedBox(
+              alignment: Alignment.centerLeft,
+              widthFactor:
+                  widget.expandLeft ? _animation.value : 1 - _animation.value,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: AppColors.getWhatToEatBackground(),
+                ),
               ),
             ),
           ),
-        ),
-        Positioned.fill(
-          child: FractionallySizedBox(
-            alignment: Alignment.centerRight,
-            widthFactor:
-                widget.expandLeft ? 1 - _animation.value : _animation.value,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: AppColors.getWhereToEatBackground(),
+          Positioned.fill(
+            child: FractionallySizedBox(
+              alignment: Alignment.centerRight,
+              widthFactor:
+                  widget.expandLeft ? 1 - _animation.value : _animation.value,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: AppColors.getWhereToEatBackground(),
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

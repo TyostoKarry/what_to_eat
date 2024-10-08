@@ -13,6 +13,7 @@ import 'package:what_to_eat/views/where_to_eat/where_to_eat_no_restaurants.dart'
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_result.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_slot_machine.dart';
 import 'package:what_to_eat/widgets/wte_button.dart';
+import 'package:what_to_eat/widgets/wte_safe_area.dart';
 import 'package:what_to_eat/widgets/wte_text.dart';
 
 class WhereToEatScreen extends StatefulWidget {
@@ -77,73 +78,75 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: AppColors.getWhereToEatBackground(),
-        ),
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            Expanded(
-              child: Consumer<WhereToEatModel>(
-                builder: (context, model, child) {
-                  return _buildContent(model.whereToEatScreenState);
-                },
+      body: WTESafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: AppColors.getWhereToEatBackground(),
+          ),
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              Expanded(
+                child: Consumer<WhereToEatModel>(
+                  builder: (context, model, child) {
+                    return _buildContent(model.whereToEatScreenState);
+                  },
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            GestureDetector(
-              onTap: _launchOpenStreetMapCopyright,
-              child: const WTEText(
-                  text: "Map data from OpenStreetMap",
-                  color: AppColors.textPrimaryColor,
-                  fontSize: 12,
-                  minFontSize: 12,
-                  textDecoration: TextDecoration.underline),
-            ),
-            GestureDetector(
-              onTap: _launchOpenStreetMapCopyright,
-              child: const WTEText(
-                  text: "Providing real-time location-based restaurant data",
-                  color: AppColors.textPrimaryColor,
-                  fontSize: 12,
-                  minFontSize: 12,
-                  textDecoration: TextDecoration.underline),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-              child: Consumer<WhereToEatModel>(
-                builder: (context, model, child) {
-                  return WTEButton(
-                    text: model.whereToEatScreenState ==
-                            WhereToEatScreenState.apiError
-                        ? "Retry"
-                        : "Where To Eat",
-                    textColor: AppColors.textSecondaryColor,
-                    gradientColors: [
-                      AppColors.whereToEatButtonPrimaryColor,
-                      AppColors.whereToEatButtonSecondaryColor
-                    ],
-                    colorEnabled: model.whereToEatScreenState !=
-                            WhereToEatScreenState.loading &&
-                        model.whereToEatScreenState !=
-                            WhereToEatScreenState.slotMachine,
-                    splashEnabled: model.whereToEatScreenState !=
-                            WhereToEatScreenState.loading &&
-                        model.whereToEatScreenState !=
-                            WhereToEatScreenState.slotMachine,
-                    tapEnabled: model.whereToEatScreenState !=
-                            WhereToEatScreenState.loading &&
-                        model.whereToEatScreenState !=
-                            WhereToEatScreenState.slotMachine,
-                    onTap: () async {
-                      await _searchNearbyRestaurants();
-                    },
-                  );
-                },
+              SizedBox(height: 20),
+              GestureDetector(
+                onTap: _launchOpenStreetMapCopyright,
+                child: const WTEText(
+                    text: "Map data from OpenStreetMap",
+                    color: AppColors.textPrimaryColor,
+                    fontSize: 12,
+                    minFontSize: 12,
+                    textDecoration: TextDecoration.underline),
               ),
-            ),
-          ],
+              GestureDetector(
+                onTap: _launchOpenStreetMapCopyright,
+                child: const WTEText(
+                    text: "Providing real-time location-based restaurant data",
+                    color: AppColors.textPrimaryColor,
+                    fontSize: 12,
+                    minFontSize: 12,
+                    textDecoration: TextDecoration.underline),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+                child: Consumer<WhereToEatModel>(
+                  builder: (context, model, child) {
+                    return WTEButton(
+                      text: model.whereToEatScreenState ==
+                              WhereToEatScreenState.apiError
+                          ? "Retry"
+                          : "Where To Eat",
+                      textColor: AppColors.textSecondaryColor,
+                      gradientColors: [
+                        AppColors.whereToEatButtonPrimaryColor,
+                        AppColors.whereToEatButtonSecondaryColor
+                      ],
+                      colorEnabled: model.whereToEatScreenState !=
+                              WhereToEatScreenState.loading &&
+                          model.whereToEatScreenState !=
+                              WhereToEatScreenState.slotMachine,
+                      splashEnabled: model.whereToEatScreenState !=
+                              WhereToEatScreenState.loading &&
+                          model.whereToEatScreenState !=
+                              WhereToEatScreenState.slotMachine,
+                      tapEnabled: model.whereToEatScreenState !=
+                              WhereToEatScreenState.loading &&
+                          model.whereToEatScreenState !=
+                              WhereToEatScreenState.slotMachine,
+                      onTap: () async {
+                        await _searchNearbyRestaurants();
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

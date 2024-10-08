@@ -39,7 +39,6 @@ class WhatToEatFoodSelected extends StatelessWidget {
           children: [
             WTEViewTitle(
               titleText: 'Today I Will Eat',
-              padding: EdgeInsets.only(top: 60),
             ),
             Column(
               children: [

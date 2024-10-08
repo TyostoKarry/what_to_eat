@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 
 class AppColors {
-  // General c
+  // General colors
   static const Color whatToEatButtonPrimaryColor =
       Color.fromARGB(255, 29, 94, 179);
   static const Color whatToEatButtonSecondaryColor =
@@ -36,6 +36,10 @@ class AppColors {
   static const Color thirdSliceColor = Color.fromARGB(255, 57, 113, 225);
   static const Color wheelTextColor = Color.fromARGB(255, 255, 255, 255);
   static const Color wheelTextShadowColor = Color.fromARGB(100, 0, 0, 0);
+
+  //wte_safe_area.dart
+  static const Color safeAreaBackgroundColor =
+      const Color.fromARGB(255, 0, 0, 0);
 
   // Gradients
   static LinearGradient getWhatToEatBackground() {

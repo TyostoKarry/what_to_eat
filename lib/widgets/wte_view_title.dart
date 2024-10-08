@@ -10,7 +10,7 @@ class WTEViewTitle extends StatelessWidget {
   const WTEViewTitle({
     Key? key,
     required this.titleText,
-    this.padding = const EdgeInsets.only(top: 60),
+    this.padding = const EdgeInsets.only(top: 10),
   }) : super(key: key);
 
   @override

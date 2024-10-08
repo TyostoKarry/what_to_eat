@@ -27,7 +27,6 @@ class _WhatToEatCategoriesState extends State<WhatToEatCategories> {
           children: [
             WTEViewTitle(
               titleText: 'Select Food Category',
-              padding: EdgeInsets.only(top: 60),
             ),
             Expanded(
               child: Padding(

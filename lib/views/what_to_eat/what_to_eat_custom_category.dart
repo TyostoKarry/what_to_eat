@@ -130,7 +130,7 @@ class _WhatToEatCustomCategory extends State<WhatToEatCustomCategory> {
           children: [
             WTEViewTitle(
               titleText: 'Create Custom Category',
-              padding: EdgeInsets.only(top: 60, bottom: 20),
+              padding: EdgeInsets.only(top: 10, bottom: 20),
             ),
             Expanded(
               child: SingleChildScrollView(
