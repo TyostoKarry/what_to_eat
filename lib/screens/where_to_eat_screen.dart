@@ -3,8 +3,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:what_to_eat/components/wte_button.dart';
-import 'package:what_to_eat/components/wte_text.dart';
 import 'package:what_to_eat/models/where_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_api_error.dart';
@@ -14,6 +12,8 @@ import 'package:what_to_eat/views/where_to_eat/where_to_eat_location_service_dis
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_no_restaurants.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_result.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_slot_machine.dart';
+import 'package:what_to_eat/widgets/wte_button.dart';
+import 'package:what_to_eat/widgets/wte_text.dart';
 
 class WhereToEatScreen extends StatefulWidget {
   const WhereToEatScreen({super.key});
@@ -83,6 +83,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
         ),
         child: Column(
           children: [
+            SizedBox(height: 20),
             Expanded(
               child: Consumer<WhereToEatModel>(
                 builder: (context, model, child) {
@@ -90,6 +91,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                 },
               ),
             ),
+            SizedBox(height: 20),
             GestureDetector(
               onTap: _launchOpenStreetMapCopyright,
               child: const WTEText(
@@ -109,7 +111,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                   textDecoration: TextDecoration.underline),
             ),
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 10, 20, 20),
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
               child: Consumer<WhereToEatModel>(
                 builder: (context, model, child) {
                   return WTEButton(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
-import 'package:what_to_eat/components/wte_button.dart';
-import 'package:what_to_eat/components/wte_text.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
+import 'package:what_to_eat/widgets/wte_button.dart';
+import 'package:what_to_eat/widgets/wte_text.dart';
 
 class WhereToEatLocationServiceDisabled extends StatelessWidget {
   const WhereToEatLocationServiceDisabled({super.key});

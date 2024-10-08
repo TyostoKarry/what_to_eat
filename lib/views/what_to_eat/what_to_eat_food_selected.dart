@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'package:what_to_eat/components/wte_button.dart';
-import 'package:what_to_eat/components/wte_text.dart';
-import 'package:what_to_eat/components/wte_view_title.dart';
 import 'package:what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
+import 'package:what_to_eat/widgets/wte_button.dart';
+import 'package:what_to_eat/widgets/wte_text.dart';
+import 'package:what_to_eat/widgets/wte_view_title.dart';
 
 class WhatToEatFoodSelected extends StatelessWidget {
   const WhatToEatFoodSelected({super.key});

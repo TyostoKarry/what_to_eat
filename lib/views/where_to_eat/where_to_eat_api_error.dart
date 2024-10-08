@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:what_to_eat/components/wte_text.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
+import 'package:what_to_eat/widgets/wte_text.dart';
 
 class WhereToEatApiError extends StatelessWidget {
   const WhereToEatApiError({super.key});

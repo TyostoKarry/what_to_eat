@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:what_to_eat/theme/app_colors.dart';
-import 'package:what_to_eat/components/wte_split_screen_animation.dart';
+import 'package:what_to_eat/widgets/wte_split_screen_animation.dart';
 
 class EntryScreen extends StatefulWidget {
   final Function onItemTapped;

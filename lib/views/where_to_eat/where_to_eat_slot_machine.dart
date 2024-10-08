@@ -1,11 +1,9 @@
-import 'dart:async';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:what_to_eat/components/wte_text.dart';
 
 import 'package:what_to_eat/models/where_to_eat_model.dart';
-import 'package:what_to_eat/theme/app_colors.dart';
+import 'package:what_to_eat/widgets/where_to_eat/where_to_eat_slot_machine_result_animation.dart';
+import 'package:what_to_eat/widgets/where_to_eat/where_to_eat_slot_machine_scroll_animation.dart';
 
 class WhereToEatSlotMachine extends StatefulWidget {
   final List<String> restaurantNames;
@@ -19,106 +17,109 @@ class WhereToEatSlotMachine extends StatefulWidget {
   State<WhereToEatSlotMachine> createState() => _WhereToEatSlotMachineState();
 }
 
-class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late String selectedRestaurant;
+class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine> {
+  late List<String> _shuffledRestaurants;
+  late String _finalRestaurantName;
+  bool _showResult = false;
 
-  Timer? _timer;
-  final Random _random = Random();
-  int _currentIndex = 0;
-  double _nameTextHeight = 0.0;
-  final GlobalKey _nameTextKey = GlobalKey();
+  final int _minItems = 19;
+  final int _singleItemHalfAnimationDuration = 1000;
+  final int _delayBetweenItems = 300;
 
   @override
   void initState() {
     super.initState();
 
-    // Set initial restaurant
-    selectedRestaurant = widget.restaurantNames[0];
+    _shuffledRestaurants =
+        _prepareShuffledRestaurantList(widget.restaurantNames);
 
-    // Initialize the animation controller
-    _controller = AnimationController(
-      duration: const Duration(seconds: 3),
-      vsync: this,
-    );
-
-    // Start animation when the widget renders
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _startRandomization();
-    });
-  }
+      _finalRestaurantName = _selectFinalRestaurantName();
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  void _measureTextSize() {
-    final RenderBox renderBox =
-        _nameTextKey.currentContext!.findRenderObject() as RenderBox;
-
-    if (renderBox.hasSize) {
-      setState(() {
-        _nameTextHeight = renderBox.size.height;
-      });
-    }
-  }
-
-  void _startRandomization() {
-    // Create a repetitive timer to simulate the slot machine rolling effect
-    _timer = Timer.periodic(const Duration(milliseconds: 100), (timer) {
-      setState(() {
-        // Pick a random restaurant index
-        _currentIndex = _random.nextInt(widget.restaurantNames.length);
-      });
-    });
-
-    // Stop randomization after 3 seconds
-    _controller.forward().then((_) {
-      _timer?.cancel();
-
-      _measureTextSize();
-
+      int lastItemDelay = (_shuffledRestaurants.length) * _delayBetweenItems;
       Future.delayed(
-        const Duration(milliseconds: 1500),
-        () {
-          Provider.of<WhereToEatModel>(context, listen: false)
-            ..setNameTextHeight(_nameTextHeight)
-            ..setResultIndex(_currentIndex)
-            ..setWhereToEatScreenState(WhereToEatScreenState.result);
-        },
-      );
+          Duration(milliseconds: lastItemDelay + _delayBetweenItems - 125), () {
+        if (mounted) {
+          setState(() {
+            _showResult = true;
+          });
+        }
+      });
     });
+  }
+
+  List<String> _prepareShuffledRestaurantList(List<String> originalList) {
+    List<String> shuffledList = List.from(originalList)..shuffle();
+
+    while (shuffledList.length < _minItems) {
+      shuffledList.addAll(List.from(originalList)..shuffle());
+    }
+
+    shuffledList = shuffledList.take(_minItems).toList();
+    return _removeConsecutiveDuplicates(shuffledList);
+  }
+
+  List<String> _removeConsecutiveDuplicates(List<String> list) {
+    for (int i = 1; i < list.length; i++) {
+      if (list[i] == list[i - 1]) {
+        int swapIndex = (i + 1) % list.length;
+        if (swapIndex != i && list[swapIndex] != list[i]) {
+          String temp = list[i];
+          list[i] = list[swapIndex];
+          list[swapIndex] = temp;
+        }
+      }
+    }
+
+    if (list[list.length - 1] == list[list.length - 2]) {
+      String temp = list[list.length - 1];
+      list[list.length - 1] = list[0];
+      list[0] = temp;
+    }
+
+    return list;
+  }
+
+  String _selectFinalRestaurantName() {
+    String lastShuffledItem = _shuffledRestaurants.last;
+
+    List<MapEntry<int, String>> candidates = widget.restaurantNames
+        .asMap()
+        .entries
+        .where((entry) => entry.value != lastShuffledItem)
+        .toList();
+
+    candidates.shuffle();
+
+    Provider.of<WhereToEatModel>(context, listen: false)
+        .setResultIndex(candidates.first.key);
+
+    return candidates.first.value;
   }
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: Container(
-          width: double.infinity,
-          height: 60,
-          decoration: BoxDecoration(
-            gradient: AppColors.getWhereToEatResultBackground(),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: Center(
-              child: WTEText(
-                key: _nameTextKey,
-                text: widget.restaurantNames[_currentIndex],
-                color: AppColors.textPrimaryColor,
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-              ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          ...List.generate(_shuffledRestaurants.length, (index) {
+            return WhereToEatSlotMachineScrollAnimation(
+              restaurantName: _shuffledRestaurants[index],
+              animationDuration:
+                  Duration(milliseconds: _singleItemHalfAnimationDuration * 2),
+              delayBetweenItems: _delayBetweenItems,
+              index: index,
+              totalItems: _shuffledRestaurants.length,
+            );
+          }),
+          if (_showResult)
+            WhereToEatSlotMachineResultAnimation(
+              finalRestaurantName: _finalRestaurantName,
+              animationDuration:
+                  Duration(milliseconds: _singleItemHalfAnimationDuration),
             ),
-          ),
-        ),
+        ],
       ),
     );
   }
