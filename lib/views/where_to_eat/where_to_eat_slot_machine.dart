@@ -81,6 +81,12 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine> {
   }
 
   String _selectFinalRestaurantName() {
+    final model = Provider.of<WhereToEatModel>(context, listen: false);
+    if (widget.restaurantNames.length == 1) {
+      model.setResultIndex(0);
+      return widget.restaurantNames.first;
+    }
+
     String lastShuffledItem = _shuffledRestaurants.last;
 
     List<MapEntry<int, String>> candidates = widget.restaurantNames
@@ -91,8 +97,7 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine> {
 
     candidates.shuffle();
 
-    Provider.of<WhereToEatModel>(context, listen: false)
-        .setResultIndex(candidates.first.key);
+    model.setResultIndex(candidates.first.key);
 
     return candidates.first.value;
   }
