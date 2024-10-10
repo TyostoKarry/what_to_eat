@@ -8,7 +8,7 @@ import 'package:what_to_eat/theme/app_colors.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_api_error.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_initial.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_loading.dart';
-import 'package:what_to_eat/views/where_to_eat/where_to_eat_location_service_disabled.dart';
+import 'package:what_to_eat/views/where_to_eat/where_to_eat_location_error.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_no_restaurants.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_result.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_slot_machine.dart';
@@ -38,23 +38,29 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
     }
   }
 
-  Future<void> _searchNearbyRestaurants() async {
+  Future<void> getPositionAndNearbyRestaurants() async {
     final model = Provider.of<WhereToEatModel>(context, listen: false);
     model.setWhereToEatScreenState(WhereToEatScreenState.loading);
-
-    Position position;
-
     _filterRestaurantsBasedOnSelection(model);
 
+    Position? position;
+
     try {
-      position = await model.getUserLocation();
+      model.startListeningToPosition();
+      position = await model.getLatestPosition();
     } catch (error) {
-      model.setWhereToEatScreenState(
-          WhereToEatScreenState.locationServiceDisabled);
+      return;
+    }
+    if (position == null) {
       return;
     }
 
-    const locationThreshold = 0.05; // Approx 50 meters
+    if (!model.searchedRestaurantsNearby.searchHasHappened) {
+      _searchNearbyRestaurants(model, position);
+      return;
+    }
+
+    const locationThreshold = 0.025; // Approx 25 meters
     if (Geolocator.distanceBetween(
             model.searchedRestaurantsNearby.latitude,
             model.searchedRestaurantsNearby.longitude,
@@ -65,23 +71,18 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
       return;
     }
 
-    if (_restaurants.isNotEmpty &&
-        previousSelected.length == selected.length &&
-        previousSelected.containsAll(selected)) {
-      model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
-      return;
-    }
-    previousSelected = selected;
+    _searchNearbyRestaurants(model, position);
+  }
 
+  Future<void> _searchNearbyRestaurants(model, position) async {
     try {
       await model.searchRestaurantsNearby(
           position.latitude, position.longitude);
+      _filterRestaurantsBasedOnSelection(model);
     } catch (error) {
       model.setWhereToEatScreenState(WhereToEatScreenState.apiError);
       return;
     }
-
-    _filterRestaurantsBasedOnSelection(model);
 
     if (_restaurants.isEmpty) {
       model.setWhereToEatScreenState(WhereToEatScreenState.noRestaurants);
@@ -257,7 +258,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                       splashEnabled: isEnabled,
                       tapEnabled: isEnabled,
                       onTap: () async {
-                        await _searchNearbyRestaurants();
+                        await getPositionAndNearbyRestaurants();
                       },
                     );
                   },
@@ -277,7 +278,23 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
       case WhereToEatScreenState.loading:
         return WhereToEatLoading();
       case WhereToEatScreenState.locationServiceDisabled:
-        return WhereToEatLocationServiceDisabled();
+        return WhereToEatLocationError(
+          titleText: "Location Service",
+          subtitleText: "Is Disabled",
+          buttonText: "Open Location Settings",
+          onTap: () {
+            Geolocator.openLocationSettings();
+          },
+        );
+      case WhereToEatScreenState.locationPermissionDenied:
+        return WhereToEatLocationError(
+          titleText: "Location Permission",
+          subtitleText: "Is Denied",
+          buttonText: "Open App Settings",
+          onTap: () {
+            Geolocator.openAppSettings();
+          },
+        );
       case WhereToEatScreenState.apiError:
         return WhereToEatApiError();
       case WhereToEatScreenState.slotMachine:

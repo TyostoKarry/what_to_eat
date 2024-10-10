@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -7,6 +8,7 @@ enum WhereToEatScreenState {
   initial,
   loading,
   locationServiceDisabled,
+  locationPermissionDenied,
   apiError,
   slotMachine,
   noRestaurants,
@@ -19,6 +21,7 @@ class RestaurantsNearby {
   List<dynamic> fastFoodRestaurants;
   double latitude = 0;
   double longitude = 0;
+  bool searchHasHappened = false;
 
   RestaurantsNearby({
     required this.allRestaurants,
@@ -26,6 +29,7 @@ class RestaurantsNearby {
     required this.fastFoodRestaurants,
     required this.latitude,
     required this.longitude,
+    required this.searchHasHappened,
   });
 }
 
@@ -33,12 +37,16 @@ class WhereToEatModel extends ChangeNotifier {
   WhereToEatScreenState _whereToEatScreenState = WhereToEatScreenState.initial;
   WhereToEatScreenState get whereToEatScreenState => _whereToEatScreenState;
 
+  StreamSubscription<Position>? _positionStreamSubscription;
+  Position? _currentPosition;
+
   RestaurantsNearby _searchedRestaurantsNearby = RestaurantsNearby(
     allRestaurants: [],
     regularRestaurants: [],
     fastFoodRestaurants: [],
     latitude: 0,
     longitude: 0,
+    searchHasHappened: false,
   );
   RestaurantsNearby get searchedRestaurantsNearby => _searchedRestaurantsNearby;
 
@@ -63,12 +71,56 @@ class WhereToEatModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<Position> getUserLocation() async {
+  void startListeningToPosition() async {
+    bool permissionGranted = await _handleLocationPermission();
+    if (!permissionGranted) {
+      return Future.error('Location permissions are denied');
+    }
+
+    if (_positionStreamSubscription != null) {
+      return;
+    }
+
+    _positionStreamSubscription = Geolocator.getPositionStream(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.high,
+        distanceFilter: 50,
+      ),
+    ).listen((Position position) {
+      _currentPosition = position;
+      notifyListeners();
+    });
+  }
+
+  @override
+  void dispose() {
+    _positionStreamSubscription?.cancel();
+    super.dispose();
+  }
+
+  Future<Position?> getLatestPosition() async {
+    bool permissionGranted = await _handleLocationPermission();
+    if (!permissionGranted) {
+      return Future.error('Location permissions are denied');
+    }
+
+    if (_currentPosition == null) {
+      try {
+        _currentPosition = await Geolocator.getCurrentPosition();
+      } catch (error) {
+        return Future.error('Failed to get location');
+      }
+    }
+    return _currentPosition;
+  }
+
+  Future<bool> _handleLocationPermission() async {
     bool serviceEnabled;
     LocationPermission permission;
 
     serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {
+      setWhereToEatScreenState(WhereToEatScreenState.locationServiceDisabled);
       return Future.error('Location services are disabled.');
     }
 
@@ -76,15 +128,18 @@ class WhereToEatModel extends ChangeNotifier {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
+        setWhereToEatScreenState(
+            WhereToEatScreenState.locationPermissionDenied);
         return Future.error('Location permissions are denied');
       }
     }
 
     if (permission == LocationPermission.deniedForever) {
+      setWhereToEatScreenState(WhereToEatScreenState.locationServiceDisabled);
       return Future.error('Location permissions are permanently denied.');
     }
 
-    return await Geolocator.getCurrentPosition();
+    return true;
   }
 
   Future<void> searchRestaurantsNearby(double lat, double lon) async {
@@ -122,6 +177,7 @@ class WhereToEatModel extends ChangeNotifier {
           fastFoodRestaurants: fastFoodRestaurants,
           latitude: lat,
           longitude: lon,
+          searchHasHappened: true,
         );
       } else {
         throw Exception('Failed to load data');

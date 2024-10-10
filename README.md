@@ -25,5 +25,3 @@ This will create separate APK files for each architecture:
 - `app-armeabi-v7a-release.apk` (ARM)
 - `app-arm64-v8a-release.apk` (ARM64)
 - `app-x86_64-release.apk` (x86_64)
-
-Note that building separate APKs for each ABI can result in smaller APK files, but it may also increase the complexity of your app's distribution and installation process.
