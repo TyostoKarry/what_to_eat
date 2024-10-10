@@ -41,7 +41,29 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
   Future<void> _searchNearbyRestaurants() async {
     final model = Provider.of<WhereToEatModel>(context, listen: false);
     model.setWhereToEatScreenState(WhereToEatScreenState.loading);
+
     Position position;
+
+    _filterRestaurantsBasedOnSelection(model);
+
+    try {
+      position = await model.getUserLocation();
+    } catch (error) {
+      model.setWhereToEatScreenState(
+          WhereToEatScreenState.locationServiceDisabled);
+      return;
+    }
+
+    const locationThreshold = 0.05; // Approx 50 meters
+    if (Geolocator.distanceBetween(
+            model.searchedRestaurantsNearby.latitude,
+            model.searchedRestaurantsNearby.longitude,
+            position.latitude,
+            position.longitude) <
+        locationThreshold) {
+      model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
+      return;
+    }
 
     if (_restaurants.isNotEmpty &&
         previousSelected.length == selected.length &&
@@ -52,39 +74,32 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
     previousSelected = selected;
 
     try {
-      position = await model.getUserLocation();
-    } catch (error) {
-      model.setWhereToEatScreenState(
-          WhereToEatScreenState.locationServiceDisabled);
-      return;
-    }
-
-    List<String> selectedAmenities = [];
-    if (selected.contains('Restaurants')) {
-      selectedAmenities.add('restaurant');
-    }
-
-    if (selected.contains('Fast Food')) {
-      selectedAmenities.add('fast_food');
-    }
-    String amenitiesQuery = selectedAmenities.join('|');
-
-    try {
-      List<dynamic> restaurants = await model.searchRestaurantsNearby(
-          position.latitude, position.longitude, amenitiesQuery);
-
-      setState(() {
-        _restaurants = restaurants;
-      });
-      if (_restaurants.isEmpty) {
-        model.setWhereToEatScreenState(WhereToEatScreenState.noRestaurants);
-        return;
-      }
-      model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
-      return;
+      await model.searchRestaurantsNearby(
+          position.latitude, position.longitude);
     } catch (error) {
       model.setWhereToEatScreenState(WhereToEatScreenState.apiError);
       return;
+    }
+
+    _filterRestaurantsBasedOnSelection(model);
+
+    if (_restaurants.isEmpty) {
+      model.setWhereToEatScreenState(WhereToEatScreenState.noRestaurants);
+      return;
+    }
+    model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
+    return;
+  }
+
+  void _filterRestaurantsBasedOnSelection(WhereToEatModel model) {
+    if (selected.contains('Restaurants')) {
+      _restaurants = model.searchedRestaurantsNearby.regularRestaurants;
+    }
+    if (selected.contains('Fast Food')) {
+      _restaurants = model.searchedRestaurantsNearby.fastFoodRestaurants;
+    }
+    if (selected.length == 2) {
+      _restaurants = model.searchedRestaurantsNearby.allRestaurants;
     }
   }
 

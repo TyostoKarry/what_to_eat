@@ -13,9 +13,34 @@ enum WhereToEatScreenState {
   result
 }
 
+class RestaurantsNearby {
+  List<dynamic> allRestaurants;
+  List<dynamic> regularRestaurants;
+  List<dynamic> fastFoodRestaurants;
+  double latitude = 0;
+  double longitude = 0;
+
+  RestaurantsNearby({
+    required this.allRestaurants,
+    required this.regularRestaurants,
+    required this.fastFoodRestaurants,
+    required this.latitude,
+    required this.longitude,
+  });
+}
+
 class WhereToEatModel extends ChangeNotifier {
   WhereToEatScreenState _whereToEatScreenState = WhereToEatScreenState.initial;
   WhereToEatScreenState get whereToEatScreenState => _whereToEatScreenState;
+
+  RestaurantsNearby _searchedRestaurantsNearby = RestaurantsNearby(
+    allRestaurants: [],
+    regularRestaurants: [],
+    fastFoodRestaurants: [],
+    latitude: 0,
+    longitude: 0,
+  );
+  RestaurantsNearby get searchedRestaurantsNearby => _searchedRestaurantsNearby;
 
   int _resultIndex = 0;
   int get resultIndex => _resultIndex;
@@ -62,28 +87,46 @@ class WhereToEatModel extends ChangeNotifier {
     return await Geolocator.getCurrentPosition();
   }
 
-  Future<List<dynamic>> searchRestaurantsNearby(
-      double lat, double lon, String amenitiesQuery) async {
+  Future<void> searchRestaurantsNearby(double lat, double lon) async {
     String overpassUrl = 'https://overpass-api.de/api/interpreter';
 
     String overpassQuery = """
   [out:json];
   node
-    ["amenity"~"$amenitiesQuery"]
+    ["amenity"~"restaurant|fast_food"]
     (around:200,$lat,$lon);
   out body;
   """;
 
-    final response = await http.post(
-      Uri.parse(overpassUrl),
-      body: {'data': overpassQuery},
-    );
+    try {
+      final response = await http.post(
+        Uri.parse(overpassUrl),
+        body: {'data': overpassQuery},
+      );
 
-    if (response.statusCode == 200) {
-      final decodedBody = utf8.decode(response.bodyBytes);
-      final json = jsonDecode(decodedBody);
-      return json['elements'];
-    } else {
+      if (response.statusCode == 200) {
+        final decodedBody = utf8.decode(response.bodyBytes);
+        final json = jsonDecode(decodedBody);
+
+        List<dynamic> allRestaurants = json['elements'];
+        List<dynamic> fastFoodRestaurants = allRestaurants
+            .where((element) => element['tags']['amenity'] == 'fast_food')
+            .toList();
+        List<dynamic> regularRestaurants = allRestaurants
+            .where((element) => element['tags']['amenity'] == 'restaurant')
+            .toList();
+
+        _searchedRestaurantsNearby = RestaurantsNearby(
+          allRestaurants: allRestaurants,
+          regularRestaurants: regularRestaurants,
+          fastFoodRestaurants: fastFoodRestaurants,
+          latitude: lat,
+          longitude: lon,
+        );
+      } else {
+        throw Exception('Failed to load data');
+      }
+    } catch (error) {
       throw Exception('Failed to load data');
     }
   }
