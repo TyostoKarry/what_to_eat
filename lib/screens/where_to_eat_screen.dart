@@ -14,6 +14,7 @@ import 'package:what_to_eat/views/where_to_eat/where_to_eat_result.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_slot_machine.dart';
 import 'package:what_to_eat/widgets/wte_button.dart';
 import 'package:what_to_eat/widgets/wte_safe_area.dart';
+import 'package:what_to_eat/widgets/wte_segmented_button.dart';
 import 'package:what_to_eat/widgets/wte_text.dart';
 
 class WhereToEatScreen extends StatefulWidget {
@@ -26,7 +27,6 @@ class WhereToEatScreen extends StatefulWidget {
 class _WhereToEatScreenState extends State<WhereToEatScreen> {
   List<dynamic> _restaurants = [];
   Set<String> selected = {'Restaurants', 'Fast Food'};
-  Set<String> previousSelected = {};
 
   void _launchOpenStreetMapCopyright() async {
     final Uri searchUrl = Uri.parse('https://www.openstreetmap.org/copyright');
@@ -67,6 +67,10 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
             position.latitude,
             position.longitude) <
         locationThreshold) {
+      if (_restaurants.isEmpty) {
+        model.setWhereToEatScreenState(WhereToEatScreenState.noRestaurants);
+        return;
+      }
       model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
       return;
     }
@@ -148,90 +152,22 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                           WhereToEatScreenState.loading &&
                       model.whereToEatScreenState !=
                           WhereToEatScreenState.slotMachine;
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: SegmentedButton<String>(
-                        segments: const <ButtonSegment<String>>[
-                          ButtonSegment<String>(
-                            value: 'Restaurants',
-                            label: Text('Restaurants'),
-                            icon: Icon(Icons.close),
-                          ),
-                          ButtonSegment<String>(
-                            value: 'Fast Food',
-                            label: Text('Fast Food'),
-                            icon: Icon(Icons.close),
-                          ),
-                        ],
-                        selected: selected,
-                        multiSelectionEnabled: true,
-                        emptySelectionAllowed: true,
-                        style: ButtonStyle(
-                          backgroundColor:
-                              WidgetStateProperty.resolveWith<Color>(
-                            (Set<WidgetState> states) {
-                              if (states.contains(WidgetState.selected)) {
-                                return AppColors.whereToEatButtonPrimaryColor
-                                    .withOpacity(0.5);
-                              }
-                              return Colors.transparent;
-                            },
-                          ),
-                          side: WidgetStateProperty.all(
-                            BorderSide(
-                              color: AppColors.textPrimaryColor,
-                            ),
-                          ),
-                          textStyle: WidgetStateProperty.resolveWith<TextStyle>(
-                            (Set<WidgetState> states) {
-                              if (states.contains(WidgetState.selected)) {
-                                return TextStyle(
-                                  color: AppColors.textPrimaryColor,
-                                  fontWeight: FontWeight.bold,
-                                  shadows: [
-                                    Shadow(
-                                      offset: Offset(1, 2),
-                                      blurRadius: 3,
-                                      color: const Color.fromARGB(20, 0, 0, 0),
-                                    ),
-                                  ],
-                                );
-                              }
-                              return TextStyle(
-                                color: AppColors.textPrimaryColor,
-                                fontWeight: FontWeight.normal,
-                                shadows: [
-                                  Shadow(
-                                    offset: Offset(1, 2),
-                                    blurRadius: 3,
-                                    color: const Color.fromARGB(20, 0, 0, 0),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                        onSelectionChanged: isEnabled
-                            ? (Set<String> newSelection) {
-                                setState(() {
-                                  if (newSelection.isEmpty &&
-                                      selected.first == 'Restaurants') {
-                                    selected = {'Fast Food'};
-                                    return;
-                                  }
-                                  if (newSelection.isEmpty &&
-                                      selected.first == 'Fast Food') {
-                                    selected = {'Restaurants'};
-                                    return;
-                                  }
-                                  selected = newSelection;
-                                });
-                              }
-                            : null,
-                      ),
-                    ),
+                  return WTESegmentedButton(
+                    options: ['Restaurants', 'Fast Food'],
+                    selected: selected,
+                    selectedIcons: [
+                      Icons.restaurant_outlined,
+                      Icons.fastfood_outlined
+                    ],
+                    unselectedIcons: [Icons.close, Icons.close],
+                    multiSelectionEnabled: true,
+                    allowEmptySelection: false,
+                    isEnabled: isEnabled,
+                    onSelectionChanged: (Set<String> newSelection) {
+                      setState(() {
+                        selected = newSelection;
+                      });
+                    },
                   );
                 },
               ),
