@@ -27,7 +27,7 @@ class WhereToEatScreen extends StatefulWidget {
 
 class _WhereToEatScreenState extends State<WhereToEatScreen> {
   List<dynamic> _restaurants = [];
-  Set<String> selected = {'Restaurants', 'Fast Food'};
+  Set<String> selected = {'Restaurants'};
   final TextEditingController _cuisineController = TextEditingController();
   String? selectedCuisine;
 
@@ -233,12 +233,10 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                       ),
                       onChanged: (value) {
                         if (value == 'Any') {
-                          // Clear selectedCuisine and reset DropdownSearch
                           setState(() {
                             selectedCuisine = null;
                           });
                         } else if (value != null) {
-                          // Set selectedCuisine to the selected value
                           setState(() {
                             selectedCuisine = value;
                           });
