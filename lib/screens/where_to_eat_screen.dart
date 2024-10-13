@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,8 @@ class WhereToEatScreen extends StatefulWidget {
 class _WhereToEatScreenState extends State<WhereToEatScreen> {
   List<dynamic> _restaurants = [];
   Set<String> selected = {'Restaurants', 'Fast Food'};
+  final TextEditingController _cuisineController = TextEditingController();
+  String? selectedCuisine;
 
   void _launchOpenStreetMapCopyright() async {
     final Uri searchUrl = Uri.parse('https://www.openstreetmap.org/copyright');
@@ -106,6 +109,29 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
     if (selected.length == 2) {
       _restaurants = model.searchedRestaurantsNearby.allRestaurants;
     }
+
+    if (selectedCuisine != null &&
+        selectedCuisine!.isNotEmpty &&
+        selectedCuisine! != 'any') {
+      _restaurants = _restaurants.where((restaurant) {
+        final cuisineTag = restaurant['tags']?['cuisine'];
+
+        if (cuisineTag != null) {
+          List<dynamic> cuisines = cuisineTag
+              .split(RegExp(r'[;,]'))
+              .map((e) => e.trim().toLowerCase())
+              .toList();
+          return cuisines.contains(selectedCuisine!.toLowerCase());
+        }
+        return false;
+      }).toList();
+    }
+  }
+
+  @override
+  void dispose() {
+    _cuisineController.dispose();
+    super.dispose();
   }
 
   @override
@@ -145,7 +171,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                     minFontSize: 12,
                     textDecoration: TextDecoration.underline),
               ),
-              SizedBox(height: 10),
+              SizedBox(height: 5),
               Consumer<WhereToEatModel>(
                 builder: (context, model, child) {
                   bool isEnabled = model.whereToEatScreenState !=
@@ -168,6 +194,77 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                         selected = newSelection;
                       });
                     },
+                  );
+                },
+              ),
+              Consumer<WhereToEatModel>(
+                builder: (context, model, child) {
+                  List<String> cuisineEntries =
+                      model.cuisineEntries.map((cuisine) {
+                    return cuisine.split('_').map((word) {
+                      return word[0].toUpperCase() + word.substring(1);
+                    }).join(' ');
+                  }).toList();
+
+                  bool isEnabled = model.whereToEatScreenState !=
+                          WhereToEatScreenState.loading &&
+                      model.whereToEatScreenState !=
+                          WhereToEatScreenState.slotMachine;
+
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+                    child: DropdownSearch<String>(
+                      items: (filter, infiniteScrollProps) => cuisineEntries,
+                      enabled: isEnabled,
+                      popupProps: PopupProps.menu(
+                        searchDelay: Duration(milliseconds: 100),
+                        showSearchBox: true,
+                        fit: FlexFit.loose,
+                        constraints: BoxConstraints.tightFor(
+                          width: MediaQuery.of(context).size.width - 40,
+                          height: 200,
+                        ),
+                        menuProps: MenuProps(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          elevation: 2,
+                        ),
+                      ),
+                      onChanged: (value) {
+                        if (value == 'Any') {
+                          // Clear selectedCuisine and reset DropdownSearch
+                          setState(() {
+                            selectedCuisine = null;
+                          });
+                        } else if (value != null) {
+                          // Set selectedCuisine to the selected value
+                          setState(() {
+                            selectedCuisine = value;
+                          });
+                        }
+                      },
+                      selectedItem: selectedCuisine,
+                      decoratorProps: DropDownDecoratorProps(
+                        decoration: InputDecoration(
+                          hintText: 'Select Specific Cuisine: ',
+                          filled: true,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(width: 0.3),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide: BorderSide(width: 0.3),
+                          ),
+                          disabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                                BorderSide(color: Colors.transparent, width: 0),
+                          ),
+                        ),
+                      ),
+                    ),
                   );
                 },
               ),
