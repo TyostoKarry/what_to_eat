@@ -18,6 +18,7 @@ class WhereToEatResult extends StatefulWidget {
 
 class WhereToEatResultState extends State<WhereToEatResult>
     with SingleTickerProviderStateMixin {
+  List<String> diets = [];
   bool _expanded = false;
   double _calculatedHeight = 60.0;
   final GlobalKey _contentKey = GlobalKey();
@@ -98,7 +99,7 @@ class WhereToEatResultState extends State<WhereToEatResult>
               text: day,
               color: AppColors.textPrimaryColor,
               fontSize: 20,
-              minFontSize: 18,
+              minFontSize: 12,
             ),
           ),
           Align(
@@ -107,7 +108,7 @@ class WhereToEatResultState extends State<WhereToEatResult>
               text: time,
               color: AppColors.textPrimaryColor,
               fontSize: 20,
-              minFontSize: 18,
+              minFontSize: 12,
             ),
           ),
         ],
@@ -115,10 +116,30 @@ class WhereToEatResultState extends State<WhereToEatResult>
     }).toList();
   }
 
+  void _populateDietaryOptions(Map<String, dynamic> tags) {
+    diets.clear();
+    tags.forEach((key, value) {
+      if (key.startsWith('diet:') && (value == 'yes' || value == 'only')) {
+        String dietType = key.split(':')[1];
+
+        String formattedDiet = dietType[0].toUpperCase() +
+            dietType.substring(1).replaceAll('_', ' ');
+
+        if (value == 'only') {
+          formattedDiet += " (Only)";
+        }
+
+        diets.add(formattedDiet);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final model = Provider.of<WhereToEatModel>(context, listen: false);
     final tags = widget.restaurants[model.resultIndex]['tags'];
+
+    _populateDietaryOptions(tags);
 
     return Center(
       child: Padding(
@@ -225,6 +246,40 @@ class WhereToEatResultState extends State<WhereToEatResult>
                       fontSize: 20,
                       minFontSize: 18,
                       maxLines: 4,
+                    ),
+                    SizedBox(height: 15),
+                  ],
+                  if (diets.isNotEmpty) ...[
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.local_dining,
+                          color: AppColors.textPrimaryColor,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(2, 2),
+                              blurRadius: 3,
+                              color: Color.fromARGB(140, 110, 110, 110),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: 10),
+                        WTEText(
+                          text: 'Dietary Options',
+                          color: AppColors.textPrimaryColor,
+                          fontSize: 20,
+                          minFontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                    WTEText(
+                      text: diets.join(", "),
+                      color: AppColors.textPrimaryColor,
+                      fontSize: 20,
+                      minFontSize: 18,
+                      maxLines: 4,
+                      textAlign: TextAlign.left,
                     ),
                     SizedBox(height: 15),
                   ],
