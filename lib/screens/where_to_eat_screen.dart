@@ -69,7 +69,6 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
   Future<void> getPositionAndNearbyRestaurants() async {
     final model = Provider.of<WhereToEatModel>(context, listen: false);
     model.setWhereToEatScreenState(WhereToEatScreenState.loading);
-    _filterRestaurantsBasedOnSelection(model);
 
     Position? position;
 
@@ -83,13 +82,15 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
       return;
     }
 
-    if (!model.searchedRestaurantsNearby.searchHasHappened ||
-        currentRange != model.searchedRestaurantsNearby.range) {
+    if (!model.searchedRestaurantsNearby.searchHasHappened) {
       _searchNearbyRestaurants(model, position);
       return;
     }
 
-    const locationThreshold = 0.025; // Approx 25 meters
+    _restaurants = model.filterRestaurantsBasedOnSelection(
+        selected, position, currentRange.toInt(), selectedCuisine);
+
+    const locationThreshold = 4000; // Approx 4km meters
     if (Geolocator.distanceBetween(
             model.searchedRestaurantsNearby.latitude,
             model.searchedRestaurantsNearby.longitude,
@@ -110,8 +111,9 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
   Future<void> _searchNearbyRestaurants(model, position) async {
     try {
       await model.searchRestaurantsNearby(
-          position.latitude, position.longitude, currentRange.toInt());
-      _filterRestaurantsBasedOnSelection(model);
+          position.latitude, position.longitude);
+      _restaurants = model.filterRestaurantsBasedOnSelection(
+          selected, position, currentRange.toInt(), selectedCuisine);
     } catch (error) {
       model.setWhereToEatScreenState(WhereToEatScreenState.apiError);
       return;
@@ -123,35 +125,6 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
     }
     model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
     return;
-  }
-
-  void _filterRestaurantsBasedOnSelection(WhereToEatModel model) {
-    if (selected.contains('Restaurants')) {
-      _restaurants = model.searchedRestaurantsNearby.regularRestaurants;
-    }
-    if (selected.contains('Fast Food')) {
-      _restaurants = model.searchedRestaurantsNearby.fastFoodRestaurants;
-    }
-    if (selected.length == 2) {
-      _restaurants = model.searchedRestaurantsNearby.allRestaurants;
-    }
-
-    if (selectedCuisine != null &&
-        selectedCuisine!.isNotEmpty &&
-        selectedCuisine! != 'any') {
-      _restaurants = _restaurants.where((restaurant) {
-        final cuisineTag = restaurant['tags']?['cuisine'];
-
-        if (cuisineTag != null) {
-          List<dynamic> cuisines = cuisineTag
-              .split(RegExp(r'[;,]'))
-              .map((e) => e.trim().toLowerCase())
-              .toList();
-          return cuisines.contains(selectedCuisine!.toLowerCase());
-        }
-        return false;
-      }).toList();
-    }
   }
 
   @override

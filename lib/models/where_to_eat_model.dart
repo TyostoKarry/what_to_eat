@@ -17,20 +17,14 @@ enum WhereToEatScreenState {
 
 class RestaurantsNearby {
   List<dynamic> allRestaurants;
-  List<dynamic> regularRestaurants;
-  List<dynamic> fastFoodRestaurants;
   double latitude = 0;
   double longitude = 0;
-  int range = 0;
   bool searchHasHappened = false;
 
   RestaurantsNearby({
     required this.allRestaurants,
-    required this.regularRestaurants,
-    required this.fastFoodRestaurants,
     required this.latitude,
     required this.longitude,
-    required this.range,
     required this.searchHasHappened,
   });
 }
@@ -44,11 +38,8 @@ class WhereToEatModel extends ChangeNotifier {
 
   RestaurantsNearby _searchedRestaurantsNearby = RestaurantsNearby(
     allRestaurants: [],
-    regularRestaurants: [],
-    fastFoodRestaurants: [],
     latitude: 0,
     longitude: 0,
-    range: 0,
     searchHasHappened: false,
   );
   RestaurantsNearby get searchedRestaurantsNearby => _searchedRestaurantsNearby;
@@ -145,15 +136,14 @@ class WhereToEatModel extends ChangeNotifier {
     return true;
   }
 
-  Future<void> searchRestaurantsNearby(
-      double lat, double lon, int currentRange) async {
+  Future<void> searchRestaurantsNearby(double lat, double lon) async {
     String overpassUrl = 'https://overpass-api.de/api/interpreter';
 
     String overpassQuery = """
   [out:json];
   node
     ["amenity"~"restaurant|fast_food"]
-    (around:$currentRange,$lat,$lon);
+    (around:10000,$lat,$lon);
   out body;
   """;
 
@@ -168,20 +158,11 @@ class WhereToEatModel extends ChangeNotifier {
         final json = jsonDecode(decodedBody);
 
         List<dynamic> allRestaurants = json['elements'];
-        List<dynamic> fastFoodRestaurants = allRestaurants
-            .where((element) => element['tags']['amenity'] == 'fast_food')
-            .toList();
-        List<dynamic> regularRestaurants = allRestaurants
-            .where((element) => element['tags']['amenity'] == 'restaurant')
-            .toList();
 
         _searchedRestaurantsNearby = RestaurantsNearby(
           allRestaurants: allRestaurants,
-          regularRestaurants: regularRestaurants,
-          fastFoodRestaurants: fastFoodRestaurants,
           latitude: lat,
           longitude: lon,
-          range: currentRange,
           searchHasHappened: true,
         );
       } else {
@@ -190,6 +171,54 @@ class WhereToEatModel extends ChangeNotifier {
     } catch (error) {
       throw Exception('Failed to load data');
     }
+  }
+
+  List<dynamic> filterRestaurantsBasedOnSelection(Set<String> selected,
+      Position position, int searchRange, String? selectedCuisine) {
+    List<dynamic> restaurants = [];
+
+    if (selected.contains('Restaurants')) {
+      restaurants = searchedRestaurantsNearby.allRestaurants
+          .where((element) => element['tags']['amenity'] == 'restaurant')
+          .toList();
+    }
+    if (selected.contains('Fast Food')) {
+      restaurants = searchedRestaurantsNearby.allRestaurants
+          .where((element) => element['tags']['amenity'] == 'fast_food')
+          .toList();
+    }
+    if (selected.length == 2) {
+      restaurants = searchedRestaurantsNearby.allRestaurants;
+    }
+
+    restaurants = restaurants.where((restaurant) {
+      double restaurantLat = restaurant['lat'];
+      double restaurantLon = restaurant['lon'];
+      double distance = Geolocator.distanceBetween(
+          position.latitude, position.longitude, restaurantLat, restaurantLon);
+
+      // Return only restaurants within the specified range
+      return distance <= searchRange;
+    }).toList();
+
+    if (selectedCuisine != null &&
+        selectedCuisine.isNotEmpty &&
+        selectedCuisine != 'any') {
+      restaurants = restaurants.where((restaurant) {
+        final cuisineTag = restaurant['tags']?['cuisine'];
+
+        if (cuisineTag != null) {
+          List<dynamic> cuisines = cuisineTag
+              .split(RegExp(r'[;,]'))
+              .map((e) => e.trim().toLowerCase())
+              .toList();
+          return cuisines.contains(selectedCuisine.toLowerCase());
+        }
+        return false;
+      }).toList();
+    }
+
+    return restaurants;
   }
 
   List<String> cuisineEntries = [
