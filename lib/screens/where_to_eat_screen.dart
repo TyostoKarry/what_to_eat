@@ -29,11 +29,14 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
   bool _isMenuVisible = false;
   final Duration _menuAnimationDuration = const Duration(milliseconds: 300);
   final GlobalKey _dropdownSearchKey = GlobalKey();
+  final GlobalKey _sliderContainerKey = GlobalKey();
   double _dropdownSearchHeight = 0.0;
+  double _sliderContainerHeight = 0.0;
   List<dynamic> _restaurants = [];
   Set<String> selected = {'Restaurants'};
   final TextEditingController _cuisineController = TextEditingController();
   String? selectedCuisine;
+  double currentRange = 200;
 
   @override
   void initState() {
@@ -47,6 +50,10 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
     final RenderBox dropdownSearchRenderBox =
         _dropdownSearchKey.currentContext!.findRenderObject() as RenderBox;
     _dropdownSearchHeight = dropdownSearchRenderBox.size.height;
+
+    final RenderBox sliderRenderBox =
+        _sliderContainerKey.currentContext!.findRenderObject() as RenderBox;
+    _sliderContainerHeight = sliderRenderBox.size.height;
   }
 
   void _launchOpenStreetMapCopyright() async {
@@ -76,7 +83,8 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
       return;
     }
 
-    if (!model.searchedRestaurantsNearby.searchHasHappened) {
+    if (!model.searchedRestaurantsNearby.searchHasHappened ||
+        currentRange != model.searchedRestaurantsNearby.range) {
       _searchNearbyRestaurants(model, position);
       return;
     }
@@ -102,7 +110,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
   Future<void> _searchNearbyRestaurants(model, position) async {
     try {
       await model.searchRestaurantsNearby(
-          position.latitude, position.longitude);
+          position.latitude, position.longitude, currentRange.toInt());
       _filterRestaurantsBasedOnSelection(model);
     } catch (error) {
       model.setWhereToEatScreenState(WhereToEatScreenState.apiError);
@@ -154,7 +162,8 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double totalMenuHeight = _dropdownSearchHeight + 5;
+    double totalMenuHeight =
+        _dropdownSearchHeight + 5 + _sliderContainerHeight + 5;
 
     return Scaffold(
       body: WTESafeArea(
@@ -224,6 +233,42 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+                        child: Container(
+                          key: _sliderContainerKey,
+                          decoration: BoxDecoration(
+                            color: AppColors.whereToEatButtonPrimaryColor
+                                .withOpacity(0.8),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            children: [
+                              SizedBox(height: 10),
+                              WTEText(
+                                text: "Search Range: ${currentRange.toInt()}m",
+                                color: AppColors.textSecondaryColor,
+                                fontSize: 14,
+                                minFontSize: 14,
+                              ),
+                              Slider(
+                                value: currentRange,
+                                activeColor:
+                                    AppColors.whereToEatButtonSecondaryColor,
+                                min: 100,
+                                max: 5000,
+                                divisions: 49,
+                                label: "${currentRange.toInt()}m",
+                                onChanged: (double value) {
+                                  setState(() {
+                                    currentRange = value;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       Consumer<WhereToEatModel>(
                         builder: (context, model, child) {
                           List<String> cuisineEntries =

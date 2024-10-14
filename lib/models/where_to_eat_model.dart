@@ -21,6 +21,7 @@ class RestaurantsNearby {
   List<dynamic> fastFoodRestaurants;
   double latitude = 0;
   double longitude = 0;
+  int range = 0;
   bool searchHasHappened = false;
 
   RestaurantsNearby({
@@ -29,6 +30,7 @@ class RestaurantsNearby {
     required this.fastFoodRestaurants,
     required this.latitude,
     required this.longitude,
+    required this.range,
     required this.searchHasHappened,
   });
 }
@@ -46,6 +48,7 @@ class WhereToEatModel extends ChangeNotifier {
     fastFoodRestaurants: [],
     latitude: 0,
     longitude: 0,
+    range: 0,
     searchHasHappened: false,
   );
   RestaurantsNearby get searchedRestaurantsNearby => _searchedRestaurantsNearby;
@@ -142,14 +145,15 @@ class WhereToEatModel extends ChangeNotifier {
     return true;
   }
 
-  Future<void> searchRestaurantsNearby(double lat, double lon) async {
+  Future<void> searchRestaurantsNearby(
+      double lat, double lon, int currentRange) async {
     String overpassUrl = 'https://overpass-api.de/api/interpreter';
 
     String overpassQuery = """
   [out:json];
   node
     ["amenity"~"restaurant|fast_food"]
-    (around:200,$lat,$lon);
+    (around:$currentRange,$lat,$lon);
   out body;
   """;
 
@@ -177,6 +181,7 @@ class WhereToEatModel extends ChangeNotifier {
           fastFoodRestaurants: fastFoodRestaurants,
           latitude: lat,
           longitude: lon,
+          range: currentRange,
           searchHasHappened: true,
         );
       } else {
