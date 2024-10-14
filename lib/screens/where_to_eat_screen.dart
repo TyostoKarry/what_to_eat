@@ -26,10 +26,28 @@ class WhereToEatScreen extends StatefulWidget {
 }
 
 class _WhereToEatScreenState extends State<WhereToEatScreen> {
+  bool _isMenuVisible = false;
+  final Duration _menuAnimationDuration = const Duration(milliseconds: 300);
+  final GlobalKey _dropdownSearchKey = GlobalKey();
+  double _dropdownSearchHeight = 0.0;
   List<dynamic> _restaurants = [];
   Set<String> selected = {'Restaurants'};
   final TextEditingController _cuisineController = TextEditingController();
   String? selectedCuisine;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _calculateMenuWidgetHeights();
+    });
+  }
+
+  void _calculateMenuWidgetHeights() {
+    final RenderBox dropdownSearchRenderBox =
+        _dropdownSearchKey.currentContext!.findRenderObject() as RenderBox;
+    _dropdownSearchHeight = dropdownSearchRenderBox.size.height;
+  }
 
   void _launchOpenStreetMapCopyright() async {
     final Uri searchUrl = Uri.parse('https://www.openstreetmap.org/copyright');
@@ -136,6 +154,8 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double totalMenuHeight = _dropdownSearchHeight + 5;
+
     return Scaffold(
       body: WTESafeArea(
         child: Container(
@@ -197,74 +217,87 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                   );
                 },
               ),
-              Consumer<WhereToEatModel>(
-                builder: (context, model, child) {
-                  List<String> cuisineEntries =
-                      model.cuisineEntries.map((cuisine) {
-                    return cuisine.split('_').map((word) {
-                      return word[0].toUpperCase() + word.substring(1);
-                    }).join(' ');
-                  }).toList();
+              AnimatedContainer(
+                duration: _menuAnimationDuration,
+                height: _isMenuVisible ? totalMenuHeight : 0.0,
+                curve: Curves.easeInOut,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Consumer<WhereToEatModel>(
+                        builder: (context, model, child) {
+                          List<String> cuisineEntries =
+                              model.cuisineEntries.map((cuisine) {
+                            return cuisine.split('_').map((word) {
+                              return word[0].toUpperCase() + word.substring(1);
+                            }).join(' ');
+                          }).toList();
 
-                  bool isEnabled = model.whereToEatScreenState !=
-                          WhereToEatScreenState.loading &&
-                      model.whereToEatScreenState !=
-                          WhereToEatScreenState.slotMachine;
+                          bool isEnabled = model.whereToEatScreenState !=
+                                  WhereToEatScreenState.loading &&
+                              model.whereToEatScreenState !=
+                                  WhereToEatScreenState.slotMachine;
 
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
-                    child: DropdownSearch<String>(
-                      items: (filter, infiniteScrollProps) => cuisineEntries,
-                      enabled: isEnabled,
-                      popupProps: PopupProps.menu(
-                        searchDelay: Duration(milliseconds: 100),
-                        showSearchBox: true,
-                        fit: FlexFit.loose,
-                        constraints: BoxConstraints.tightFor(
-                          width: MediaQuery.of(context).size.width - 40,
-                          height: 200,
-                        ),
-                        menuProps: MenuProps(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          elevation: 2,
-                        ),
+                          return Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+                            child: DropdownSearch<String>(
+                              key: _dropdownSearchKey,
+                              items: (filter, infiniteScrollProps) =>
+                                  cuisineEntries,
+                              enabled: isEnabled,
+                              popupProps: PopupProps.menu(
+                                searchDelay: Duration(milliseconds: 100),
+                                showSearchBox: true,
+                                fit: FlexFit.loose,
+                                constraints: BoxConstraints.tightFor(
+                                  width: MediaQuery.of(context).size.width - 40,
+                                  height: 200,
+                                ),
+                                menuProps: MenuProps(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  elevation: 2,
+                                ),
+                              ),
+                              onChanged: (value) {
+                                if (value == 'Any') {
+                                  setState(() {
+                                    selectedCuisine = null;
+                                  });
+                                } else if (value != null) {
+                                  setState(() {
+                                    selectedCuisine = value;
+                                  });
+                                }
+                              },
+                              selectedItem: selectedCuisine,
+                              decoratorProps: DropDownDecoratorProps(
+                                decoration: InputDecoration(
+                                  hintText: 'Select Specific Cuisine: ',
+                                  filled: true,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(width: 0.3),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(width: 0.3),
+                                  ),
+                                  disabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                        color: Colors.transparent, width: 0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        },
                       ),
-                      onChanged: (value) {
-                        if (value == 'Any') {
-                          setState(() {
-                            selectedCuisine = null;
-                          });
-                        } else if (value != null) {
-                          setState(() {
-                            selectedCuisine = value;
-                          });
-                        }
-                      },
-                      selectedItem: selectedCuisine,
-                      decoratorProps: DropDownDecoratorProps(
-                        decoration: InputDecoration(
-                          hintText: 'Select Specific Cuisine: ',
-                          filled: true,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(width: 0.3),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(width: 0.3),
-                          ),
-                          disabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide:
-                                BorderSide(color: Colors.transparent, width: 0),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
+                    ],
+                  ),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
@@ -275,22 +308,76 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                         model.whereToEatScreenState !=
                             WhereToEatScreenState.slotMachine;
 
-                    return WTEButton(
-                      text: model.whereToEatScreenState ==
-                              WhereToEatScreenState.apiError
-                          ? "Retry"
-                          : "Where To Eat",
-                      textColor: AppColors.textSecondaryColor,
-                      gradientColors: [
-                        AppColors.whereToEatButtonPrimaryColor,
-                        AppColors.whereToEatButtonSecondaryColor
+                    return Row(
+                      children: [
+                        Container(
+                          width: 60,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            gradient: isEnabled
+                                ? AppColors.getWhereToEatButtonBackground()
+                                : null,
+                            color:
+                                isEnabled ? null : Colors.grey.withOpacity(0.3),
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: isEnabled
+                                ? [
+                                    BoxShadow(
+                                      color: AppColors.textPrimaryShadowColor,
+                                      offset: Offset(2, 2),
+                                      blurRadius: 3,
+                                    ),
+                                  ]
+                                : null,
+                          ),
+                          child: Material(
+                            color: Colors.transparent,
+                            borderRadius: BorderRadius.circular(15),
+                            child: InkWell(
+                              borderRadius: BorderRadius.circular(15),
+                              splashColor: AppColors.splashColor,
+                              onTap: isEnabled
+                                  ? () {
+                                      setState(() {
+                                        _isMenuVisible = !_isMenuVisible;
+                                      });
+                                    }
+                                  : null,
+                              child: AnimatedRotation(
+                                turns: _isMenuVisible ? 0.5 : 0.0,
+                                duration: _menuAnimationDuration,
+                                child: Icon(
+                                  Icons.keyboard_arrow_up,
+                                  color: AppColors.textSecondaryColor,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: WTEButton(
+                            text: model.whereToEatScreenState ==
+                                    WhereToEatScreenState.apiError
+                                ? "Retry"
+                                : "Where To Eat",
+                            textColor: AppColors.textSecondaryColor,
+                            gradientColors: [
+                              AppColors.whereToEatButtonPrimaryColor,
+                              AppColors.whereToEatButtonSecondaryColor
+                            ],
+                            colorEnabled: isEnabled,
+                            splashEnabled: isEnabled,
+                            tapEnabled: isEnabled,
+                            onTap: () async {
+                              setState(() {
+                                _isMenuVisible = false;
+                              });
+                              await getPositionAndNearbyRestaurants();
+                            },
+                          ),
+                        ),
                       ],
-                      colorEnabled: isEnabled,
-                      splashEnabled: isEnabled,
-                      tapEnabled: isEnabled,
-                      onTap: () async {
-                        await getPositionAndNearbyRestaurants();
-                      },
                     );
                   },
                 ),
