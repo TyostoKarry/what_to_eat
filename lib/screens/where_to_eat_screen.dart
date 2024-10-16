@@ -83,29 +83,28 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
     }
 
     if (!model.searchedRestaurantsNearby.searchHasHappened) {
-      _searchNearbyRestaurants(model, position);
-      return;
-    }
+      await _searchNearbyRestaurants(model, position);
+    } else {
+      const locationThreshold = 4000; // Approx 4km meters
+      double distance = Geolocator.distanceBetween(
+          model.searchedRestaurantsNearby.latitude,
+          model.searchedRestaurantsNearby.longitude,
+          position.latitude,
+          position.longitude);
 
-    _restaurants = model.filterRestaurantsBasedOnSelection(
-        selected, position, currentRange.toInt(), selectedCuisine);
+      if (distance < locationThreshold) {
+        _restaurants = model.filterRestaurantsBasedOnSelection(
+            selected, position, currentRange.toInt(), selectedCuisine);
 
-    const locationThreshold = 4000; // Approx 4km meters
-    if (Geolocator.distanceBetween(
-            model.searchedRestaurantsNearby.latitude,
-            model.searchedRestaurantsNearby.longitude,
-            position.latitude,
-            position.longitude) <
-        locationThreshold) {
-      if (_restaurants.isEmpty) {
-        model.setWhereToEatScreenState(WhereToEatScreenState.noRestaurants);
-        return;
+        if (_restaurants.isNotEmpty) {
+          model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
+        } else {
+          model.setWhereToEatScreenState(WhereToEatScreenState.noRestaurants);
+        }
+      } else {
+        await _searchNearbyRestaurants(model, position);
       }
-      model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
-      return;
     }
-
-    _searchNearbyRestaurants(model, position);
   }
 
   Future<void> _searchNearbyRestaurants(model, position) async {

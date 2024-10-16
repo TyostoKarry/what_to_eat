@@ -157,7 +157,9 @@ class WhereToEatModel extends ChangeNotifier {
         final decodedBody = utf8.decode(response.bodyBytes);
         final json = jsonDecode(decodedBody);
 
-        List<dynamic> allRestaurants = json['elements'];
+        List<dynamic> allRestaurants = json['elements']
+            .where((restaurant) => restaurant['tags']['name'] != null)
+            .toList();
 
         _searchedRestaurantsNearby = RestaurantsNearby(
           allRestaurants: allRestaurants,
