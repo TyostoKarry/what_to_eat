@@ -161,6 +161,20 @@ class WhereToEatModel extends ChangeNotifier {
             .where((restaurant) => restaurant['tags']['name'] != null)
             .toList();
 
+        for (var restaurant in allRestaurants) {
+          double restaurantLat = restaurant['lat'];
+          double restaurantLon = restaurant['lon'];
+
+          double distance = Geolocator.distanceBetween(
+            lat,
+            lon,
+            restaurantLat,
+            restaurantLon,
+          );
+
+          restaurant['tags']['distance'] = distance;
+        }
+
         _searchedRestaurantsNearby = RestaurantsNearby(
           allRestaurants: allRestaurants,
           latitude: lat,

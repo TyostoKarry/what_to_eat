@@ -211,6 +211,41 @@ class WhereToEatResultState extends State<WhereToEatResult>
                       ),
                     SizedBox(height: 15),
                   ],
+                  if (tags['distance'] != null) ...[
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.map_outlined,
+                          color: AppColors.textPrimaryColor,
+                          shadows: [
+                            Shadow(
+                              offset: Offset(2, 2),
+                              blurRadius: 3,
+                              color: Color.fromARGB(140, 110, 110, 110),
+                            ),
+                          ],
+                        ),
+                        SizedBox(width: 10),
+                        WTEText(
+                          text: 'Distance',
+                          color: AppColors.textPrimaryColor,
+                          fontSize: 20,
+                          minFontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                    WTEText(
+                      text: tags['distance'].toInt() > 1000
+                          ? '${(tags['distance'].toInt() / 1000).toStringAsFixed(2)} kilometers'
+                          : '${tags['distance'].toInt()} meters',
+                      color: AppColors.textPrimaryColor,
+                      fontSize: 20,
+                      minFontSize: 18,
+                      maxLines: 4,
+                    ),
+                    SizedBox(height: 15),
+                  ],
                   if (tags['cuisine'] != null) ...[
                     Row(
                       children: [
@@ -343,10 +378,11 @@ class WhereToEatResultState extends State<WhereToEatResult>
                       fontSize: 20,
                       minFontSize: 18,
                     ),
+                    SizedBox(height: 15),
                   ],
                   if (tags['website'] != null)
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
                       child: WTEButton(
                         text: "Restaurant Website",
                         textColor: AppColors.textSecondaryColor,
@@ -361,7 +397,7 @@ class WhereToEatResultState extends State<WhereToEatResult>
                     )
                   else
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 20, 0, 10),
+                      padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
                       child: WTEButton(
                         text: "Search on Google",
                         textColor: AppColors.textSecondaryColor,
