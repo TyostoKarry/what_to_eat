@@ -238,8 +238,8 @@ class WhereToEatResultState extends State<WhereToEatResult>
                       ],
                     ),
                     WTEText(
-                      text: tags['distance'].toInt() > 1000
-                          ? '${(tags['distance'].toInt() / 1000).toStringAsFixed(2)} kilometers'
+                      text: tags['distance'] > 1000
+                          ? '${(tags['distance'] / 1000).toStringAsFixed(2)} kilometers'
                           : '${tags['distance'].toInt()} meters',
                       color: AppColors.textPrimaryColor,
                       fontSize: 20,

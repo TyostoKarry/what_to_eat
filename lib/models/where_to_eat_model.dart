@@ -213,7 +213,7 @@ class WhereToEatModel extends ChangeNotifier {
       double distance = Geolocator.distanceBetween(
           position.latitude, position.longitude, restaurantLat, restaurantLon);
 
-      // Return only restaurants within the specified range
+      restaurant['tags']['distance'] = distance;
       return distance <= searchRange;
     }).toList();
 
