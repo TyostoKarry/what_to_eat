@@ -3,58 +3,45 @@ import 'package:provider/provider.dart';
 import 'package:what_to_eat/models/where_to_eat_model.dart';
 
 import 'package:what_to_eat/theme/app_colors.dart';
+import 'package:what_to_eat/views/where_to_eat/where_to_eat_no_restaurants.dart';
 import 'package:what_to_eat/widgets/wte_text.dart';
 import 'package:what_to_eat/widgets/wte_view_title.dart';
 
 class WhereToEatListRestaurants extends StatelessWidget {
   final Set<String> selected;
   final double currentRange;
+  final String? selectedCuisine;
 
   const WhereToEatListRestaurants(
-      {super.key, required this.selected, required this.currentRange});
-
-  List<dynamic> _filterRestaurants(List<dynamic> allRestaurants) {
-    if (selected.contains('Restaurants') && selected.contains('Fast Food')) {
-      return allRestaurants;
-    }
-
-    List<dynamic> filteredRestaurants = allRestaurants;
-
-    if (selected.contains('Restaurants') && !selected.contains('Fast Food')) {
-      filteredRestaurants = allRestaurants
-          .where((restaurant) => restaurant['tags']['amenity'] == 'restaurant')
-          .toList();
-    }
-    if (!selected.contains('Restaurants') && selected.contains('Fast Food')) {
-      filteredRestaurants = allRestaurants
-          .where((restaurant) => restaurant['tags']['amenity'] == 'fast_food')
-          .toList();
-    }
-
-    return filteredRestaurants;
-  }
+      {super.key,
+      required this.selected,
+      required this.currentRange,
+      required this.selectedCuisine});
 
   @override
   Widget build(BuildContext context) {
-    List<dynamic> allRestaurants = Provider.of<WhereToEatModel>(context)
-        .searchedRestaurantsNearby
-        .allRestaurants;
+    final model = Provider.of<WhereToEatModel>(context);
 
-    List<dynamic> restaurants = _filterRestaurants(allRestaurants);
+    List<dynamic> restaurants = model.filterAnenity(selected);
+    restaurants = model.filterCuisine(restaurants, selectedCuisine);
+    restaurants =
+        model.filterDistanceWithoutPosition(restaurants, currentRange.toInt());
+
+    bool hasRestaurants = restaurants.isNotEmpty;
 
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        WTEViewTitle(titleText: "Restaurants Near You"),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.only(bottom: 10),
-            child: ListView.builder(
-              itemCount: restaurants.length,
-              itemBuilder: (context, index) {
-                var tags = restaurants[index]['tags'];
-                return Visibility(
-                  visible: tags['distance'] < currentRange,
-                  child: Container(
+        if (hasRestaurants) ...[
+          WTEViewTitle(titleText: "Restaurants Near You"),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: ListView.builder(
+                itemCount: restaurants.length,
+                itemBuilder: (context, index) {
+                  var tags = restaurants[index]['tags'];
+                  return Container(
                     margin: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
                     padding: EdgeInsets.fromLTRB(20, 7, 20, 7),
                     decoration: BoxDecoration(
@@ -156,12 +143,13 @@ class WhereToEatListRestaurants extends StatelessWidget {
                         ],
                       ],
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
-        ),
+        ] else
+          WhereToEatNoRestaurants()
       ],
     );
   }

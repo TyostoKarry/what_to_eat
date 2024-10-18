@@ -10,7 +10,6 @@ import 'package:what_to_eat/views/where_to_eat/where_to_eat_api_error.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_list_restaurants.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_loading.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_location_error.dart';
-import 'package:what_to_eat/views/where_to_eat/where_to_eat_no_restaurants.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_result.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_slot_machine.dart';
 import 'package:what_to_eat/widgets/wte_icon_button.dart';
@@ -126,7 +125,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
     final model = Provider.of<WhereToEatModel>(context, listen: false);
     switch ((_randomizeRestaurant, _restaurants.isEmpty)) {
       case (_, true):
-        model.setWhereToEatScreenState(WhereToEatScreenState.noRestaurants);
+        model.setWhereToEatScreenState(WhereToEatScreenState.listRestaurants);
         break;
       case (true, false):
         model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
@@ -135,7 +134,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
         model.setWhereToEatScreenState(WhereToEatScreenState.listRestaurants);
         break;
       default:
-        model.setWhereToEatScreenState(WhereToEatScreenState.noRestaurants);
+        model.setWhereToEatScreenState(WhereToEatScreenState.listRestaurants);
     }
   }
 
@@ -363,7 +362,6 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                           disabledColor: Colors.grey.withOpacity(0.3),
                           onTap: () async {
                             setState(() {
-                              _isMenuVisible = false;
                               _randomizeRestaurant = false;
                             });
                             await getPositionAndNearbyRestaurants();
@@ -440,9 +438,9 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
         return WhereToEatSlotMachine(restaurantNames: restaurantNames);
       case WhereToEatScreenState.listRestaurants:
         return WhereToEatListRestaurants(
-            selected: selected, currentRange: currentRange);
-      case WhereToEatScreenState.noRestaurants:
-        return WhereToEatNoRestaurants();
+            selected: selected,
+            currentRange: currentRange,
+            selectedCuisine: selectedCuisine);
       case WhereToEatScreenState.result:
         return WhereToEatResult(restaurants: _restaurants);
     }

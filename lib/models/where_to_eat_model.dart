@@ -12,7 +12,6 @@ enum WhereToEatScreenState {
   apiError,
   slotMachine,
   listRestaurants,
-  noRestaurants,
   result
 }
 
@@ -195,23 +194,38 @@ class WhereToEatModel extends ChangeNotifier {
 
   List<dynamic> filterRestaurantsBasedOnSelection(Set<String> selected,
       Position position, int searchRange, String? selectedCuisine) {
-    List<dynamic> restaurants = [];
+    List<dynamic> restaurants = filterAnenity(selected);
+
+    restaurants = _filterDistance(restaurants, searchRange, position);
+
+    restaurants = filterCuisine(restaurants, selectedCuisine);
+
+    return restaurants;
+  }
+
+  List<dynamic> filterAnenity(Set<String> selected) {
+    List<dynamic> filteredRestaurants = [];
 
     if (selected.contains('Restaurants')) {
-      restaurants = searchedRestaurantsNearby.allRestaurants
+      filteredRestaurants = searchedRestaurantsNearby.allRestaurants
           .where((element) => element['tags']['amenity'] == 'restaurant')
           .toList();
     }
     if (selected.contains('Fast Food')) {
-      restaurants = searchedRestaurantsNearby.allRestaurants
+      filteredRestaurants = searchedRestaurantsNearby.allRestaurants
           .where((element) => element['tags']['amenity'] == 'fast_food')
           .toList();
     }
     if (selected.length == 2) {
-      restaurants = searchedRestaurantsNearby.allRestaurants;
+      filteredRestaurants = searchedRestaurantsNearby.allRestaurants;
     }
 
-    restaurants = restaurants.where((restaurant) {
+    return filteredRestaurants;
+  }
+
+  List<dynamic> _filterDistance(
+      List<dynamic> restaurants, int searchRange, Position position) {
+    List<dynamic> filteredRestaurants = restaurants.where((restaurant) {
       double restaurantLat = restaurant['lat'];
       double restaurantLon = restaurant['lon'];
       double distance = Geolocator.distanceBetween(
@@ -221,27 +235,41 @@ class WhereToEatModel extends ChangeNotifier {
       return distance <= searchRange;
     }).toList();
 
-    restaurants
+    filteredRestaurants
         .sort((a, b) => a['tags']['distance'].compareTo(b['tags']['distance']));
 
-    if (selectedCuisine != null &&
-        selectedCuisine.isNotEmpty &&
-        selectedCuisine != 'any') {
-      restaurants = restaurants.where((restaurant) {
-        final cuisineTag = restaurant['tags']?['cuisine'];
+    return filteredRestaurants;
+  }
 
-        if (cuisineTag != null) {
-          List<dynamic> cuisines = cuisineTag
-              .split(RegExp(r'[;,]'))
-              .map((e) => e.trim().toLowerCase())
-              .toList();
-          return cuisines.contains(selectedCuisine.toLowerCase());
-        }
-        return false;
-      }).toList();
+  List<dynamic> filterCuisine(
+      List<dynamic> restaurants, String? selectedCuisine) {
+    if (selectedCuisine == null ||
+        selectedCuisine.isEmpty ||
+        selectedCuisine == 'any') {
+      return restaurants;
     }
 
-    return restaurants;
+    return restaurants.where((restaurant) {
+      final cuisineTag = restaurant['tags']?['cuisine'];
+
+      if (cuisineTag != null) {
+        List<dynamic> cuisines = cuisineTag
+            .split(RegExp(r'[;,]'))
+            .map((e) => e.trim().toLowerCase())
+            .toList();
+        return cuisines.contains(selectedCuisine.toLowerCase());
+      }
+      return false;
+    }).toList();
+  }
+
+  List<dynamic> filterDistanceWithoutPosition(
+      List<dynamic> restaurants, int searchRange) {
+    return restaurants
+        .where((restaurant) =>
+            restaurant['tags']['distance'] != null &&
+            restaurant['tags']['distance'] < searchRange)
+        .toList();
   }
 
   List<String> cuisineEntries = [
