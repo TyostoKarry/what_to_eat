@@ -7,12 +7,13 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:what_to_eat/models/where_to_eat_model.dart';
 import 'package:what_to_eat/theme/app_colors.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_api_error.dart';
-import 'package:what_to_eat/views/where_to_eat/where_to_eat_initial.dart';
+import 'package:what_to_eat/views/where_to_eat/where_to_eat_list_restaurants.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_loading.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_location_error.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_no_restaurants.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_result.dart';
 import 'package:what_to_eat/views/where_to_eat/where_to_eat_slot_machine.dart';
+import 'package:what_to_eat/widgets/wte_icon_button.dart';
 import 'package:what_to_eat/widgets/wte_button.dart';
 import 'package:what_to_eat/widgets/wte_safe_area.dart';
 import 'package:what_to_eat/widgets/wte_segmented_button.dart';
@@ -26,23 +27,26 @@ class WhereToEatScreen extends StatefulWidget {
 }
 
 class _WhereToEatScreenState extends State<WhereToEatScreen> {
+  bool _randomizeRestaurant = false;
   bool _isMenuVisible = false;
+  bool isEnabled = false;
   final Duration _menuAnimationDuration = const Duration(milliseconds: 300);
   final GlobalKey _dropdownSearchKey = GlobalKey();
   final GlobalKey _sliderContainerKey = GlobalKey();
   double _dropdownSearchHeight = 0.0;
   double _sliderContainerHeight = 0.0;
   List<dynamic> _restaurants = [];
-  Set<String> selected = {'Restaurants'};
+  Set<String> selected = {'Restaurants', 'Fast Food'};
   final TextEditingController _cuisineController = TextEditingController();
   String? selectedCuisine;
-  double currentRange = 200;
+  double currentRange = 5000;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       _calculateMenuWidgetHeights();
+      await getPositionAndNearbyRestaurants();
     });
   }
 
@@ -96,11 +100,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
         _restaurants = model.filterRestaurantsBasedOnSelection(
             selected, position, currentRange.toInt(), selectedCuisine);
 
-        if (_restaurants.isNotEmpty) {
-          model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
-        } else {
-          model.setWhereToEatScreenState(WhereToEatScreenState.noRestaurants);
-        }
+        _setNextState();
       } else {
         await _searchNearbyRestaurants(model, position);
       }
@@ -118,12 +118,25 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
       return;
     }
 
-    if (_restaurants.isEmpty) {
-      model.setWhereToEatScreenState(WhereToEatScreenState.noRestaurants);
-      return;
-    }
-    model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
+    _setNextState();
     return;
+  }
+
+  void _setNextState() {
+    final model = Provider.of<WhereToEatModel>(context, listen: false);
+    switch ((_randomizeRestaurant, _restaurants.isEmpty)) {
+      case (_, true):
+        model.setWhereToEatScreenState(WhereToEatScreenState.noRestaurants);
+        break;
+      case (true, false):
+        model.setWhereToEatScreenState(WhereToEatScreenState.slotMachine);
+        break;
+      case (false, false):
+        model.setWhereToEatScreenState(WhereToEatScreenState.listRestaurants);
+        break;
+      default:
+        model.setWhereToEatScreenState(WhereToEatScreenState.noRestaurants);
+    }
   }
 
   @override
@@ -143,119 +156,141 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
           decoration: BoxDecoration(
             gradient: AppColors.getWhereToEatBackground(),
           ),
-          child: Column(
-            children: [
-              SizedBox(height: 20),
-              Expanded(
-                child: Consumer<WhereToEatModel>(
-                  builder: (context, model, child) {
-                    return _buildContent(model.whereToEatScreenState);
-                  },
-                ),
-              ),
-              SizedBox(height: 20),
-              GestureDetector(
-                onTap: _launchOpenStreetMapCopyright,
-                child: const WTEText(
-                    text: "Map data from OpenStreetMap",
-                    color: AppColors.textPrimaryColor,
-                    fontSize: 12,
-                    minFontSize: 12,
-                    textDecoration: TextDecoration.underline),
-              ),
-              GestureDetector(
-                onTap: _launchOpenStreetMapCopyright,
-                child: const WTEText(
-                    text: "Providing real-time location-based restaurant data",
-                    color: AppColors.textPrimaryColor,
-                    fontSize: 12,
-                    minFontSize: 12,
-                    textDecoration: TextDecoration.underline),
-              ),
-              SizedBox(height: 5),
-              Consumer<WhereToEatModel>(
-                builder: (context, model, child) {
-                  bool isEnabled = model.whereToEatScreenState !=
-                          WhereToEatScreenState.loading &&
-                      model.whereToEatScreenState !=
-                          WhereToEatScreenState.slotMachine;
-                  return WTESegmentedButton(
-                    options: ['Restaurants', 'Fast Food'],
-                    selected: selected,
-                    selectedIcons: [
-                      Icons.restaurant_outlined,
-                      Icons.fastfood_outlined
-                    ],
-                    unselectedIcons: [Icons.close, Icons.close],
-                    multiSelectionEnabled: true,
-                    allowEmptySelection: false,
-                    isEnabled: isEnabled,
-                    onSelectionChanged: (Set<String> newSelection) {
-                      setState(() {
-                        selected = newSelection;
-                      });
-                    },
-                  );
-                },
-              ),
-              AnimatedContainer(
-                duration: _menuAnimationDuration,
-                height: _isMenuVisible ? totalMenuHeight : 0.0,
-                curve: Curves.easeInOut,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
-                        child: Container(
-                          key: _sliderContainerKey,
-                          decoration: BoxDecoration(
-                            color: AppColors.whereToEatButtonPrimaryColor
-                                .withOpacity(0.8),
-                            borderRadius: BorderRadius.circular(10),
+          child: Consumer<WhereToEatModel>(
+            builder: (context, model, child) {
+              isEnabled = model.whereToEatScreenState !=
+                      WhereToEatScreenState.loading &&
+                  model.whereToEatScreenState !=
+                      WhereToEatScreenState.slotMachine;
+
+              List<String> cuisineEntries = model.cuisineEntries.map((cuisine) {
+                return cuisine.split('_').map((word) {
+                  return word[0].toUpperCase() + word.substring(1);
+                }).join(' ');
+              }).toList();
+
+              return Column(
+                children: [
+                  Expanded(
+                    child: Consumer<WhereToEatModel>(
+                      builder: (context, model, child) {
+                        return _buildContent(model.whereToEatScreenState);
+                      },
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: _launchOpenStreetMapCopyright,
+                    child: const WTEText(
+                        text: "Map data from OpenStreetMap",
+                        color: AppColors.textPrimaryColor,
+                        fontSize: 12,
+                        minFontSize: 12,
+                        textDecoration: TextDecoration.underline),
+                  ),
+                  GestureDetector(
+                    onTap: _launchOpenStreetMapCopyright,
+                    child: const WTEText(
+                        text:
+                            "Providing real-time location-based restaurant data",
+                        color: AppColors.textPrimaryColor,
+                        fontSize: 12,
+                        minFontSize: 12,
+                        textDecoration: TextDecoration.underline),
+                  ),
+                  SizedBox(height: 5),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      children: [
+                        WTEIconButton(
+                          width: 60,
+                          height: 50,
+                          animation: AnimatedRotation(
+                            turns: _isMenuVisible ? 0.0 : 0.5,
+                            duration: _menuAnimationDuration,
+                            child: Icon(
+                              Icons.keyboard_arrow_up,
+                              color: AppColors.textSecondaryColor,
+                            ),
                           ),
-                          child: Column(
-                            children: [
-                              SizedBox(height: 10),
-                              WTEText(
-                                text: "Search Range: ${currentRange.toInt()}m",
-                                color: AppColors.textSecondaryColor,
-                                fontSize: 14,
-                                minFontSize: 14,
-                              ),
-                              Slider(
-                                value: currentRange,
-                                activeColor:
-                                    AppColors.whereToEatButtonSecondaryColor,
-                                min: 100,
-                                max: 5000,
-                                divisions: 49,
-                                label: "${currentRange.toInt()}m",
-                                onChanged: (double value) {
-                                  setState(() {
-                                    currentRange = value;
-                                  });
-                                },
-                              ),
+                          backgroundGradient:
+                              AppColors.getWhereToEatButtonBackground(),
+                          disabledColor: Colors.grey.withOpacity(0.3),
+                          onTap: () {
+                            setState(() {
+                              _isMenuVisible = !_isMenuVisible;
+                            });
+                          },
+                          isEnabled: isEnabled,
+                        ),
+                        SizedBox(width: 10),
+                        Expanded(
+                          child: WTESegmentedButton(
+                            options: ['Restaurants', 'Fast Food'],
+                            selected: selected,
+                            selectedIcons: [
+                              Icons.restaurant_outlined,
+                              Icons.fastfood_outlined
                             ],
+                            unselectedIcons: [Icons.close, Icons.close],
+                            multiSelectionEnabled: true,
+                            allowEmptySelection: false,
+                            isEnabled: isEnabled,
+                            onSelectionChanged: (Set<String> newSelection) {
+                              setState(() {
+                                selected = newSelection;
+                              });
+                            },
                           ),
                         ),
-                      ),
-                      Consumer<WhereToEatModel>(
-                        builder: (context, model, child) {
-                          List<String> cuisineEntries =
-                              model.cuisineEntries.map((cuisine) {
-                            return cuisine.split('_').map((word) {
-                              return word[0].toUpperCase() + word.substring(1);
-                            }).join(' ');
-                          }).toList();
-
-                          bool isEnabled = model.whereToEatScreenState !=
-                                  WhereToEatScreenState.loading &&
-                              model.whereToEatScreenState !=
-                                  WhereToEatScreenState.slotMachine;
-
-                          return Padding(
+                      ],
+                    ),
+                  ),
+                  AnimatedContainer(
+                    duration: _menuAnimationDuration,
+                    height: _isMenuVisible ? totalMenuHeight : 0.0,
+                    curve: Curves.easeInOut,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+                            child: Container(
+                              key: _sliderContainerKey,
+                              decoration: BoxDecoration(
+                                color: AppColors.whereToEatButtonPrimaryColor
+                                    .withOpacity(0.8),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Column(
+                                children: [
+                                  SizedBox(height: 10),
+                                  WTEText(
+                                    text:
+                                        "Search Range: ${currentRange.toInt()}m",
+                                    color: AppColors.textSecondaryColor,
+                                    fontSize: 14,
+                                    minFontSize: 14,
+                                  ),
+                                  Slider(
+                                    value: currentRange,
+                                    activeColor: AppColors
+                                        .whereToEatButtonSecondaryColor,
+                                    min: 100,
+                                    max: 5000,
+                                    divisions: 49,
+                                    label: "${currentRange.toInt()}m",
+                                    onChanged: (double value) {
+                                      setState(() {
+                                        currentRange = value;
+                                      });
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Padding(
                             padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
                             child: DropdownSearch<String>(
                               key: _dropdownSearchKey,
@@ -309,67 +344,31 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                                 ),
                               ),
                             ),
-                          );
-                        },
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
-                child: Consumer<WhereToEatModel>(
-                  builder: (context, model, child) {
-                    bool isEnabled = model.whereToEatScreenState !=
-                            WhereToEatScreenState.loading &&
-                        model.whereToEatScreenState !=
-                            WhereToEatScreenState.slotMachine;
-
-                    return Row(
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
+                    child: Row(
                       children: [
-                        Container(
-                          width: 60,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            gradient: isEnabled
-                                ? AppColors.getWhereToEatButtonBackground()
-                                : null,
-                            color:
-                                isEnabled ? null : Colors.grey.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(15),
-                            boxShadow: isEnabled
-                                ? [
-                                    BoxShadow(
-                                      color: AppColors.textPrimaryShadowColor,
-                                      offset: Offset(2, 2),
-                                      blurRadius: 3,
-                                    ),
-                                  ]
-                                : null,
+                        WTEIconButton(
+                          animation: Icon(
+                            Icons.menu,
+                            color: AppColors.textSecondaryColor,
                           ),
-                          child: Material(
-                            color: Colors.transparent,
-                            borderRadius: BorderRadius.circular(15),
-                            child: InkWell(
-                              borderRadius: BorderRadius.circular(15),
-                              splashColor: AppColors.splashColor,
-                              onTap: isEnabled
-                                  ? () {
-                                      setState(() {
-                                        _isMenuVisible = !_isMenuVisible;
-                                      });
-                                    }
-                                  : null,
-                              child: AnimatedRotation(
-                                turns: _isMenuVisible ? 0.5 : 0.0,
-                                duration: _menuAnimationDuration,
-                                child: Icon(
-                                  Icons.keyboard_arrow_up,
-                                  color: AppColors.textSecondaryColor,
-                                ),
-                              ),
-                            ),
-                          ),
+                          backgroundGradient:
+                              AppColors.getWhereToEatButtonBackground(),
+                          disabledColor: Colors.grey.withOpacity(0.3),
+                          onTap: () async {
+                            setState(() {
+                              _isMenuVisible = false;
+                              _randomizeRestaurant = false;
+                            });
+                            await getPositionAndNearbyRestaurants();
+                          },
+                          isEnabled: isEnabled,
                         ),
                         SizedBox(width: 10),
                         Expanded(
@@ -389,17 +388,18 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                             onTap: () async {
                               setState(() {
                                 _isMenuVisible = false;
+                                _randomizeRestaurant = true;
                               });
                               await getPositionAndNearbyRestaurants();
                             },
                           ),
                         ),
                       ],
-                    );
-                  },
-                ),
-              ),
-            ],
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ),
       ),
@@ -409,7 +409,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
   Widget _buildContent(WhereToEatScreenState whereToEatScreenState) {
     switch (whereToEatScreenState) {
       case WhereToEatScreenState.initial:
-        return WhereToEatInitial();
+        return Container();
       case WhereToEatScreenState.loading:
         return WhereToEatLoading();
       case WhereToEatScreenState.locationServiceDisabled:
@@ -438,6 +438,9 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
             .map((restaurant) => restaurant['tags']['name'] as String)
             .toList();
         return WhereToEatSlotMachine(restaurantNames: restaurantNames);
+      case WhereToEatScreenState.listRestaurants:
+        return WhereToEatListRestaurants(
+            selected: selected, currentRange: currentRange);
       case WhereToEatScreenState.noRestaurants:
         return WhereToEatNoRestaurants();
       case WhereToEatScreenState.result:

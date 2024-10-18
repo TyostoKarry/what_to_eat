@@ -95,72 +95,69 @@ class WTESegmentedButtonState extends State<WTESegmentedButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: SizedBox(
-        height: 50,
-        width: double.infinity,
-        child: Row(
-          children: List.generate(widget.options.length, (index) {
-            final String option = widget.options[index];
-            final IconData selectedIcon = widget.selectedIcons[index];
-            final IconData unselectedIcon = widget.unselectedIcons[index];
-            final bool isSelected = selectedOptions.contains(option);
-            final int totalOptions = widget.options.length;
+    return SizedBox(
+      height: 50,
+      width: double.infinity,
+      child: Row(
+        children: List.generate(widget.options.length, (index) {
+          final String option = widget.options[index];
+          final IconData selectedIcon = widget.selectedIcons[index];
+          final IconData unselectedIcon = widget.unselectedIcons[index];
+          final bool isSelected = selectedOptions.contains(option);
+          final int totalOptions = widget.options.length;
 
-            return Expanded(
-              child: GestureDetector(
-                onTap: widget.isEnabled ? () => _toggleSelection(option) : null,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 12.0),
-                  decoration: BoxDecoration(
-                    gradient: widget.isEnabled
-                        ? isSelected
-                            ? AppColors.getWhereToEatButtonBackground()
-                            : null
-                        : null,
-                    color: widget.isEnabled
-                        ? isSelected
-                            ? null
-                            : AppColors.whereToEatButtonPrimaryColor
-                                .withOpacity(0.8)
-                        : isSelected
-                            ? Colors.grey.withOpacity(0.3)
-                            : Colors.grey.withOpacity(0.2),
-                    border: _getBorder(index, totalOptions),
-                    borderRadius: _getBorderRadius(index, totalOptions),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        isSelected ? selectedIcon : unselectedIcon,
+          return Expanded(
+            child: GestureDetector(
+              onTap: widget.isEnabled ? () => _toggleSelection(option) : null,
+              child: Container(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                decoration: BoxDecoration(
+                  gradient: widget.isEnabled
+                      ? isSelected
+                          ? AppColors.getWhereToEatButtonBackground()
+                          : null
+                      : null,
+                  color: widget.isEnabled
+                      ? isSelected
+                          ? null
+                          : AppColors.whereToEatButtonPrimaryColor
+                              .withOpacity(0.8)
+                      : isSelected
+                          ? Colors.grey.withOpacity(0.3)
+                          : Colors.grey.withOpacity(0.2),
+                  border: _getBorder(index, totalOptions),
+                  borderRadius: _getBorderRadius(index, totalOptions),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      isSelected ? selectedIcon : unselectedIcon,
+                      color: AppColors.textSecondaryColor,
+                      shadows: [
+                        Shadow(
+                          offset: const Offset(2, 2),
+                          blurRadius: 2,
+                          color: AppColors.textSecondaryShadowColor,
+                        ),
+                      ],
+                    ),
+                    SizedBox(width: 6),
+                    WTEText(
+                        text: option,
                         color: AppColors.textSecondaryColor,
-                        shadows: [
-                          Shadow(
-                            offset: const Offset(2, 2),
-                            blurRadius: 2,
-                            color: AppColors.textSecondaryShadowColor,
-                          ),
-                        ],
-                      ),
-                      SizedBox(width: 6),
-                      WTEText(
-                          text: option,
-                          color: AppColors.textSecondaryColor,
-                          fontWeight:
-                              isSelected ? FontWeight.bold : FontWeight.normal,
-                          fontSize: 16,
-                          minFontSize: 16,
-                          shadowColor: AppColors.textSecondaryShadowColor,
-                          offset: const Offset(2, 2)),
-                    ],
-                  ),
+                        fontWeight:
+                            isSelected ? FontWeight.bold : FontWeight.normal,
+                        fontSize: 16,
+                        minFontSize: 16,
+                        shadowColor: AppColors.textSecondaryShadowColor,
+                        offset: const Offset(2, 2)),
+                  ],
                 ),
               ),
-            );
-          }),
-        ),
+            ),
+          );
+        }),
       ),
     );
   }

@@ -104,27 +104,30 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          ...List.generate(_shuffledRestaurants.length, (index) {
-            return WhereToEatSlotMachineScrollAnimation(
-              restaurantName: _shuffledRestaurants[index],
-              animationDuration:
-                  Duration(milliseconds: _singleItemHalfAnimationDuration * 2),
-              delayBetweenItems: _delayBetweenItems,
-              index: index,
-              totalItems: _shuffledRestaurants.length,
-            );
-          }),
-          if (_showResult)
-            WhereToEatSlotMachineResultAnimation(
-              finalRestaurantName: _finalRestaurantName,
-              animationDuration:
-                  Duration(milliseconds: _singleItemHalfAnimationDuration),
-            ),
-        ],
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 20),
+      child: Center(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            ...List.generate(_shuffledRestaurants.length, (index) {
+              return WhereToEatSlotMachineScrollAnimation(
+                restaurantName: _shuffledRestaurants[index],
+                animationDuration: Duration(
+                    milliseconds: _singleItemHalfAnimationDuration * 2),
+                delayBetweenItems: _delayBetweenItems,
+                index: index,
+                totalItems: _shuffledRestaurants.length,
+              );
+            }),
+            if (_showResult)
+              WhereToEatSlotMachineResultAnimation(
+                finalRestaurantName: _finalRestaurantName,
+                animationDuration:
+                    Duration(milliseconds: _singleItemHalfAnimationDuration),
+              ),
+          ],
+        ),
       ),
     );
   }

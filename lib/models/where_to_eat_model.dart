@@ -11,6 +11,7 @@ enum WhereToEatScreenState {
   locationPermissionDenied,
   apiError,
   slotMachine,
+  listRestaurants,
   noRestaurants,
   result
 }
@@ -175,6 +176,9 @@ class WhereToEatModel extends ChangeNotifier {
           restaurant['tags']['distance'] = distance;
         }
 
+        allRestaurants.sort(
+            (a, b) => a['tags']['distance'].compareTo(b['tags']['distance']));
+
         _searchedRestaurantsNearby = RestaurantsNearby(
           allRestaurants: allRestaurants,
           latitude: lat,
@@ -216,6 +220,9 @@ class WhereToEatModel extends ChangeNotifier {
       restaurant['tags']['distance'] = distance;
       return distance <= searchRange;
     }).toList();
+
+    restaurants
+        .sort((a, b) => a['tags']['distance'].compareTo(b['tags']['distance']));
 
     if (selectedCuisine != null &&
         selectedCuisine.isNotEmpty &&

@@ -143,7 +143,7 @@ class WhereToEatResultState extends State<WhereToEatResult>
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
         child: AnimatedContainer(
           duration: Duration(seconds: 1),
           curve: Curves.easeInOut,
@@ -277,7 +277,7 @@ class WhereToEatResultState extends State<WhereToEatResult>
                       text: tags['cuisine']
                           .toString()
                           .split(';')
-                          .map((e) => e.trim())
+                          .map((e) => e.trim().replaceAll('_', ' '))
                           .toList()
                           .join(", "),
                       color: AppColors.textPrimaryColor,
