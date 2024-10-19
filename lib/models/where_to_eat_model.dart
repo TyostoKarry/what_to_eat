@@ -265,11 +265,16 @@ class WhereToEatModel extends ChangeNotifier {
 
   List<dynamic> filterDistanceWithoutPosition(
       List<dynamic> restaurants, int searchRange) {
-    return restaurants
+    List<dynamic> filteredRestaurants = restaurants
         .where((restaurant) =>
             restaurant['tags']['distance'] != null &&
             restaurant['tags']['distance'] < searchRange)
         .toList();
+
+    filteredRestaurants
+        .sort((a, b) => a['tags']['distance'].compareTo(b['tags']['distance']));
+
+    return filteredRestaurants;
   }
 
   List<String> cuisineEntries = [
