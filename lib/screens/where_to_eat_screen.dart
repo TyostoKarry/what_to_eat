@@ -122,6 +122,8 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
   }
 
   void _setNextState() {
+    if (!mounted) return;
+
     final model = Provider.of<WhereToEatModel>(context, listen: false);
     switch ((_randomizeRestaurant, _restaurants.isEmpty)) {
       case (_, true):
