@@ -67,7 +67,6 @@ class WhereToEatResultState extends State<WhereToEatResult>
                 children: [
                   RestaurantNameInfo(
                       restaurant: widget.restaurants[model.resultIndex]),
-                  SizedBox(height: 20),
                   RestaurantAddressInfo(
                       restaurant: widget.restaurants[model.resultIndex]),
                   RestaurantDistanceInfo(

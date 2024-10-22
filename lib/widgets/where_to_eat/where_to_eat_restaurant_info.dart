@@ -12,15 +12,18 @@ class RestaurantNameInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: WTEText(
-        text: restaurant['tags']['name'],
-        color: AppColors.textPrimaryColor,
-        fontSize: 28,
-        minFontSize: 28,
-        fontWeight: FontWeight.bold,
-        maxLines: 3,
-      ),
+    return Column(
+      children: [
+        WTEText(
+          text: restaurant['tags']['name'],
+          color: AppColors.textPrimaryColor,
+          fontSize: 28,
+          minFontSize: 28,
+          fontWeight: FontWeight.bold,
+          maxLines: 3,
+        ),
+        SizedBox(height: 10),
+      ],
     );
   }
 }
