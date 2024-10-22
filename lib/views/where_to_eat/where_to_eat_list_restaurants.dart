@@ -51,6 +51,8 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                 itemCount: restaurants.length,
                 itemBuilder: (context, index) {
                   var tags = restaurants[index]['tags'];
+                  bool isExpanded = expandedIndexes.contains(index);
+
                   return GestureDetector(
                     onTap: () {
                       setState(() {
@@ -61,22 +63,66 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                         }
                       });
                     },
-                    child: Container(
-                      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-                      padding: EdgeInsets.fromLTRB(20, 7, 20, 7),
-                      decoration: BoxDecoration(
-                        gradient: AppColors.getWhereToEatResultBackground(),
-                        borderRadius: BorderRadius.circular(10),
+                    child: TweenAnimationBuilder(
+                      tween: Tween<EdgeInsets>(
+                        begin: EdgeInsets.fromLTRB(20, 7, 20, 7),
+                        end: isExpanded
+                            ? EdgeInsets.fromLTRB(20, 10, 20, 10)
+                            : EdgeInsets.fromLTRB(20, 7, 20, 7),
                       ),
-                      child: Column(
-                        children: [
-                          if (expandedIndexes.contains(index)) ...[
-                            expandedRestaurant(index),
-                          ] else ...[
-                            collapsedRestaurant(tags),
-                          ],
-                        ],
-                      ),
+                      duration: Duration(milliseconds: 100),
+                      builder: (context, padding, child) {
+                        return AnimatedContainer(
+                          duration: Duration(milliseconds: 300),
+                          margin:
+                              EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+                          padding: padding,
+                          decoration: BoxDecoration(
+                            gradient: AppColors.getWhereToEatResultBackground(),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Column(
+                            children: [
+                              TweenAnimationBuilder(
+                                tween: Tween<double>(
+                                  begin: 20.0,
+                                  end: expandedIndexes.contains(index)
+                                      ? 28.0
+                                      : 20.0,
+                                ),
+                                duration: Duration(milliseconds: 300),
+                                builder: (context, fontSize, child) {
+                                  return Center(
+                                    child: WTEText(
+                                      text: tags['name'],
+                                      color: AppColors.textPrimaryColor,
+                                      fontSize: fontSize,
+                                      minFontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                      maxLines: 3,
+                                    ),
+                                  );
+                                },
+                              ),
+                              TweenAnimationBuilder(
+                                  tween: Tween<double>(
+                                    begin: 5,
+                                    end: isExpanded ? 10 : 5,
+                                  ),
+                                  duration: Duration(milliseconds: 300),
+                                  builder: (context, size, child) {
+                                    return SizedBox(height: size);
+                                  }),
+                              AnimatedSize(
+                                duration: Duration(milliseconds: 300),
+                                child: expandedIndexes.contains(index)
+                                    ? expandedRestaurant(index)
+                                    : collapsedRestaurant(tags),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
                   );
                 },
@@ -92,7 +138,6 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
   Column expandedRestaurant(int index) {
     return Column(
       children: [
-        RestaurantNameInfo(restaurant: restaurants[index]),
         RestaurantAddressInfo(restaurant: restaurants[index]),
         RestaurantDistanceInfo(restaurant: restaurants[index]),
         RestaurantCuisineInfo(restaurant: restaurants[index]),
@@ -108,17 +153,6 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Center(
-          child: WTEText(
-            text: tags['name'],
-            color: AppColors.textPrimaryColor,
-            fontSize: 20,
-            minFontSize: 20,
-            fontWeight: FontWeight.bold,
-            maxLines: 3,
-          ),
-        ),
-        SizedBox(height: 5),
         if (tags['distance'] != null) ...[
           Row(
             children: [
