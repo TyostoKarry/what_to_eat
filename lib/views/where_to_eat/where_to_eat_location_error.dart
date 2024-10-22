@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 
 import 'package:what_to_eat/theme/app_colors.dart';
 import 'package:what_to_eat/widgets/wte_button.dart';
 import 'package:what_to_eat/widgets/wte_text.dart';
 
-class WhereToEatLocationServiceDisabled extends StatelessWidget {
-  const WhereToEatLocationServiceDisabled({super.key});
+class WhereToEatLocationError extends StatelessWidget {
+  final String titleText;
+  final String subtitleText;
+  final String buttonText;
+  final VoidCallback onTap;
+
+  const WhereToEatLocationError({
+    super.key,
+    required this.titleText,
+    required this.subtitleText,
+    required this.buttonText,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -28,25 +38,24 @@ class WhereToEatLocationServiceDisabled extends StatelessWidget {
           ),
           SizedBox(height: 20),
           WTEText(
-            text: "Location Service",
+            text: titleText,
             color: AppColors.textPrimaryColor,
           ),
           WTEText(
-            text: "Is Disabled",
+            text: subtitleText,
             color: AppColors.textPrimaryColor,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
             child: WTEButton(
-                text: "Enable Location Service",
-                textColor: AppColors.textSecondaryColor,
-                gradientColors: [
-                  AppColors.whereToEatButtonPrimaryColor,
-                  AppColors.whereToEatButtonSecondaryColor
-                ],
-                onTap: () {
-                  Geolocator.openLocationSettings();
-                }),
+              text: buttonText,
+              textColor: AppColors.textSecondaryColor,
+              gradientColors: [
+                AppColors.whereToEatButtonPrimaryColor,
+                AppColors.whereToEatButtonSecondaryColor
+              ],
+              onTap: onTap,
+            ),
           ),
         ],
       ),

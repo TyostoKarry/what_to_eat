@@ -32,6 +32,19 @@ class WhereToEatNoRestaurants extends StatelessWidget {
           text: "Found Near You",
           color: AppColors.textPrimaryColor,
         ),
+        SizedBox(height: 10),
+        WTEText(
+          text: "Consider expanding your",
+          color: AppColors.textPrimaryColor,
+          fontSize: 18,
+          minFontSize: 18,
+        ),
+        WTEText(
+          text: "search criteria down below",
+          color: AppColors.textPrimaryColor,
+          fontSize: 18,
+          minFontSize: 18,
+        ),
       ],
     );
   }

@@ -61,6 +61,17 @@ class AppColors {
     );
   }
 
+  static LinearGradient getWhereToEatButtonBackground() {
+    return LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: [
+        whereToEatButtonPrimaryColor,
+        whereToEatButtonSecondaryColor,
+      ],
+    );
+  }
+
   static LinearGradient getWhereToEatResultBackground() {
     return LinearGradient(
       begin: Alignment.topCenter,

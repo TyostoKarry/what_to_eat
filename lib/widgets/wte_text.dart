@@ -11,6 +11,7 @@ class WTEText extends StatelessWidget {
   final FontWeight fontWeight;
   final int maxLines;
   final TextDecoration textDecoration;
+  final TextAlign textAlign;
 
   const WTEText({
     super.key,
@@ -23,13 +24,14 @@ class WTEText extends StatelessWidget {
     this.fontWeight = FontWeight.normal,
     this.maxLines = 1,
     this.textDecoration = TextDecoration.none,
+    this.textAlign = TextAlign.center,
   });
 
   @override
   Widget build(BuildContext context) {
     return AutoSizeText(
       text,
-      textAlign: TextAlign.center,
+      textAlign: textAlign,
       style: TextStyle(
         color: color,
         fontSize: fontSize,

@@ -70,9 +70,9 @@ class _WhereToEatSlotMachineScrollAnimationState
 
     _fontSizeAnimation = TweenSequence<double>([
       TweenSequenceItem(
-          tween: Tween<double>(begin: 16.0, end: 32.0), weight: 50),
+          tween: Tween<double>(begin: 16.0, end: 28.0), weight: 50),
       TweenSequenceItem(
-          tween: Tween<double>(begin: 32.0, end: 16.0), weight: 50),
+          tween: Tween<double>(begin: 28.0, end: 16.0), weight: 50),
     ]).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
