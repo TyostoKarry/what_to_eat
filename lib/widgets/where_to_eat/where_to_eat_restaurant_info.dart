@@ -111,8 +111,10 @@ class _RestaurantAddressInfoState extends State<RestaurantAddressInfo> {
 
 class RestaurantDistanceInfo extends StatelessWidget {
   final Map<String, dynamic> restaurant;
+  final bool includeLabel;
 
-  const RestaurantDistanceInfo({required this.restaurant, super.key});
+  const RestaurantDistanceInfo(
+      {required this.restaurant, this.includeLabel = true, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -121,29 +123,30 @@ class RestaurantDistanceInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Icon(
-              Icons.map_outlined,
-              color: AppColors.textPrimaryColor,
-              shadows: [
-                Shadow(
-                  offset: Offset(2, 2),
-                  blurRadius: 3,
-                  color: Color.fromARGB(140, 110, 110, 110),
-                ),
-              ],
-            ),
-            SizedBox(width: 10),
-            WTEText(
-              text: 'Distance',
-              color: AppColors.textPrimaryColor,
-              fontSize: 20,
-              minFontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ],
-        ),
+        if (includeLabel)
+          Row(
+            children: [
+              Icon(
+                Icons.map_outlined,
+                color: AppColors.textPrimaryColor,
+                shadows: [
+                  Shadow(
+                    offset: Offset(2, 2),
+                    blurRadius: 3,
+                    color: Color.fromARGB(140, 110, 110, 110),
+                  ),
+                ],
+              ),
+              SizedBox(width: 10),
+              WTEText(
+                text: 'Distance',
+                color: AppColors.textPrimaryColor,
+                fontSize: 20,
+                minFontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ],
+          ),
         WTEText(
           text: restaurant['tags']['distance'] > 1000
               ? '${(restaurant['tags']['distance'] / 1000).toStringAsFixed(2)} kilometers'
@@ -162,8 +165,14 @@ class RestaurantDistanceInfo extends StatelessWidget {
 
 class RestaurantCuisineInfo extends StatelessWidget {
   final Map<String, dynamic> restaurant;
+  final bool includeLabel;
+  final double spaceBelow;
 
-  const RestaurantCuisineInfo({required this.restaurant, super.key});
+  const RestaurantCuisineInfo(
+      {required this.restaurant,
+      this.includeLabel = true,
+      this.spaceBelow = 15,
+      super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -172,29 +181,30 @@ class RestaurantCuisineInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Icon(
-              Icons.flatware,
-              color: AppColors.textPrimaryColor,
-              shadows: [
-                Shadow(
-                  offset: Offset(2, 2),
-                  blurRadius: 3,
-                  color: Color.fromARGB(140, 110, 110, 110),
-                ),
-              ],
-            ),
-            SizedBox(width: 10),
-            WTEText(
-              text: 'Cuisine',
-              color: AppColors.textPrimaryColor,
-              fontSize: 20,
-              minFontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ],
-        ),
+        if (includeLabel)
+          Row(
+            children: [
+              Icon(
+                Icons.flatware,
+                color: AppColors.textPrimaryColor,
+                shadows: [
+                  Shadow(
+                    offset: Offset(2, 2),
+                    blurRadius: 3,
+                    color: Color.fromARGB(140, 110, 110, 110),
+                  ),
+                ],
+              ),
+              SizedBox(width: 10),
+              WTEText(
+                text: 'Cuisine',
+                color: AppColors.textPrimaryColor,
+                fontSize: 20,
+                minFontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ],
+          ),
         WTEText(
           text: restaurant['tags']['cuisine']
               .toString()
@@ -208,7 +218,7 @@ class RestaurantCuisineInfo extends StatelessWidget {
           maxLines: 4,
           textAlign: TextAlign.left,
         ),
-        SizedBox(height: 15),
+        SizedBox(height: spaceBelow),
       ],
     );
   }

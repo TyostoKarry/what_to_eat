@@ -116,8 +116,31 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                               AnimatedSize(
                                 duration: Duration(milliseconds: 300),
                                 child: expandedIndexes.contains(index)
+                                    ? RestaurantAddressInfo(
+                                        restaurant: restaurants[index])
+                                    : Container(),
+                              ),
+                              if (tags['distance'] != null)
+                                DistanceWidget(
+                                  index: index,
+                                  isExpanded: isExpanded,
+                                  tags: tags,
+                                  expandedIndexes: expandedIndexes,
+                                  restaurants: restaurants,
+                                ),
+                              if (tags['cuisine'] != null)
+                                CuisineWidget(
+                                  index: index,
+                                  isExpanded: isExpanded,
+                                  tags: tags,
+                                  expandedIndexes: expandedIndexes,
+                                  restaurants: restaurants,
+                                ),
+                              AnimatedSize(
+                                duration: Duration(milliseconds: 300),
+                                child: expandedIndexes.contains(index)
                                     ? expandedRestaurant(index)
-                                    : collapsedRestaurant(tags),
+                                    : Container(),
                               ),
                             ],
                           ),
@@ -138,9 +161,6 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
   Column expandedRestaurant(int index) {
     return Column(
       children: [
-        RestaurantAddressInfo(restaurant: restaurants[index]),
-        RestaurantDistanceInfo(restaurant: restaurants[index]),
-        RestaurantCuisineInfo(restaurant: restaurants[index]),
         RestaurantDietaryOptionsInfo(restaurant: restaurants[index]),
         RestaurantOpeningHoursInfo(restaurant: restaurants[index]),
         RestaurantContactInfo(restaurant: restaurants[index]),
@@ -148,33 +168,50 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
       ],
     );
   }
+}
 
-  Column collapsedRestaurant(tags) {
+class DistanceWidget extends StatelessWidget {
+  final int index;
+  final bool isExpanded;
+  final dynamic tags;
+  final Set<int> expandedIndexes;
+  final List restaurants;
+
+  const DistanceWidget({
+    super.key,
+    required this.index,
+    required this.isExpanded,
+    required this.tags,
+    required this.expandedIndexes,
+    required this.restaurants,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (tags['distance'] != null) ...[
-          Row(
-            children: [
-              Icon(
-                Icons.map_outlined,
-                color: AppColors.textPrimaryColor,
-                shadows: [
-                  Shadow(
-                    offset: Offset(2, 2),
-                    blurRadius: 3,
-                    color: Color.fromARGB(140, 110, 110, 110),
-                  ),
-                ],
-              ),
-              SizedBox(width: 5),
-              WTEText(
-                text: 'Distance:',
-                color: AppColors.textPrimaryColor,
-                fontSize: 20,
-                minFontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+        Row(
+          children: [
+            Icon(
+              Icons.map_outlined,
+              color: AppColors.textPrimaryColor,
+              shadows: [
+                Shadow(
+                  offset: Offset(2, 2),
+                  blurRadius: 3,
+                  color: Color.fromARGB(140, 110, 110, 110),
+                ),
+              ],
+            ),
+            SizedBox(width: 5),
+            WTEText(
+              text: 'Distance',
+              color: AppColors.textPrimaryColor,
+              fontSize: 20,
+              minFontSize: 20,
+              fontWeight: FontWeight.bold,
+            ),
+            if (!isExpanded) ...[
               SizedBox(width: 10),
               WTEText(
                 text: tags['distance'] > 1000
@@ -187,51 +224,92 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                 textAlign: TextAlign.left,
               ),
             ],
-          ),
-        ],
-        SizedBox(height: 5),
-        if (tags['cuisine'] != null) ...[
-          Row(
-            children: [
-              Icon(
-                Icons.flatware,
-                color: AppColors.textPrimaryColor,
-                shadows: [
-                  Shadow(
-                    offset: Offset(2, 2),
-                    blurRadius: 3,
-                    color: Color.fromARGB(140, 110, 110, 110),
+          ],
+        ),
+        if (!isExpanded) SizedBox(height: 5),
+        AnimatedSize(
+          duration: Duration(milliseconds: 300),
+          child: expandedIndexes.contains(index)
+              ? Align(
+                  alignment: Alignment.centerLeft,
+                  child: RestaurantDistanceInfo(
+                    restaurant: restaurants[index],
+                    includeLabel: false,
                   ),
-                ],
-              ),
-              SizedBox(width: 10),
-              WTEText(
-                text: 'Cuisine:',
-                color: AppColors.textPrimaryColor,
-                fontSize: 20,
-                minFontSize: 20,
-                fontWeight: FontWeight.bold,
-                textAlign: TextAlign.start,
-              ),
+                )
+              : Container(),
+        ),
+      ],
+    );
+  }
+}
+
+class CuisineWidget extends StatelessWidget {
+  final int index;
+  final bool isExpanded;
+  final dynamic tags;
+  final Set<int> expandedIndexes;
+  final List restaurants;
+
+  const CuisineWidget({
+    super.key,
+    required this.index,
+    required this.isExpanded,
+    required this.tags,
+    required this.expandedIndexes,
+    required this.restaurants,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Icon(
+              Icons.flatware,
+              color: AppColors.textPrimaryColor,
+              shadows: [
+                Shadow(
+                  offset: Offset(2, 2),
+                  blurRadius: 3,
+                  color: Color.fromARGB(140, 110, 110, 110),
+                ),
+              ],
+            ),
+            SizedBox(width: 10),
+            WTEText(
+              text: 'Cuisine',
+              color: AppColors.textPrimaryColor,
+              fontSize: 20,
+              minFontSize: 20,
+              fontWeight: FontWeight.bold,
+              textAlign: TextAlign.start,
+            ),
+            if (!isExpanded) ...[
               SizedBox(width: 10),
               Expanded(
-                child: WTEText(
-                  text: tags['cuisine']
-                      .toString()
-                      .split(';')
-                      .map((e) => e.trim().replaceAll('_', ' '))
-                      .toList()
-                      .join(", "),
-                  color: AppColors.textPrimaryColor,
-                  fontSize: 20,
-                  minFontSize: 18,
-                  maxLines: 4,
-                  textAlign: TextAlign.left,
+                child: RestaurantCuisineInfo(
+                  restaurant: restaurants[index],
+                  includeLabel: false,
+                  spaceBelow: 0,
                 ),
               ),
             ],
-          ),
-        ],
+          ],
+        ),
+        if (!isExpanded) SizedBox(height: 5),
+        AnimatedSize(
+          duration: Duration(milliseconds: 300),
+          child: expandedIndexes.contains(index)
+              ? Align(
+                  alignment: Alignment.centerLeft,
+                  child: RestaurantCuisineInfo(
+                    restaurant: restaurants[index],
+                    includeLabel: false,
+                  ),
+                )
+              : Container(),
+        ),
       ],
     );
   }
