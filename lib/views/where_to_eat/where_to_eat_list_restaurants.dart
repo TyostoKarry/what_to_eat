@@ -83,26 +83,52 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                           ),
                           child: Column(
                             children: [
-                              TweenAnimationBuilder(
-                                tween: Tween<double>(
-                                  begin: 20.0,
-                                  end: expandedIndexes.contains(index)
-                                      ? 28.0
-                                      : 20.0,
-                                ),
-                                duration: Duration(milliseconds: 300),
-                                builder: (context, fontSize, child) {
-                                  return Center(
-                                    child: WTEText(
-                                      text: tags['name'],
-                                      color: AppColors.textPrimaryColor,
-                                      fontSize: fontSize,
-                                      minFontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                      maxLines: 3,
+                              Row(
+                                children: [
+                                  Icon(
+                                    Icons.keyboard_arrow_up,
+                                    color: Colors.transparent,
+                                  ),
+                                  Expanded(
+                                    child: TweenAnimationBuilder(
+                                      tween: Tween<double>(
+                                        begin: 20.0,
+                                        end: expandedIndexes.contains(index)
+                                            ? 28.0
+                                            : 20.0,
+                                      ),
+                                      duration: Duration(milliseconds: 300),
+                                      builder: (context, fontSize, child) {
+                                        return Center(
+                                          child: WTEText(
+                                            text: tags['name'],
+                                            color: AppColors.textPrimaryColor,
+                                            fontSize: fontSize,
+                                            minFontSize: 20,
+                                            fontWeight: FontWeight.bold,
+                                            maxLines: 3,
+                                          ),
+                                        );
+                                      },
                                     ),
-                                  );
-                                },
+                                  ),
+                                  AnimatedRotation(
+                                    turns: isExpanded ? 0.5 : 0.0,
+                                    duration: Duration(milliseconds: 300),
+                                    child: Icon(
+                                      Icons.keyboard_arrow_up,
+                                      color: AppColors.textPrimaryColor,
+                                      shadows: [
+                                        Shadow(
+                                          offset: Offset(1, 1),
+                                          blurRadius: 3,
+                                          color: Color.fromARGB(
+                                              140, 110, 110, 110),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                               TweenAnimationBuilder(
                                   tween: Tween<double>(
