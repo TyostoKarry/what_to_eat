@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:what_to_eat/models/what_to_eat_model.dart';
-import 'package:what_to_eat/models/where_to_eat_model.dart';
-import 'package:what_to_eat/screens/entry_screen.dart';
-import 'package:what_to_eat/screens/what_to_eat_screen.dart';
-import 'package:what_to_eat/screens/where_to_eat_screen.dart';
-import 'package:what_to_eat/theme/app_colors.dart';
+import 'package:what_to_eat/what_to_eat/models/what_to_eat_model.dart';
+import 'package:what_to_eat/where_to_eat/models/where_to_eat_model.dart';
+import 'package:what_to_eat/core/screens/entry_screen.dart';
+import 'package:what_to_eat/what_to_eat/screens/what_to_eat_screen.dart';
+import 'package:what_to_eat/where_to_eat/screens/where_to_eat_screen.dart';
+import 'package:what_to_eat/shared/theme/app_colors.dart';
 
 void main() {
   runApp(
