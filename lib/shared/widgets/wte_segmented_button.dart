@@ -135,14 +135,14 @@ class WTESegmentedButtonState extends State<WTESegmentedButton> {
                       isSelected ? selectedIcon : unselectedIcon,
                       color: AppColors.textSecondaryColor,
                       shadows: <Shadow>[
-                        Shadow(
-                          offset: const Offset(2, 2),
+                        const Shadow(
+                          offset: Offset(2, 2),
                           blurRadius: 2,
                           color: AppColors.textSecondaryShadowColor,
                         ),
                       ],
                     ),
-                    SizedBox(width: 6),
+                    const SizedBox(width: 6),
                     WTEText(
                         text: option,
                         color: AppColors.textSecondaryColor,

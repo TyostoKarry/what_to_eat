@@ -21,7 +21,7 @@ class EntryScreenState extends State<EntryScreen> {
       _selectedSide = side;
     });
 
-    Future<void>.delayed(Duration(milliseconds: 150), () {
+    Future<void>.delayed(const Duration(milliseconds: 150), () {
       widget.onItemTapped(side);
     });
   }
@@ -46,7 +46,7 @@ class EntryScreenState extends State<EntryScreen> {
                     _onSideSelected(1);
                   },
                   splashColor: AppColors.splashColor,
-                  child: Center(
+                  child: const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -106,7 +106,7 @@ class EntryScreenState extends State<EntryScreen> {
                     _onSideSelected(2);
                   },
                   splashColor: AppColors.splashColor,
-                  child: Center(
+                  child: const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[

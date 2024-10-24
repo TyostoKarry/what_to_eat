@@ -25,10 +25,10 @@ class WhatToEatCategoriesState extends State<WhatToEatCategories> {
         ),
         child: Column(
           children: <Widget>[
-            WTEViewTitle(
+            const WTEViewTitle(
               titleText: 'Select Food Category',
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -50,7 +50,7 @@ class WhatToEatCategoriesState extends State<WhatToEatCategories> {
                           Ink(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
-                                gradient: LinearGradient(
+                                gradient: const LinearGradient(
                                   colors: <Color>[
                                     AppColors.whatToEatButtonPrimaryColor,
                                     AppColors.whatToEatButtonSecondaryColor
@@ -76,7 +76,7 @@ class WhatToEatCategoriesState extends State<WhatToEatCategories> {
                                     color: AppColors.textSecondaryColor,
                                     shadowColor:
                                         AppColors.textSecondaryShadowColor,
-                                    offset: Offset(2, 2),
+                                    offset: const Offset(2, 2),
                                     fontSize: 20,
                                     minFontSize: 16,
                                     fontWeight: FontWeight.bold,

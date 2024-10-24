@@ -48,9 +48,9 @@ class WhereToEatResultState extends State<WhereToEatResult>
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
         child: AnimatedContainer(
-          duration: Duration(seconds: 1),
+          duration: const Duration(seconds: 1),
           curve: Curves.easeInOut,
           width: double.infinity,
           height: _expanded ? _calculatedHeight : 60,

@@ -204,7 +204,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                         minFontSize: 12,
                         textDecoration: TextDecoration.underline),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
@@ -215,7 +215,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                           animation: AnimatedRotation(
                             turns: _isMenuVisible ? 0.0 : 0.5,
                             duration: _menuAnimationDuration,
-                            child: Icon(
+                            child: const Icon(
                               Icons.keyboard_arrow_up,
                               color: AppColors.textSecondaryColor,
                             ),
@@ -230,7 +230,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                           },
                           isEnabled: isEnabled,
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Expanded(
                           child: WTESegmentedButton(
                             options: <String>['Restaurants', 'Fast Food'],
@@ -274,7 +274,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                               ),
                               child: Column(
                                 children: <Widget>[
-                                  SizedBox(height: 10),
+                                  const SizedBox(height: 10),
                                   WTEText(
                                     text:
                                         "Search Range: ${currentRange.toInt()}m",
@@ -309,7 +309,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                                   cuisineEntries,
                               enabled: isEnabled,
                               popupProps: PopupProps<String>.menu(
-                                searchDelay: Duration(milliseconds: 100),
+                                searchDelay: const Duration(milliseconds: 100),
                                 showSearchBox: true,
                                 fit: FlexFit.loose,
                                 constraints: BoxConstraints.tightFor(
@@ -341,15 +341,15 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                                   filled: true,
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(width: 0.3),
+                                    borderSide: const BorderSide(width: 0.3),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(width: 0.3),
+                                    borderSide: const BorderSide(width: 0.3),
                                   ),
                                   disabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
+                                    borderSide: const BorderSide(
                                         color: Colors.transparent, width: 0),
                                   ),
                                 ),
@@ -365,7 +365,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                     child: Row(
                       children: <Widget>[
                         WTEIconButton(
-                          animation: Icon(
+                          animation: const Icon(
                             Icons.menu,
                             color: AppColors.textSecondaryColor,
                           ),
@@ -380,7 +380,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                           },
                           isEnabled: isEnabled,
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Expanded(
                           child: WTEButton(
                             text: model.whereToEatScreenState ==
@@ -421,7 +421,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
       case WhereToEatScreenState.initial:
         return Container();
       case WhereToEatScreenState.loading:
-        return WhereToEatLoading();
+        return const WhereToEatLoading();
       case WhereToEatScreenState.locationServiceDisabled:
         return WhereToEatLocationError(
           titleText: "Location Service",
@@ -441,7 +441,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
           },
         );
       case WhereToEatScreenState.apiError:
-        return WhereToEatApiError();
+        return const WhereToEatApiError();
       case WhereToEatScreenState.slotMachine:
         final List<String> restaurantNames = _restaurants
             .where((dynamic restaurant) => restaurant['tags']['name'] != null)

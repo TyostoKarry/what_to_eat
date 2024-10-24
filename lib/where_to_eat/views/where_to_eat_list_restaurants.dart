@@ -43,7 +43,7 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         if (hasRestaurants) ...<Widget>[
-          WTEViewTitle(titleText: "Restaurants Near You"),
+          const WTEViewTitle(titleText: "Restaurants Near You"),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10),
@@ -65,18 +65,18 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                     },
                     child: TweenAnimationBuilder<EdgeInsets>(
                       tween: Tween<EdgeInsets>(
-                        begin: EdgeInsets.fromLTRB(20, 7, 20, 7),
+                        begin: const EdgeInsets.fromLTRB(20, 7, 20, 7),
                         end: isExpanded
-                            ? EdgeInsets.fromLTRB(20, 10, 20, 10)
-                            : EdgeInsets.fromLTRB(20, 7, 20, 7),
+                            ? const EdgeInsets.fromLTRB(20, 10, 20, 10)
+                            : const EdgeInsets.fromLTRB(20, 7, 20, 7),
                       ),
-                      duration: Duration(milliseconds: 100),
+                      duration: const Duration(milliseconds: 100),
                       builder: (BuildContext context, EdgeInsets padding,
                           Widget? child) {
                         return AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
-                          margin:
-                              EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+                          duration: const Duration(milliseconds: 300),
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 7),
                           padding: padding,
                           decoration: BoxDecoration(
                             gradient: AppColors.getWhereToEatResultBackground(),
@@ -86,7 +86,7 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-                                  Icon(
+                                  const Icon(
                                     Icons.keyboard_arrow_up,
                                     color: Colors.transparent,
                                   ),
@@ -98,7 +98,8 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                                             ? 28.0
                                             : 20.0,
                                       ),
-                                      duration: Duration(milliseconds: 300),
+                                      duration:
+                                          const Duration(milliseconds: 300),
                                       builder: (BuildContext context,
                                           double fontSize, Widget? child) {
                                         return Center(
@@ -116,8 +117,8 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                                   ),
                                   AnimatedRotation(
                                     turns: isExpanded ? 0.5 : 0.0,
-                                    duration: Duration(milliseconds: 300),
-                                    child: Icon(
+                                    duration: const Duration(milliseconds: 300),
+                                    child: const Icon(
                                       Icons.keyboard_arrow_up,
                                       color: AppColors.textPrimaryColor,
                                       shadows: <Shadow>[
@@ -137,13 +138,13 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                                     begin: 5,
                                     end: isExpanded ? 10 : 5,
                                   ),
-                                  duration: Duration(milliseconds: 300),
+                                  duration: const Duration(milliseconds: 300),
                                   builder: (BuildContext context, double size,
                                       Widget? child) {
                                     return SizedBox(height: size);
                                   }),
                               AnimatedSize(
-                                duration: Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 300),
                                 child: expandedIndexes.contains(index)
                                     ? RestaurantAddressInfo(
                                         restaurant: restaurants[index])
@@ -166,7 +167,7 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                                   restaurants: restaurants,
                                 ),
                               AnimatedSize(
-                                duration: Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 300),
                                 child: expandedIndexes.contains(index)
                                     ? expandedRestaurant(index)
                                     : Container(),
@@ -182,7 +183,7 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
             ),
           ),
         ] else
-          WhereToEatNoRestaurants()
+          const WhereToEatNoRestaurants()
       ],
     );
   }
@@ -221,7 +222,7 @@ class DistanceWidget extends StatelessWidget {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Icon(
+            const Icon(
               Icons.map_outlined,
               color: AppColors.textPrimaryColor,
               shadows: <Shadow>[
@@ -232,8 +233,8 @@ class DistanceWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(width: 10),
-            WTEText(
+            const SizedBox(width: 10),
+            const WTEText(
               text: 'Distance',
               color: AppColors.textPrimaryColor,
               fontSize: 20,
@@ -241,7 +242,7 @@ class DistanceWidget extends StatelessWidget {
               fontWeight: FontWeight.bold,
             ),
             if (!isExpanded) ...<Widget>[
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               WTEText(
                 text: tags['distance'] > 1000
                     ? '${(tags['distance'] / 1000).toStringAsFixed(2)} km'
@@ -255,9 +256,9 @@ class DistanceWidget extends StatelessWidget {
             ],
           ],
         ),
-        if (!isExpanded) SizedBox(height: 5),
+        if (!isExpanded) const SizedBox(height: 5),
         AnimatedSize(
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           child: expandedIndexes.contains(index)
               ? Align(
                   alignment: Alignment.centerLeft,
@@ -295,7 +296,7 @@ class CuisineWidget extends StatelessWidget {
       children: <Widget>[
         Row(
           children: <Widget>[
-            Icon(
+            const Icon(
               Icons.flatware,
               color: AppColors.textPrimaryColor,
               shadows: <Shadow>[
@@ -306,8 +307,8 @@ class CuisineWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(width: 10),
-            WTEText(
+            const SizedBox(width: 10),
+            const WTEText(
               text: 'Cuisine',
               color: AppColors.textPrimaryColor,
               fontSize: 20,
@@ -316,7 +317,7 @@ class CuisineWidget extends StatelessWidget {
               textAlign: TextAlign.start,
             ),
             if (!isExpanded) ...<Widget>[
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               Expanded(
                 child: RestaurantCuisineInfo(
                   restaurant: restaurants[index],
@@ -327,9 +328,9 @@ class CuisineWidget extends StatelessWidget {
             ],
           ],
         ),
-        if (!isExpanded) SizedBox(height: 5),
+        if (!isExpanded) const SizedBox(height: 5),
         AnimatedSize(
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           child: expandedIndexes.contains(index)
               ? Align(
                   alignment: Alignment.centerLeft,

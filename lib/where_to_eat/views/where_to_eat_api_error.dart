@@ -11,7 +11,7 @@ class WhereToEatApiError extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Icon(
+        const Icon(
           Icons.wifi_off,
           size: 60,
           color: AppColors.textPrimaryColor,
@@ -23,24 +23,24 @@ class WhereToEatApiError extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: 20),
-        WTEText(
+        const SizedBox(height: 20),
+        const WTEText(
           text: "Failed to load restaurants",
           color: AppColors.textPrimaryColor,
           maxLines: 2,
         ),
-        SizedBox(height: 10),
-        WTEText(
+        const SizedBox(height: 10),
+        const WTEText(
           text: "Please check your",
           color: AppColors.textPrimaryColor,
           fontSize: 24,
         ),
-        WTEText(
+        const WTEText(
           text: "connection and try again.",
           color: AppColors.textPrimaryColor,
           fontSize: 24,
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         WTEText(
           text: "This could be due to your internet connection",
           color: AppColors.textPrimaryColor.withOpacity(0.8),

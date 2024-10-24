@@ -33,7 +33,7 @@ class WTEIconButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         boxShadow: isEnabled
             ? <BoxShadow>[
-                BoxShadow(
+                const BoxShadow(
                   color: AppColors.textPrimaryShadowColor,
                   offset: Offset(2, 2),
                   blurRadius: 3,

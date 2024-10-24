@@ -32,12 +32,12 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        textSelectionTheme: TextSelectionThemeData(
+        textSelectionTheme: const TextSelectionThemeData(
           cursorColor: AppColors.cursorColor,
           selectionHandleColor: AppColors.selectionHandleColor,
         ),
       ),
-      home: MyNavigationBar(),
+      home: const MyNavigationBar(),
     );
   }
 }
@@ -70,9 +70,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   Widget build(BuildContext context) {
     List<Widget> widgetOptions = <Widget>[
       EntryScreen(onItemTapped: _onItemTapped),
-      WhatToEatScreen(),
-      WhereToEatScreen(),
-      Text('Settings'),
+      const WhatToEatScreen(),
+      const WhereToEatScreen(),
+      const Text('Settings'),
     ];
 
     return Scaffold(

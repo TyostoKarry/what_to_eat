@@ -121,7 +121,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                           text: sessionItems[i].name,
                           color: AppColors.wheelTextColor,
                           shadowColor: AppColors.wheelTextShadowColor,
-                          offset: Offset(2, 2),
+                          offset: const Offset(2, 2),
                           fontSize: 14,
                           minFontSize: 8,
                         ),
@@ -162,7 +162,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                       children: <Widget>[
                         Transform.rotate(
                           angle: 30 * 3.14 / 180,
-                          child: Icon(
+                          child: const Icon(
                             Icons.local_activity,
                             color: AppColors.vetoTicketColor,
                             size: 40,
@@ -176,7 +176,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                           ),
                         ),
                         if (vetoUsed[index])
-                          Icon(
+                          const Icon(
                             Icons.block,
                             color: AppColors.wteDanger,
                             size: 70,
@@ -194,7 +194,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                 );
               }),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Container(
@@ -208,7 +208,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
                       blurRadius: 6,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),
@@ -217,7 +217,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                     text: resultFoodItem != null ? resultFoodItem!.name : '',
                     color: AppColors.textPrimaryColor,
                     shadowColor: AppColors.textPrimaryShadowColor,
-                    offset: Offset(2, 2),
+                    offset: const Offset(2, 2),
                     fontSize: 20,
                     minFontSize: 12,
                     fontWeight: FontWeight.bold,
@@ -255,7 +255,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                 crossFadeState: resultFoodItem == null
                     ? CrossFadeState.showFirst
                     : CrossFadeState.showSecond,
-                duration: Duration(milliseconds: 400),
+                duration: const Duration(milliseconds: 400),
               ),
             ),
           ],

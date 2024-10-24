@@ -27,7 +27,8 @@ class WhatToEatFoodSelected extends StatelessWidget {
   Widget build(BuildContext context) {
     final WhatToEatModel model = context.watch<WhatToEatModel>();
     final SelectedFood selectedFood = model.selectedFood ??
-        SelectedFood(foodItem: FoodItem(name: '', image: '', description: ''));
+        const SelectedFood(
+            foodItem: FoodItem(name: '', image: '', description: ''));
 
     return Scaffold(
       body: Container(
@@ -37,7 +38,7 @@ class WhatToEatFoodSelected extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            WTEViewTitle(
+            const WTEViewTitle(
               titleText: 'Today I Will Eat',
             ),
             Column(
@@ -51,7 +52,7 @@ class WhatToEatFoodSelected extends StatelessWidget {
                         BoxShadow(
                           color: Colors.black.withOpacity(0.1),
                           blurRadius: 10,
-                          offset: Offset(0, 4),
+                          offset: const Offset(0, 4),
                         ),
                       ],
                     ),
@@ -81,7 +82,7 @@ class WhatToEatFoodSelected extends StatelessWidget {
                         BoxShadow(
                           color: Colors.black.withOpacity(0.1),
                           blurRadius: 6,
-                          offset: Offset(0, 3),
+                          offset: const Offset(0, 3),
                         ),
                       ],
                     ),
@@ -90,7 +91,7 @@ class WhatToEatFoodSelected extends StatelessWidget {
                         text: selectedFood.foodItem.name,
                         color: AppColors.textPrimaryColor,
                         shadowColor: AppColors.textPrimaryShadowColor,
-                        offset: Offset(2, 2),
+                        offset: const Offset(2, 2),
                         fontSize: 20,
                         minFontSize: 12,
                         fontWeight: FontWeight.bold,

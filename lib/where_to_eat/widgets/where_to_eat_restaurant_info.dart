@@ -24,7 +24,7 @@ class RestaurantNameInfo extends StatelessWidget {
             maxLines: 3,
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -65,7 +65,7 @@ class _RestaurantAddressInfoState extends State<RestaurantAddressInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
+        const Row(
           children: <Widget>[
             Icon(
               Icons.location_on,
@@ -103,7 +103,7 @@ class _RestaurantAddressInfoState extends State<RestaurantAddressInfo> {
             minFontSize: 18,
             textAlign: TextAlign.left,
           ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
       ],
     );
   }
@@ -124,7 +124,7 @@ class RestaurantDistanceInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         if (includeLabel)
-          Row(
+          const Row(
             children: <Widget>[
               Icon(
                 Icons.map_outlined,
@@ -157,7 +157,7 @@ class RestaurantDistanceInfo extends StatelessWidget {
           maxLines: 4,
           textAlign: TextAlign.left,
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
       ],
     );
   }
@@ -182,7 +182,7 @@ class RestaurantCuisineInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         if (includeLabel)
-          Row(
+          const Row(
             children: <Widget>[
               Icon(
                 Icons.flatware,
@@ -264,7 +264,7 @@ class _RestaurantDietaryOptionsInfoState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
+        const Row(
           children: <Widget>[
             Icon(
               Icons.local_dining,
@@ -295,7 +295,7 @@ class _RestaurantDietaryOptionsInfoState
           maxLines: 4,
           textAlign: TextAlign.left,
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
       ],
     );
   }
@@ -357,7 +357,7 @@ class _RestaurantOpeningHoursInfoState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
+        const Row(
           children: <Widget>[
             Icon(
               Icons.access_time,
@@ -381,11 +381,11 @@ class _RestaurantOpeningHoursInfoState
           ],
         ),
         Table(
-          defaultColumnWidth: FixedColumnWidth(150.0),
+          defaultColumnWidth: const FixedColumnWidth(150.0),
           children:
               buildOpeningHours(widget.restaurant['tags']['opening_hours']),
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
       ],
     );
   }
@@ -403,7 +403,7 @@ class RestaurantContactInfo extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Row(
+        const Row(
           children: <Widget>[
             Icon(
               Icons.phone,
@@ -433,7 +433,7 @@ class RestaurantContactInfo extends StatelessWidget {
           minFontSize: 18,
           textAlign: TextAlign.left,
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
       ],
     );
   }

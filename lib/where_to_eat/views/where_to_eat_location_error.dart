@@ -24,7 +24,7 @@ class WhereToEatLocationError extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Icon(
+          const Icon(
             Icons.location_off,
             size: 60,
             color: AppColors.textPrimaryColor,
@@ -36,7 +36,7 @@ class WhereToEatLocationError extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           WTEText(
             text: titleText,
             color: AppColors.textPrimaryColor,

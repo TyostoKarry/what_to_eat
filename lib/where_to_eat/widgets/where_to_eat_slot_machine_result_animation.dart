@@ -42,8 +42,8 @@ class _WhereToEatSlotMachineResultAnimationState
     );
 
     _positionAnimation = Tween<Offset>(
-      begin: Offset(0, -0.7),
-      end: Offset(0, 0),
+      begin: const Offset(0, -0.7),
+      end: const Offset(0, 0),
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
@@ -74,7 +74,7 @@ class _WhereToEatSlotMachineResultAnimationState
     ));
 
     _controller.forward().then((_) {
-      Future<void>.delayed(Duration(milliseconds: 1500), () {
+      Future<void>.delayed(const Duration(milliseconds: 1500), () {
         if (mounted) {
           _measureTextSize();
           Provider.of<WhereToEatModel>(context, listen: false)
@@ -124,7 +124,7 @@ class _WhereToEatSlotMachineResultAnimationState
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Center(
                     child: WTEText(
                       key: _nameTextKey,

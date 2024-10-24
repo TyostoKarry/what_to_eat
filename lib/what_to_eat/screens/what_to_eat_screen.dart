@@ -35,13 +35,13 @@ class _WhatToEatScreenState extends State<WhatToEatScreen> {
   Widget _buildBodyBasedOnState(WhatToEatScreenState whatToEatScreenState) {
     switch (whatToEatScreenState) {
       case WhatToEatScreenState.categories:
-        return WhatToEatCategories();
+        return const WhatToEatCategories();
       case WhatToEatScreenState.customCategory:
-        return WhatToEatCustomCategory();
+        return const WhatToEatCustomCategory();
       case WhatToEatScreenState.wheelOfFortune:
-        return WhatToEatWheelOfFortune();
+        return const WhatToEatWheelOfFortune();
       case WhatToEatScreenState.foodSelected:
-        return WhatToEatFoodSelected();
+        return const WhatToEatFoodSelected();
     }
   }
 }

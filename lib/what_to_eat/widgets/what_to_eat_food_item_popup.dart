@@ -14,7 +14,7 @@ class FoodItemsPopup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: Icon(
+      icon: const Icon(
         Icons.info_outlined,
         color: AppColors.textSecondaryColor,
         shadows: <Shadow>[
@@ -38,13 +38,13 @@ class FoodItemsPopup extends StatelessWidget {
         return AlertDialog(
           title: Column(
             children: <Widget>[
-              Text(
+              const Text(
                 'Food Items in',
                 style: TextStyle(color: AppColors.textPrimaryColor),
               ),
               Text(
                 foodCategory.name,
-                style: TextStyle(
+                style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     color: AppColors.textPrimaryColor),
                 textAlign: TextAlign.center,
@@ -57,13 +57,13 @@ class FoodItemsPopup extends StatelessWidget {
               children: foodCategory.foodItems.map((FoodItem foodItem) {
                 return ListTile(
                   title: Text(foodItem.name,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
                           color: AppColors.textPrimaryColor)),
                   subtitle: Text(
                     foodItem.description,
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 15, color: AppColors.textPrimaryColor),
                   ),
                 );

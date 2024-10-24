@@ -43,8 +43,8 @@ class _WhereToEatSlotMachineScrollAnimationState
     );
 
     _positionAnimation = Tween<Offset>(
-      begin: Offset(0, -0.7),
-      end: Offset(0, 0.7),
+      begin: const Offset(0, -0.7),
+      end: const Offset(0, 0.7),
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
@@ -114,7 +114,7 @@ class _WhereToEatSlotMachineScrollAnimationState
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Center(
                     child: WTEText(
                       text: widget.restaurantName,

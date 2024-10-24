@@ -62,7 +62,7 @@ class WhatToEatModel extends ChangeNotifier {
   }
 
   static List<FoodCategory> foodCategories = <FoodCategory>[
-    FoodCategory(
+    const FoodCategory(
       name: 'Popular Food Types',
       foodItems: <FoodItem>[
         FoodItem(
@@ -157,7 +157,7 @@ class WhatToEatModel extends ChangeNotifier {
         ),
       ],
     ),
-    FoodCategory(
+    const FoodCategory(
       name: 'National Cuisines',
       foodItems: <FoodItem>[
         FoodItem(
@@ -258,7 +258,7 @@ class WhatToEatModel extends ChangeNotifier {
         ),
       ],
     ),
-    FoodCategory(
+    const FoodCategory(
       name: 'Comfort Foods',
       foodItems: <FoodItem>[
         FoodItem(
@@ -341,7 +341,7 @@ class WhatToEatModel extends ChangeNotifier {
         ),
       ],
     ),
-    FoodCategory(
+    const FoodCategory(
       name: 'Light & Healthy',
       foodItems: <FoodItem>[
         FoodItem(
@@ -430,7 +430,7 @@ class WhatToEatModel extends ChangeNotifier {
         ),
       ],
     ),
-    FoodCategory(
+    const FoodCategory(
       name: 'Grilling & BBQ',
       foodItems: <FoodItem>[
         FoodItem(
@@ -519,7 +519,7 @@ class WhatToEatModel extends ChangeNotifier {
         ),
       ],
     ),
-    FoodCategory(
+    const FoodCategory(
       name: 'Pasta Varieties',
       foodItems: <FoodItem>[
         FoodItem(
@@ -596,7 +596,7 @@ class WhatToEatModel extends ChangeNotifier {
         ),
       ],
     ),
-    FoodCategory(
+    const FoodCategory(
       name: 'Breakfast & Brunch',
       foodItems: <FoodItem>[
         FoodItem(
@@ -691,7 +691,7 @@ class WhatToEatModel extends ChangeNotifier {
         ),
       ],
     ),
-    FoodCategory(
+    const FoodCategory(
       name: 'Desserts',
       foodItems: <FoodItem>[
         FoodItem(
