@@ -226,67 +226,95 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: resultFoodItem == null
-                  ? WTEButton(
-                      text: "Spin the Wheel",
-                      textColor: AppColors.textSecondaryColor,
-                      colorEnabled: !spinning,
-                      splashEnabled: !spinning,
-                      tapEnabled: !spinning,
-                      onTap: () {
-                        if (sessionItems.isNotEmpty) {
-                          final randomIndex =
-                              Fortune.randomInt(0, sessionItems.length);
-                          selected.add(randomIndex);
-                          setState(
-                            () {
-                              resultIndex = randomIndex;
-                            },
-                          );
-                        }
-                      },
-                    )
-                  : Row(
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          child: WTEButton(
-                            text: "Use Veto",
-                            textColor: AppColors.textSecondaryColor,
-                            colorEnabled: vetoesLeft > 0,
-                            splashEnabled: vetoesLeft > 0,
-                            tapEnabled: vetoesLeft > 0,
-                            onTap: () {
-                              if (!spinning) {
-                                useVeto();
-                              }
-                            },
-                          ),
-                        ),
-                        const SizedBox(width: 10),
-                        Flexible(
-                          flex: 1,
-                          child: WTEButton(
-                            text: "Select Food",
-                            textColor: AppColors.textSecondaryColor,
-                            colorEnabled: !spinning,
-                            splashEnabled: !spinning,
-                            tapEnabled: !spinning,
-                            onTap: () {
-                              if (resultFoodItem != null) {
-                                Provider.of<WhatToEatModel>(context,
-                                        listen: false)
-                                    .setSelectedFood(resultFoodItem!);
-                              }
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
+              child: AnimatedCrossFade(
+                firstChild: WTEButton(
+                  text: "Spin the Wheel",
+                  textColor: AppColors.textSecondaryColor,
+                  colorEnabled: !spinning,
+                  splashEnabled: !spinning,
+                  tapEnabled: !spinning,
+                  onTap: () {
+                    if (sessionItems.isNotEmpty) {
+                      final randomIndex =
+                          Fortune.randomInt(0, sessionItems.length);
+                      selected.add(randomIndex);
+                      setState(
+                        () {
+                          resultIndex = randomIndex;
+                        },
+                      );
+                    }
+                  },
+                ),
+                secondChild: VetoOrResult(
+                    vetoesLeft: vetoesLeft,
+                    spinning: spinning,
+                    useVeto: useVeto,
+                    resultFoodItem: resultFoodItem),
+                crossFadeState: resultFoodItem == null
+                    ? CrossFadeState.showFirst
+                    : CrossFadeState.showSecond,
+                duration: Duration(milliseconds: 400),
+              ),
             ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class VetoOrResult extends StatelessWidget {
+  final int vetoesLeft;
+  final bool spinning;
+  final Function useVeto;
+  final FoodItem? resultFoodItem;
+
+  const VetoOrResult({
+    super.key,
+    required this.vetoesLeft,
+    required this.spinning,
+    required this.useVeto,
+    required this.resultFoodItem,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Flexible(
+          flex: 1,
+          child: WTEButton(
+            text: "Use Veto",
+            textColor: AppColors.textSecondaryColor,
+            colorEnabled: vetoesLeft > 0,
+            splashEnabled: vetoesLeft > 0,
+            tapEnabled: vetoesLeft > 0,
+            onTap: () {
+              if (!spinning) {
+                useVeto();
+              }
+            },
+          ),
+        ),
+        const SizedBox(width: 10),
+        Flexible(
+          flex: 1,
+          child: WTEButton(
+            text: "Select Food",
+            textColor: AppColors.textSecondaryColor,
+            colorEnabled: !spinning,
+            splashEnabled: !spinning,
+            tapEnabled: !spinning,
+            onTap: () {
+              if (resultFoodItem != null) {
+                Provider.of<WhatToEatModel>(context, listen: false)
+                    .setSelectedFood(resultFoodItem!);
+              }
+            },
+          ),
+        ),
+      ],
     );
   }
 }

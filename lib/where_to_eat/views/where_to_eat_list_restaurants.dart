@@ -285,6 +285,7 @@ class CuisineWidget extends StatelessWidget {
     required this.expandedIndexes,
     required this.restaurants,
   });
+
   @override
   Widget build(BuildContext context) {
     return Column(
