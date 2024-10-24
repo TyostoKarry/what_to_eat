@@ -21,7 +21,7 @@ class EntryScreenState extends State<EntryScreen> {
       _selectedSide = side;
     });
 
-    Future.delayed(Duration(milliseconds: 150), () {
+    Future<void>.delayed(const Duration(milliseconds: 150), () {
       widget.onItemTapped(side);
     });
   }
@@ -35,7 +35,7 @@ class EntryScreenState extends State<EntryScreen> {
     return Scaffold(
       body: WTESafeArea(
         child: Row(
-          children: [
+          children: <Widget>[
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
@@ -46,15 +46,15 @@ class EntryScreenState extends State<EntryScreen> {
                     _onSideSelected(1);
                   },
                   splashColor: AppColors.splashColor,
-                  child: Center(
+                  child: const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         Icon(
                           Icons.restaurant_sharp,
                           size: 36,
                           color: AppColors.textPrimaryColor,
-                          shadows: [
+                          shadows: <Shadow>[
                             Shadow(
                               offset: Offset(2, 2),
                               blurRadius: 3,
@@ -67,7 +67,7 @@ class EntryScreenState extends State<EntryScreen> {
                           style: TextStyle(
                             fontSize: 36,
                             color: AppColors.textPrimaryColor,
-                            shadows: [
+                            shadows: <Shadow>[
                               Shadow(
                                 offset: Offset(2, 2),
                                 blurRadius: 3,
@@ -81,7 +81,7 @@ class EntryScreenState extends State<EntryScreen> {
                           style: TextStyle(
                             fontSize: 36,
                             color: AppColors.textPrimaryColor,
-                            shadows: [
+                            shadows: <Shadow>[
                               Shadow(
                                 offset: Offset(2, 2),
                                 blurRadius: 3,
@@ -106,15 +106,15 @@ class EntryScreenState extends State<EntryScreen> {
                     _onSideSelected(2);
                   },
                   splashColor: AppColors.splashColor,
-                  child: Center(
+                  child: const Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
+                      children: <Widget>[
                         Icon(
                           Icons.location_on,
                           size: 36,
                           color: AppColors.textPrimaryColor,
-                          shadows: [
+                          shadows: <Shadow>[
                             Shadow(
                               offset: Offset(2, 2),
                               blurRadius: 3,
@@ -127,7 +127,7 @@ class EntryScreenState extends State<EntryScreen> {
                           style: TextStyle(
                             fontSize: 36,
                             color: AppColors.textPrimaryColor,
-                            shadows: [
+                            shadows: <Shadow>[
                               Shadow(
                                 offset: Offset(2, 2),
                                 blurRadius: 3,
@@ -141,7 +141,7 @@ class EntryScreenState extends State<EntryScreen> {
                           style: TextStyle(
                             fontSize: 36,
                             color: AppColors.textPrimaryColor,
-                            shadows: [
+                            shadows: <Shadow>[
                               Shadow(
                                 offset: Offset(2, 2),
                                 blurRadius: 3,

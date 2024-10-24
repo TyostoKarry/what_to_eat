@@ -14,9 +14,10 @@ class WhatToEatCustomCategory extends StatefulWidget {
 }
 
 class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
-  final List<TextEditingController> _foodItems = [];
-  final List<double> _foodItemOpacities = [];
+  final List<TextEditingController> _foodItems = <TextEditingController>[];
+  final List<double> _foodItemOpacities = <double>[];
   bool _isAnimating = false;
+  bool _snackBarVisible = false;
 
   static const Duration disableButtonDuration = Duration(milliseconds: 300);
 
@@ -35,13 +36,13 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
       _foodItemOpacities.add(0.0);
     });
 
-    Future.delayed(Duration(milliseconds: 100), () {
+    Future<void>.delayed(const Duration(milliseconds: 100), () {
       setState(() {
         _foodItemOpacities[_foodItemOpacities.length - 1] = 1.0;
       });
     });
 
-    await Future.delayed(disableButtonDuration);
+    await Future<void>.delayed(disableButtonDuration);
     setState(() {
       _isAnimating = false;
     });
@@ -55,7 +56,7 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
       _foodItemOpacities[index] = 0.0;
     });
 
-    Future.delayed(Duration(milliseconds: 300), () {
+    Future<void>.delayed(const Duration(milliseconds: 300), () {
       setState(() {
         _foodItems[index].dispose();
         _foodItems.removeAt(index);
@@ -63,57 +64,70 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
       });
     });
 
-    await Future.delayed(disableButtonDuration);
+    await Future<void>.delayed(disableButtonDuration);
     setState(() {
       _isAnimating = false;
     });
   }
 
   void _saveCustomCategory() {
-    final model = Provider.of<WhatToEatModel>(context, listen: false);
+    final WhatToEatModel model =
+        Provider.of<WhatToEatModel>(context, listen: false);
 
-    FoodCategory customCategory =
-        FoodCategory(name: 'Custom Category', foodItems: []);
+    List<FoodItem> customFoodItems = <FoodItem>[];
     int validFoodItemsCount = 0;
 
-    for (var foodItem in _foodItems) {
+    for (TextEditingController foodItem in _foodItems) {
       if (foodItem.text.isNotEmpty) {
         validFoodItemsCount++;
-        customCategory.foodItems.add(FoodItem(
-          name: foodItem.text,
-          image: 'empty_plate.jpg',
-          description: '',
-        ));
+        customFoodItems.add(
+          FoodItem(
+            name: foodItem.text,
+            image: 'empty_plate.jpg',
+            description: '',
+          ),
+        );
       }
     }
 
     if (validFoodItemsCount < 2) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Not Enough Items'),
-            content: const Text(
-                'You need at least 2 food items in order to spin the wheel.'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
+      if (_snackBarVisible) return;
+      _snackBarVisible = true;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Center(
+            child: Text('Need at least 2 food items!'),
+          ),
+          duration: const Duration(seconds: 2),
+          backgroundColor: const Color.fromARGB(255, 56, 56, 56),
+          padding: const EdgeInsets.all(8.0),
+          margin:
+              const EdgeInsets.only(bottom: 30.0, left: 100.0, right: 100.0),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          onVisible: () {
+            Future<void>.delayed(const Duration(seconds: 2), () {
+              if (!mounted) return;
+              setState(() {
+                _snackBarVisible = false;
+              });
+            });
+          },
+        ),
       );
     } else {
-      model.setSelectedCategory(customCategory);
+      model.setSelectedCategory(
+        FoodCategory(name: 'Custom Category', foodItems: customFoodItems),
+      );
     }
   }
 
   @override
   void dispose() {
-    for (var foodItem in _foodItems) {
+    for (TextEditingController foodItem in _foodItems) {
       foodItem.dispose();
     }
     super.dispose();
@@ -127,8 +141,8 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
           gradient: AppColors.getWhatToEatBackground(),
         ),
         child: Column(
-          children: [
-            WTEViewTitle(
+          children: <Widget>[
+            const WTEViewTitle(
               titleText: 'Create Custom Category',
               padding: EdgeInsets.only(top: 10, bottom: 20),
             ),
@@ -136,24 +150,25 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
-                  children: List.generate(_foodItems.length, (index) {
+                  children:
+                      List<Widget>.generate(_foodItems.length, (int index) {
                     return AnimatedOpacity(
                       opacity: _foodItemOpacities[index],
-                      duration: Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 300),
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 16),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
+                          children: <Widget>[
                             Container(
                               margin: const EdgeInsets.only(right: 12),
                               child: Text(
                                 '${index + 1}.',
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.textPrimaryColor,
-                                  shadows: [
+                                  shadows: <Shadow>[
                                     Shadow(
                                       offset: Offset(2, 2),
                                       blurRadius: 3,
@@ -169,23 +184,23 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
                                 decoration: BoxDecoration(
                                   color: AppColors.foodItemBackgroundColor,
                                   borderRadius: BorderRadius.circular(12),
-                                  boxShadow: [
+                                  boxShadow: <BoxShadow>[
                                     BoxShadow(
-                                      offset: Offset(0, 3),
+                                      offset: const Offset(0, 3),
                                       blurRadius: 6,
                                       color: Colors.black.withOpacity(0.1),
                                     ),
                                   ],
                                 ),
                                 child: Row(
-                                  children: [
+                                  children: <Widget>[
                                     Expanded(
                                       child: Padding(
                                         padding:
                                             const EdgeInsets.only(left: 12.0),
                                         child: TextField(
                                           controller: _foodItems[index],
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: AppColors.textPrimaryColor,
                                           ),
                                           cursorWidth: 1.3,
@@ -201,10 +216,10 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
                                       ),
                                     ),
                                     IconButton(
-                                      icon: Icon(
+                                      icon: const Icon(
                                         Icons.delete,
                                         color: AppColors.textPrimaryColor,
-                                        shadows: [
+                                        shadows: <Shadow>[
                                           Shadow(
                                             offset: Offset(2, 2),
                                             blurRadius: 3,
@@ -231,7 +246,7 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
                 ),
               ),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: WTEButton(

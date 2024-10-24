@@ -13,7 +13,8 @@ class WhatToEatFoodSelected extends StatelessWidget {
 
   Future<void> _launchGoogleSearch(String query) async {
     final Uri searchUrl = Uri.parse(
-        'https://www.google.com/search?q=${Uri.encodeComponent(query)}');
+      'https://www.google.com/search?q=${Uri.encodeComponent(query)}',
+    );
 
     if (!await launchUrl(
       searchUrl,
@@ -25,9 +26,11 @@ class WhatToEatFoodSelected extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<WhatToEatModel>();
-    final selectedFood = model.selectedFood ??
-        SelectedFood(foodItem: FoodItem(name: '', image: '', description: ''));
+    final WhatToEatModel model = context.watch<WhatToEatModel>();
+    final SelectedFood selectedFood = model.selectedFood ??
+        const SelectedFood(
+          foodItem: FoodItem(name: '', image: '', description: ''),
+        );
 
     return Scaffold(
       body: Container(
@@ -36,22 +39,22 @@ class WhatToEatFoodSelected extends StatelessWidget {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            WTEViewTitle(
+          children: <Widget>[
+            const WTEViewTitle(
               titleText: 'Today I Will Eat',
             ),
             Column(
-              children: [
+              children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
+                      boxShadow: <BoxShadow>[
                         BoxShadow(
                           color: Colors.black.withOpacity(0.1),
                           blurRadius: 10,
-                          offset: Offset(0, 4),
+                          offset: const Offset(0, 4),
                         ),
                       ],
                     ),
@@ -77,11 +80,11 @@ class WhatToEatFoodSelected extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppColors.foodItemBackgroundColor,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
+                      boxShadow: <BoxShadow>[
                         BoxShadow(
                           color: Colors.black.withOpacity(0.1),
                           blurRadius: 6,
-                          offset: Offset(0, 3),
+                          offset: const Offset(0, 3),
                         ),
                       ],
                     ),
@@ -90,7 +93,7 @@ class WhatToEatFoodSelected extends StatelessWidget {
                         text: selectedFood.foodItem.name,
                         color: AppColors.textPrimaryColor,
                         shadowColor: AppColors.textPrimaryShadowColor,
-                        offset: Offset(2, 2),
+                        offset: const Offset(2, 2),
                         fontSize: 20,
                         minFontSize: 12,
                         fontWeight: FontWeight.bold,

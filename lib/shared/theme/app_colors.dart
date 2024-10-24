@@ -40,32 +40,32 @@ class AppColors {
 
   // Gradients
   static LinearGradient getWhatToEatBackground() {
-    return LinearGradient(
+    return const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [
-        const Color.fromARGB(255, 86, 204, 242),
-        const Color.fromARGB(255, 47, 128, 237),
+      colors: <Color>[
+        Color.fromARGB(255, 86, 204, 242),
+        Color.fromARGB(255, 47, 128, 237),
       ],
     );
   }
 
   static LinearGradient getWhereToEatBackground() {
-    return LinearGradient(
+    return const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [
-        const Color.fromARGB(255, 174, 241, 97),
-        const Color.fromARGB(255, 116, 201, 25),
+      colors: <Color>[
+        Color.fromARGB(255, 174, 241, 97),
+        Color.fromARGB(255, 116, 201, 25),
       ],
     );
   }
 
   static LinearGradient getWhereToEatButtonBackground() {
-    return LinearGradient(
+    return const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [
+      colors: <Color>[
         whereToEatButtonPrimaryColor,
         whereToEatButtonSecondaryColor,
       ],
@@ -73,12 +73,12 @@ class AppColors {
   }
 
   static LinearGradient getWhereToEatResultBackground() {
-    return LinearGradient(
+    return const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [
-        const Color.fromARGB(255, 202, 255, 141),
-        const Color.fromARGB(255, 185, 255, 110),
+      colors: <Color>[
+        Color.fromARGB(255, 202, 255, 141),
+        Color.fromARGB(255, 185, 255, 110),
       ],
     );
   }

@@ -42,39 +42,47 @@ class _WhereToEatSlotMachineResultAnimationState
     );
 
     _positionAnimation = Tween<Offset>(
-      begin: Offset(0, -0.7),
-      end: Offset(0, 0),
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+      begin: const Offset(0, -0.7),
+      end: const Offset(0, 0),
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
 
     _opacityAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
 
     _paddingAnimation = Tween<double>(
       begin: 60.0,
       end: 20.0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
 
     _fontSizeAnimation = Tween<double>(
       begin: 16.0,
       end: 28.0,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
 
     _controller.forward().then((_) {
-      Future.delayed(Duration(milliseconds: 1500), () {
+      Future<void>.delayed(const Duration(milliseconds: 1500), () {
         if (mounted) {
           _measureTextSize();
           Provider.of<WhereToEatModel>(context, listen: false)
@@ -108,7 +116,7 @@ class _WhereToEatSlotMachineResultAnimationState
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
-      builder: (context, child) {
+      builder: (BuildContext context, Widget? child) {
         return Transform.translate(
           offset: _positionAnimation.value * 200,
           child: Opacity(
@@ -124,7 +132,7 @@ class _WhereToEatSlotMachineResultAnimationState
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Center(
                     child: WTEText(
                       key: _nameTextKey,

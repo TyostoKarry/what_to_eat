@@ -43,13 +43,14 @@ class WhereToEatResultState extends State<WhereToEatResult>
 
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<WhereToEatModel>(context, listen: false);
+    final WhereToEatModel model =
+        Provider.of<WhereToEatModel>(context, listen: false);
 
     return Center(
       child: Padding(
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
         child: AnimatedContainer(
-          duration: Duration(seconds: 1),
+          duration: const Duration(seconds: 1),
           curve: Curves.easeInOut,
           width: double.infinity,
           height: _expanded ? _calculatedHeight : 60,
@@ -61,26 +62,36 @@ class WhereToEatResultState extends State<WhereToEatResult>
             child: Padding(
               key: _contentKey,
               padding: EdgeInsets.symmetric(
-                  horizontal: 20, vertical: ((60 - model.nameTextHeight) / 2)),
+                horizontal: 20,
+                vertical: ((60 - model.nameTextHeight) / 2),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   RestaurantNameInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                   RestaurantAddressInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                   RestaurantDistanceInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                   RestaurantCuisineInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                   RestaurantDietaryOptionsInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                   RestaurantOpeningHoursInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                   RestaurantContactInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                   RestaurantWebsiteInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                 ],
               ),
             ),

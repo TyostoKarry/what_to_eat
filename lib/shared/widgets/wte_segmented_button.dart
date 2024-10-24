@@ -99,7 +99,7 @@ class WTESegmentedButtonState extends State<WTESegmentedButton> {
       height: 50,
       width: double.infinity,
       child: Row(
-        children: List.generate(widget.options.length, (index) {
+        children: List<Widget>.generate(widget.options.length, (int index) {
           final String option = widget.options[index];
           final IconData selectedIcon = widget.selectedIcons[index];
           final IconData unselectedIcon = widget.unselectedIcons[index];
@@ -130,28 +130,29 @@ class WTESegmentedButtonState extends State<WTESegmentedButton> {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Icon(
                       isSelected ? selectedIcon : unselectedIcon,
                       color: AppColors.textSecondaryColor,
-                      shadows: [
+                      shadows: const <Shadow>[
                         Shadow(
-                          offset: const Offset(2, 2),
+                          offset: Offset(2, 2),
                           blurRadius: 2,
                           color: AppColors.textSecondaryShadowColor,
                         ),
                       ],
                     ),
-                    SizedBox(width: 6),
+                    const SizedBox(width: 6),
                     WTEText(
-                        text: option,
-                        color: AppColors.textSecondaryColor,
-                        fontWeight:
-                            isSelected ? FontWeight.bold : FontWeight.normal,
-                        fontSize: 16,
-                        minFontSize: 16,
-                        shadowColor: AppColors.textSecondaryShadowColor,
-                        offset: const Offset(2, 2)),
+                      text: option,
+                      color: AppColors.textSecondaryColor,
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontSize: 16,
+                      minFontSize: 16,
+                      shadowColor: AppColors.textSecondaryShadowColor,
+                      offset: const Offset(2, 2),
+                    ),
                   ],
                 ),
               ),

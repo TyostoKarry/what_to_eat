@@ -34,8 +34,8 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
   final GlobalKey _sliderContainerKey = GlobalKey();
   double _dropdownSearchHeight = 0.0;
   double _sliderContainerHeight = 0.0;
-  List<dynamic> _restaurants = [];
-  Set<String> selected = {'Restaurants', 'Fast Food'};
+  List<dynamic> _restaurants = <dynamic>[];
+  Set<String> selected = <String>{'Restaurants', 'Fast Food'};
   final TextEditingController _cuisineController = TextEditingController();
   String? selectedCuisine;
   double currentRange = 5000;
@@ -70,7 +70,8 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
   }
 
   Future<void> getPositionAndNearbyRestaurants() async {
-    final model = Provider.of<WhereToEatModel>(context, listen: false);
+    final WhereToEatModel model =
+        Provider.of<WhereToEatModel>(context, listen: false);
     model.setWhereToEatScreenState(WhereToEatScreenState.loading);
 
     Position? position;
@@ -88,16 +89,21 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
     if (!model.searchedRestaurantsNearby.searchHasHappened) {
       await _searchNearbyRestaurants(model, position);
     } else {
-      const locationThreshold = 4000; // Approx 4km meters
+      const int locationThreshold = 4000; // Approx 4km meters
       double distance = Geolocator.distanceBetween(
-          model.searchedRestaurantsNearby.latitude,
-          model.searchedRestaurantsNearby.longitude,
-          position.latitude,
-          position.longitude);
+        model.searchedRestaurantsNearby.latitude,
+        model.searchedRestaurantsNearby.longitude,
+        position.latitude,
+        position.longitude,
+      );
 
       if (distance < locationThreshold) {
         _restaurants = model.filterRestaurantsBasedOnSelection(
-            selected, position, currentRange.toInt(), selectedCuisine);
+          selected,
+          position,
+          currentRange.toInt(),
+          selectedCuisine,
+        );
 
         _setNextState();
       } else {
@@ -106,12 +112,21 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
     }
   }
 
-  Future<void> _searchNearbyRestaurants(model, position) async {
+  Future<void> _searchNearbyRestaurants(
+    WhereToEatModel model,
+    Position position,
+  ) async {
     try {
       await model.searchRestaurantsNearby(
-          position.latitude, position.longitude);
+        position.latitude,
+        position.longitude,
+      );
       _restaurants = model.filterRestaurantsBasedOnSelection(
-          selected, position, currentRange.toInt(), selectedCuisine);
+        selected,
+        position,
+        currentRange.toInt(),
+        selectedCuisine,
+      );
     } catch (error) {
       model.setWhereToEatScreenState(WhereToEatScreenState.apiError);
       return;
@@ -124,7 +139,8 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
   void _setNextState() {
     if (!mounted) return;
 
-    final model = Provider.of<WhereToEatModel>(context, listen: false);
+    final WhereToEatModel model =
+        Provider.of<WhereToEatModel>(context, listen: false);
     switch ((_randomizeRestaurant, _restaurants.isEmpty)) {
       case (_, true):
         model.setWhereToEatScreenState(WhereToEatScreenState.listRestaurants);
@@ -158,23 +174,29 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
             gradient: AppColors.getWhereToEatBackground(),
           ),
           child: Consumer<WhereToEatModel>(
-            builder: (context, model, child) {
+            builder:
+                (BuildContext context, WhereToEatModel model, Widget? child) {
               isEnabled = model.whereToEatScreenState !=
                       WhereToEatScreenState.loading &&
                   model.whereToEatScreenState !=
                       WhereToEatScreenState.slotMachine;
 
-              List<String> cuisineEntries = model.cuisineEntries.map((cuisine) {
-                return cuisine.split('_').map((word) {
+              List<String> cuisineEntries =
+                  model.cuisineEntries.map((String cuisine) {
+                return cuisine.split('_').map((String word) {
                   return word[0].toUpperCase() + word.substring(1);
                 }).join(' ');
               }).toList();
 
               return Column(
-                children: [
+                children: <Widget>[
                   Expanded(
                     child: Consumer<WhereToEatModel>(
-                      builder: (context, model, child) {
+                      builder: (
+                        BuildContext context,
+                        WhereToEatModel model,
+                        Widget? child,
+                      ) {
                         return _buildContent(model.whereToEatScreenState);
                       },
                     ),
@@ -182,34 +204,36 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                   GestureDetector(
                     onTap: _launchOpenStreetMapCopyright,
                     child: const WTEText(
-                        text: "Map data from OpenStreetMap",
-                        color: AppColors.textPrimaryColor,
-                        fontSize: 12,
-                        minFontSize: 12,
-                        textDecoration: TextDecoration.underline),
+                      text: "Map data from OpenStreetMap",
+                      color: AppColors.textPrimaryColor,
+                      fontSize: 12,
+                      minFontSize: 12,
+                      textDecoration: TextDecoration.underline,
+                    ),
                   ),
                   GestureDetector(
                     onTap: _launchOpenStreetMapCopyright,
                     child: const WTEText(
-                        text:
-                            "Providing real-time location-based restaurant data",
-                        color: AppColors.textPrimaryColor,
-                        fontSize: 12,
-                        minFontSize: 12,
-                        textDecoration: TextDecoration.underline),
+                      text:
+                          "Providing real-time location-based restaurant data",
+                      color: AppColors.textPrimaryColor,
+                      fontSize: 12,
+                      minFontSize: 12,
+                      textDecoration: TextDecoration.underline,
+                    ),
                   ),
-                  SizedBox(height: 5),
+                  const SizedBox(height: 5),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Row(
-                      children: [
+                      children: <Widget>[
                         WTEIconButton(
                           width: 60,
                           height: 50,
                           animation: AnimatedRotation(
                             turns: _isMenuVisible ? 0.0 : 0.5,
                             duration: _menuAnimationDuration,
-                            child: Icon(
+                            child: const Icon(
                               Icons.keyboard_arrow_up,
                               color: AppColors.textSecondaryColor,
                             ),
@@ -224,16 +248,19 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                           },
                           isEnabled: isEnabled,
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Expanded(
                           child: WTESegmentedButton(
-                            options: ['Restaurants', 'Fast Food'],
+                            options: const <String>['Restaurants', 'Fast Food'],
                             selected: selected,
-                            selectedIcons: [
+                            selectedIcons: const <IconData>[
                               Icons.restaurant_outlined,
-                              Icons.fastfood_outlined
+                              Icons.fastfood_outlined,
                             ],
-                            unselectedIcons: [Icons.close, Icons.close],
+                            unselectedIcons: const <IconData>[
+                              Icons.close,
+                              Icons.close,
+                            ],
                             multiSelectionEnabled: true,
                             allowEmptySelection: false,
                             isEnabled: isEnabled,
@@ -253,7 +280,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                     curve: Curves.easeInOut,
                     child: SingleChildScrollView(
                       child: Column(
-                        children: [
+                        children: <Widget>[
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
                             child: Container(
@@ -264,8 +291,8 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Column(
-                                children: [
-                                  SizedBox(height: 10),
+                                children: <Widget>[
+                                  const SizedBox(height: 10),
                                   WTEText(
                                     text:
                                         "Search Range: ${currentRange.toInt()}m",
@@ -295,11 +322,14 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                             padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
                             child: DropdownSearch<String>(
                               key: _dropdownSearchKey,
-                              items: (filter, infiniteScrollProps) =>
+                              items: (
+                                String filter,
+                                LoadProps? infiniteScrollProps,
+                              ) =>
                                   cuisineEntries,
                               enabled: isEnabled,
-                              popupProps: PopupProps.menu(
-                                searchDelay: Duration(milliseconds: 100),
+                              popupProps: PopupProps<String>.menu(
+                                searchDelay: const Duration(milliseconds: 100),
                                 showSearchBox: true,
                                 fit: FlexFit.loose,
                                 constraints: BoxConstraints.tightFor(
@@ -313,7 +343,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                                   elevation: 2,
                                 ),
                               ),
-                              onChanged: (value) {
+                              onChanged: (String? value) {
                                 if (value == 'Any') {
                                   setState(() {
                                     selectedCuisine = null;
@@ -331,16 +361,18 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                                   filled: true,
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(width: 0.3),
+                                    borderSide: const BorderSide(width: 0.3),
                                   ),
                                   focusedBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(width: 0.3),
+                                    borderSide: const BorderSide(width: 0.3),
                                   ),
                                   disabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
-                                    borderSide: BorderSide(
-                                        color: Colors.transparent, width: 0),
+                                    borderSide: const BorderSide(
+                                      color: Colors.transparent,
+                                      width: 0,
+                                    ),
                                   ),
                                 ),
                               ),
@@ -353,9 +385,9 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
                     child: Row(
-                      children: [
+                      children: <Widget>[
                         WTEIconButton(
-                          animation: Icon(
+                          animation: const Icon(
                             Icons.menu,
                             color: AppColors.textSecondaryColor,
                           ),
@@ -370,7 +402,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                           },
                           isEnabled: isEnabled,
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         Expanded(
                           child: WTEButton(
                             text: model.whereToEatScreenState ==
@@ -378,9 +410,9 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                                 ? "Retry"
                                 : "Where To Eat",
                             textColor: AppColors.textSecondaryColor,
-                            gradientColors: [
+                            gradientColors: const <Color>[
                               AppColors.whereToEatButtonPrimaryColor,
-                              AppColors.whereToEatButtonSecondaryColor
+                              AppColors.whereToEatButtonSecondaryColor,
                             ],
                             colorEnabled: isEnabled,
                             splashEnabled: isEnabled,
@@ -411,7 +443,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
       case WhereToEatScreenState.initial:
         return Container();
       case WhereToEatScreenState.loading:
-        return WhereToEatLoading();
+        return const WhereToEatLoading();
       case WhereToEatScreenState.locationServiceDisabled:
         return WhereToEatLocationError(
           titleText: "Location Service",
@@ -431,18 +463,19 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
           },
         );
       case WhereToEatScreenState.apiError:
-        return WhereToEatApiError();
+        return const WhereToEatApiError();
       case WhereToEatScreenState.slotMachine:
         final List<String> restaurantNames = _restaurants
-            .where((restaurant) => restaurant['tags']['name'] != null)
-            .map((restaurant) => restaurant['tags']['name'] as String)
+            .where((dynamic restaurant) => restaurant['tags']['name'] != null)
+            .map((dynamic restaurant) => restaurant['tags']['name'] as String)
             .toList();
         return WhereToEatSlotMachine(restaurantNames: restaurantNames);
       case WhereToEatScreenState.listRestaurants:
         return WhereToEatListRestaurants(
-            selected: selected,
-            currentRange: currentRange,
-            selectedCuisine: selectedCuisine);
+          selected: selected,
+          currentRange: currentRange,
+          selectedCuisine: selectedCuisine,
+        );
       case WhereToEatScreenState.result:
         return WhereToEatResult(restaurants: _restaurants);
     }

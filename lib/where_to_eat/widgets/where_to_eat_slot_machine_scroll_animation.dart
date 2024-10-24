@@ -43,42 +43,64 @@ class _WhereToEatSlotMachineScrollAnimationState
     );
 
     _positionAnimation = Tween<Offset>(
-      begin: Offset(0, -0.7),
-      end: Offset(0, 0.7),
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+      begin: const Offset(0, -0.7),
+      end: const Offset(0, 0.7),
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
 
-    _opacityAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween<double>(begin: 0.0, end: 1.0), weight: 50),
-      TweenSequenceItem(tween: Tween<double>(begin: 1.0, end: 0.0), weight: 50),
-    ]).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    _opacityAnimation = TweenSequence<double>(<TweenSequenceItem<double>>[
+      TweenSequenceItem<double>(
+        tween: Tween<double>(begin: 0.0, end: 1.0),
+        weight: 50,
+      ),
+      TweenSequenceItem<double>(
+        tween: Tween<double>(begin: 1.0, end: 0.0),
+        weight: 50,
+      ),
+    ]).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
 
-    _paddingAnimation = TweenSequence<double>([
-      TweenSequenceItem(
-          tween: Tween<double>(begin: 60.0, end: 20.0), weight: 50),
-      TweenSequenceItem(
-          tween: Tween<double>(begin: 20.0, end: 60.0), weight: 50),
-    ]).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    _paddingAnimation = TweenSequence<double>(<TweenSequenceItem<double>>[
+      TweenSequenceItem<double>(
+        tween: Tween<double>(begin: 60.0, end: 20.0),
+        weight: 50,
+      ),
+      TweenSequenceItem<double>(
+        tween: Tween<double>(begin: 20.0, end: 60.0),
+        weight: 50,
+      ),
+    ]).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
 
-    _fontSizeAnimation = TweenSequence<double>([
-      TweenSequenceItem(
-          tween: Tween<double>(begin: 16.0, end: 28.0), weight: 50),
-      TweenSequenceItem(
-          tween: Tween<double>(begin: 28.0, end: 16.0), weight: 50),
-    ]).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    _fontSizeAnimation = TweenSequence<double>(<TweenSequenceItem<double>>[
+      TweenSequenceItem<double>(
+        tween: Tween<double>(begin: 16.0, end: 28.0),
+        weight: 50,
+      ),
+      TweenSequenceItem<double>(
+        tween: Tween<double>(begin: 28.0, end: 16.0),
+        weight: 50,
+      ),
+    ]).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
 
-    Future.delayed(
+    Future<void>.delayed(
         Duration(milliseconds: widget.index * widget.delayBetweenItems), () {
       if (mounted) {
         _controller.forward();
@@ -96,7 +118,7 @@ class _WhereToEatSlotMachineScrollAnimationState
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
-      builder: (context, child) {
+      builder: (BuildContext context, Widget? child) {
         return Transform.translate(
           offset: _positionAnimation.value * 200,
           child: Opacity(
@@ -112,7 +134,7 @@ class _WhereToEatSlotMachineScrollAnimationState
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Center(
                     child: WTEText(
                       text: widget.restaurantName,

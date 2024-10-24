@@ -32,8 +32,8 @@ class WTEIconButton extends StatelessWidget {
         color: isEnabled ? null : disabledColor,
         borderRadius: BorderRadius.circular(15),
         boxShadow: isEnabled
-            ? [
-                BoxShadow(
+            ? <BoxShadow>[
+                const BoxShadow(
                   color: AppColors.textPrimaryShadowColor,
                   offset: Offset(2, 2),
                   blurRadius: 3,
@@ -45,10 +45,11 @@ class WTEIconButton extends StatelessWidget {
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(15),
         child: InkWell(
-            borderRadius: BorderRadius.circular(15),
-            splashColor: AppColors.splashColor,
-            onTap: isEnabled ? onTap : null,
-            child: animation),
+          borderRadius: BorderRadius.circular(15),
+          splashColor: AppColors.splashColor,
+          onTap: isEnabled ? onTap : null,
+          child: animation,
+        ),
       ),
     );
   }

@@ -13,7 +13,7 @@ class RestaurantNameInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: <Widget>[
         Center(
           child: WTEText(
             text: restaurant['tags']['name'],
@@ -24,7 +24,7 @@ class RestaurantNameInfo extends StatelessWidget {
             maxLines: 3,
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
       ],
     );
   }
@@ -47,7 +47,8 @@ class _RestaurantAddressInfoState extends State<RestaurantAddressInfo> {
     if (restaurant['tags']['addr:street'] != null &&
         restaurant['tags']['addr:housenumber'] != null) {
       StringBuffer address = StringBuffer(
-          "${restaurant['tags']['addr:street']} ${restaurant['tags']['addr:housenumber']}");
+        "${restaurant['tags']['addr:street']} ${restaurant['tags']['addr:housenumber']}",
+      );
 
       if (restaurant['tags']['addr:unit'] != null) {
         address.write(" ${restaurant['tags']['addr:unit']}");
@@ -64,13 +65,13 @@ class _RestaurantAddressInfoState extends State<RestaurantAddressInfo> {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
+      children: <Widget>[
+        const Row(
+          children: <Widget>[
             Icon(
               Icons.location_on,
               color: AppColors.textPrimaryColor,
-              shadows: [
+              shadows: <Shadow>[
                 Shadow(
                   offset: Offset(2, 2),
                   blurRadius: 3,
@@ -103,7 +104,7 @@ class _RestaurantAddressInfoState extends State<RestaurantAddressInfo> {
             minFontSize: 18,
             textAlign: TextAlign.left,
           ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
       ],
     );
   }
@@ -113,8 +114,11 @@ class RestaurantDistanceInfo extends StatelessWidget {
   final Map<String, dynamic> restaurant;
   final bool includeLabel;
 
-  const RestaurantDistanceInfo(
-      {required this.restaurant, this.includeLabel = true, super.key});
+  const RestaurantDistanceInfo({
+    required this.restaurant,
+    this.includeLabel = true,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -122,14 +126,14 @@ class RestaurantDistanceInfo extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         if (includeLabel)
-          Row(
-            children: [
+          const Row(
+            children: <Widget>[
               Icon(
                 Icons.map_outlined,
                 color: AppColors.textPrimaryColor,
-                shadows: [
+                shadows: <Shadow>[
                   Shadow(
                     offset: Offset(2, 2),
                     blurRadius: 3,
@@ -157,7 +161,7 @@ class RestaurantDistanceInfo extends StatelessWidget {
           maxLines: 4,
           textAlign: TextAlign.left,
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
       ],
     );
   }
@@ -168,11 +172,12 @@ class RestaurantCuisineInfo extends StatelessWidget {
   final bool includeLabel;
   final double spaceBelow;
 
-  const RestaurantCuisineInfo(
-      {required this.restaurant,
-      this.includeLabel = true,
-      this.spaceBelow = 15,
-      super.key});
+  const RestaurantCuisineInfo({
+    required this.restaurant,
+    this.includeLabel = true,
+    this.spaceBelow = 15,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -180,14 +185,14 @@ class RestaurantCuisineInfo extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
+      children: <Widget>[
         if (includeLabel)
-          Row(
-            children: [
+          const Row(
+            children: <Widget>[
               Icon(
                 Icons.flatware,
                 color: AppColors.textPrimaryColor,
-                shadows: [
+                shadows: <Shadow>[
                   Shadow(
                     offset: Offset(2, 2),
                     blurRadius: 3,
@@ -209,7 +214,7 @@ class RestaurantCuisineInfo extends StatelessWidget {
           text: restaurant['tags']['cuisine']
               .toString()
               .split(';')
-              .map((e) => e.trim().replaceAll('_', ' '))
+              .map((String e) => e.trim().replaceAll('_', ' '))
               .toList()
               .join(", "),
           color: AppColors.textPrimaryColor,
@@ -236,11 +241,11 @@ class RestaurantDietaryOptionsInfo extends StatefulWidget {
 
 class _RestaurantDietaryOptionsInfoState
     extends State<RestaurantDietaryOptionsInfo> {
-  List<String> diets = [];
+  List<String> diets = <String>[];
 
   void _populateDietaryOptions(Map<String, dynamic> restaurant) {
     diets.clear();
-    restaurant['tags'].forEach((key, value) {
+    restaurant['tags'].forEach((String key, dynamic value) {
       if (key.startsWith('diet:') && (value == 'yes' || value == 'only')) {
         String dietType = key.split(':')[1];
 
@@ -263,13 +268,13 @@ class _RestaurantDietaryOptionsInfoState
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
+      children: <Widget>[
+        const Row(
+          children: <Widget>[
             Icon(
               Icons.local_dining,
               color: AppColors.textPrimaryColor,
-              shadows: [
+              shadows: <Shadow>[
                 Shadow(
                   offset: Offset(2, 2),
                   blurRadius: 3,
@@ -295,7 +300,7 @@ class _RestaurantDietaryOptionsInfoState
           maxLines: 4,
           textAlign: TextAlign.left,
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
       ],
     );
   }
@@ -316,7 +321,7 @@ class _RestaurantOpeningHoursInfoState
   List<TableRow> buildOpeningHours(String openingHours) {
     List<String> hours = openingHours.split('; ');
 
-    return hours.map((line) {
+    return hours.map((String line) {
       List<String> dayAndTime = line.split(' ');
       String day = dayAndTime[0].trim();
       String time = dayAndTime.length > 1 ? dayAndTime[1].trim() : 'Closed';
@@ -326,7 +331,7 @@ class _RestaurantOpeningHoursInfoState
       }
 
       return TableRow(
-        children: [
+        children: <Widget>[
           Align(
             alignment: Alignment.centerLeft,
             child: WTEText(
@@ -356,13 +361,13 @@ class _RestaurantOpeningHoursInfoState
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
+      children: <Widget>[
+        const Row(
+          children: <Widget>[
             Icon(
               Icons.access_time,
               color: AppColors.textPrimaryColor,
-              shadows: [
+              shadows: <Shadow>[
                 Shadow(
                   offset: Offset(2, 2),
                   blurRadius: 3,
@@ -381,11 +386,11 @@ class _RestaurantOpeningHoursInfoState
           ],
         ),
         Table(
-          defaultColumnWidth: FixedColumnWidth(150.0),
+          defaultColumnWidth: const FixedColumnWidth(150.0),
           children:
               buildOpeningHours(widget.restaurant['tags']['opening_hours']),
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
       ],
     );
   }
@@ -402,18 +407,18 @@ class RestaurantContactInfo extends StatelessWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
+      children: <Widget>[
+        const Row(
+          children: <Widget>[
             Icon(
               Icons.phone,
               color: AppColors.textPrimaryColor,
-              shadows: [
+              shadows: <Shadow>[
                 Shadow(
                   offset: Offset(2, 2),
                   blurRadius: 3,
                   color: Color.fromARGB(140, 110, 110, 110),
-                )
+                ),
               ],
             ),
             SizedBox(width: 10),
@@ -433,7 +438,7 @@ class RestaurantContactInfo extends StatelessWidget {
           minFontSize: 18,
           textAlign: TextAlign.left,
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
       ],
     );
   }
@@ -446,7 +451,8 @@ class RestaurantWebsiteInfo extends StatelessWidget {
 
   Future<void> _launchGoogleSearch(String query) async {
     final Uri searchUrl = Uri.parse(
-        "https://www.google.com/search?q=${Uri.encodeComponent(query)}");
+      "https://www.google.com/search?q=${Uri.encodeComponent(query)}",
+    );
     if (!await launchUrl(
       searchUrl,
       mode: LaunchMode.inAppWebView,
@@ -476,9 +482,9 @@ class RestaurantWebsiteInfo extends StatelessWidget {
           onTap: () {
             _launchRestaurantWebsite(restaurant['tags']['website']);
           },
-          gradientColors: [
+          gradientColors: const <Color>[
             AppColors.whereToEatButtonPrimaryColor,
-            AppColors.whereToEatButtonSecondaryColor
+            AppColors.whereToEatButtonSecondaryColor,
           ],
         ),
       );
@@ -492,9 +498,9 @@ class RestaurantWebsiteInfo extends StatelessWidget {
         onTap: () {
           _launchGoogleSearch(restaurant['tags']['name']);
         },
-        gradientColors: [
+        gradientColors: const <Color>[
           AppColors.whereToEatButtonPrimaryColor,
-          AppColors.whereToEatButtonSecondaryColor
+          AppColors.whereToEatButtonSecondaryColor,
         ],
       ),
     );

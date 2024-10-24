@@ -20,7 +20,7 @@ class WTEViewTitle extends StatelessWidget {
       child: WTEText(
         text: titleText,
         color: AppColors.textPrimaryColor,
-        shadowColor: Color.fromARGB(66, 0, 0, 0),
+        shadowColor: const Color.fromARGB(66, 0, 0, 0),
         fontSize: 32,
         minFontSize: 16,
         fontWeight: FontWeight.bold,

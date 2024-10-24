@@ -12,19 +12,19 @@ class WhereToEatLoading extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Transform.scale(
             scale: 3.0,
-            child: CircularProgressIndicator(
+            child: const CircularProgressIndicator(
               color: AppColors.textPrimaryColor,
             ),
           ),
-          SizedBox(height: 100),
-          WTEText(
+          const SizedBox(height: 100),
+          const WTEText(
             text: "Searching For",
             color: AppColors.textPrimaryColor,
           ),
-          WTEText(
+          const WTEText(
             text: "Nearby Restaurants",
             color: AppColors.textPrimaryColor,
           ),

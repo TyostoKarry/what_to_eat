@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
 import 'package:what_to_eat/what_to_eat/models/what_to_eat_model.dart';
 import 'package:what_to_eat/where_to_eat/models/where_to_eat_model.dart';
@@ -11,13 +12,13 @@ import 'package:what_to_eat/shared/theme/app_colors.dart';
 void main() {
   runApp(
     MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => WhatToEatModel(),
+      providers: <SingleChildWidget>[
+        ChangeNotifierProvider<WhatToEatModel>(
+          create: (BuildContext context) => WhatToEatModel(),
         ),
-        ChangeNotifierProvider(
-          create: (context) => WhereToEatModel(),
-        )
+        ChangeNotifierProvider<WhereToEatModel>(
+          create: (BuildContext context) => WhereToEatModel(),
+        ),
       ],
       child: const MainApp(),
     ),
@@ -31,12 +32,12 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        textSelectionTheme: TextSelectionThemeData(
+        textSelectionTheme: const TextSelectionThemeData(
           cursorColor: AppColors.cursorColor,
           selectionHandleColor: AppColors.selectionHandleColor,
         ),
       ),
-      home: MyNavigationBar(),
+      home: const MyNavigationBar(),
     );
   }
 }
@@ -69,9 +70,9 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
   Widget build(BuildContext context) {
     List<Widget> widgetOptions = <Widget>[
       EntryScreen(onItemTapped: _onItemTapped),
-      WhatToEatScreen(),
-      WhereToEatScreen(),
-      Text('Settings'),
+      const WhatToEatScreen(),
+      const WhereToEatScreen(),
+      const Text('Settings'),
     ];
 
     return Scaffold(

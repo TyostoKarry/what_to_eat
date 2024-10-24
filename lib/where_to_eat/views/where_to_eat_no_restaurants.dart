@@ -8,14 +8,14 @@ class WhereToEatNoRestaurants extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         Icon(
           Icons.location_off,
           size: 60,
           color: AppColors.textPrimaryColor,
-          shadows: [
+          shadows: <Shadow>[
             Shadow(
               offset: Offset(2, 2),
               blurRadius: 3,

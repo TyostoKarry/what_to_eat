@@ -48,7 +48,7 @@ class WTESplitScreenAnimationState extends State<WTESplitScreenAnimation>
   Widget build(BuildContext context) {
     return WTESafeArea(
       child: Stack(
-        children: [
+        children: <Widget>[
           Positioned.fill(
             child: FractionallySizedBox(
               alignment: Alignment.centerLeft,

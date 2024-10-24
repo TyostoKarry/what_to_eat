@@ -13,11 +13,12 @@ class WhereToEatListRestaurants extends StatefulWidget {
   final double currentRange;
   final String? selectedCuisine;
 
-  const WhereToEatListRestaurants(
-      {super.key,
-      required this.selected,
-      required this.currentRange,
-      required this.selectedCuisine});
+  const WhereToEatListRestaurants({
+    super.key,
+    required this.selected,
+    required this.currentRange,
+    required this.selectedCuisine,
+  });
 
   @override
   State<WhereToEatListRestaurants> createState() =>
@@ -25,32 +26,34 @@ class WhereToEatListRestaurants extends StatefulWidget {
 }
 
 class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
-  List<dynamic> restaurants = [];
-  Set<int> expandedIndexes = {};
+  List<dynamic> restaurants = <dynamic>[];
+  Set<int> expandedIndexes = <int>{};
 
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<WhereToEatModel>(context);
+    final WhereToEatModel model = Provider.of<WhereToEatModel>(context);
 
     restaurants = model.filterAnenity(widget.selected);
     restaurants = model.filterCuisine(restaurants, widget.selectedCuisine);
     restaurants = model.filterDistanceWithoutPosition(
-        restaurants, widget.currentRange.toInt());
+      restaurants,
+      widget.currentRange.toInt(),
+    );
 
     bool hasRestaurants = restaurants.isNotEmpty;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        if (hasRestaurants) ...[
-          WTEViewTitle(titleText: "Restaurants Near You"),
+      children: <Widget>[
+        if (hasRestaurants) ...<Widget>[
+          const WTEViewTitle(titleText: "Restaurants Near You"),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: ListView.builder(
                 itemCount: restaurants.length,
-                itemBuilder: (context, index) {
-                  var tags = restaurants[index]['tags'];
+                itemBuilder: (BuildContext context, int index) {
+                  dynamic tags = restaurants[index]['tags'];
                   bool isExpanded = expandedIndexes.contains(index);
 
                   return GestureDetector(
@@ -63,42 +66,53 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                         }
                       });
                     },
-                    child: TweenAnimationBuilder(
+                    child: TweenAnimationBuilder<EdgeInsets>(
                       tween: Tween<EdgeInsets>(
-                        begin: EdgeInsets.fromLTRB(20, 7, 20, 7),
+                        begin: const EdgeInsets.fromLTRB(20, 7, 20, 7),
                         end: isExpanded
-                            ? EdgeInsets.fromLTRB(20, 10, 20, 10)
-                            : EdgeInsets.fromLTRB(20, 7, 20, 7),
+                            ? const EdgeInsets.fromLTRB(20, 10, 20, 10)
+                            : const EdgeInsets.fromLTRB(20, 7, 20, 7),
                       ),
-                      duration: Duration(milliseconds: 100),
-                      builder: (context, padding, child) {
+                      duration: const Duration(milliseconds: 100),
+                      builder: (
+                        BuildContext context,
+                        EdgeInsets padding,
+                        Widget? child,
+                      ) {
                         return AnimatedContainer(
-                          duration: Duration(milliseconds: 300),
-                          margin:
-                              EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+                          duration: const Duration(milliseconds: 300),
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 7,
+                          ),
                           padding: padding,
                           decoration: BoxDecoration(
                             gradient: AppColors.getWhereToEatResultBackground(),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Column(
-                            children: [
+                            children: <Widget>[
                               Row(
-                                children: [
-                                  Icon(
+                                children: <Widget>[
+                                  const Icon(
                                     Icons.keyboard_arrow_up,
                                     color: Colors.transparent,
                                   ),
                                   Expanded(
-                                    child: TweenAnimationBuilder(
+                                    child: TweenAnimationBuilder<double>(
                                       tween: Tween<double>(
                                         begin: 20.0,
                                         end: expandedIndexes.contains(index)
                                             ? 28.0
                                             : 20.0,
                                       ),
-                                      duration: Duration(milliseconds: 300),
-                                      builder: (context, fontSize, child) {
+                                      duration:
+                                          const Duration(milliseconds: 300),
+                                      builder: (
+                                        BuildContext context,
+                                        double fontSize,
+                                        Widget? child,
+                                      ) {
                                         return Center(
                                           child: WTEText(
                                             text: tags['name'],
@@ -114,36 +128,46 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                                   ),
                                   AnimatedRotation(
                                     turns: isExpanded ? 0.5 : 0.0,
-                                    duration: Duration(milliseconds: 300),
-                                    child: Icon(
+                                    duration: const Duration(milliseconds: 300),
+                                    child: const Icon(
                                       Icons.keyboard_arrow_up,
                                       color: AppColors.textPrimaryColor,
-                                      shadows: [
+                                      shadows: <Shadow>[
                                         Shadow(
                                           offset: Offset(1, 1),
                                           blurRadius: 3,
                                           color: Color.fromARGB(
-                                              140, 110, 110, 110),
+                                            140,
+                                            110,
+                                            110,
+                                            110,
+                                          ),
                                         ),
                                       ],
                                     ),
                                   ),
                                 ],
                               ),
-                              TweenAnimationBuilder(
-                                  tween: Tween<double>(
-                                    begin: 5,
-                                    end: isExpanded ? 10 : 5,
-                                  ),
-                                  duration: Duration(milliseconds: 300),
-                                  builder: (context, size, child) {
-                                    return SizedBox(height: size);
-                                  }),
+                              TweenAnimationBuilder<double>(
+                                tween: Tween<double>(
+                                  begin: 5,
+                                  end: isExpanded ? 10 : 5,
+                                ),
+                                duration: const Duration(milliseconds: 300),
+                                builder: (
+                                  BuildContext context,
+                                  double size,
+                                  Widget? child,
+                                ) {
+                                  return SizedBox(height: size);
+                                },
+                              ),
                               AnimatedSize(
-                                duration: Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 300),
                                 child: expandedIndexes.contains(index)
                                     ? RestaurantAddressInfo(
-                                        restaurant: restaurants[index])
+                                        restaurant: restaurants[index],
+                                      )
                                     : Container(),
                               ),
                               if (tags['distance'] != null)
@@ -163,7 +187,7 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                                   restaurants: restaurants,
                                 ),
                               AnimatedSize(
-                                duration: Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 300),
                                 child: expandedIndexes.contains(index)
                                     ? expandedRestaurant(index)
                                     : Container(),
@@ -179,14 +203,14 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
             ),
           ),
         ] else
-          WhereToEatNoRestaurants()
+          const WhereToEatNoRestaurants(),
       ],
     );
   }
 
   Column expandedRestaurant(int index) {
     return Column(
-      children: [
+      children: <Widget>[
         RestaurantDietaryOptionsInfo(restaurant: restaurants[index]),
         RestaurantOpeningHoursInfo(restaurant: restaurants[index]),
         RestaurantContactInfo(restaurant: restaurants[index]),
@@ -201,7 +225,7 @@ class DistanceWidget extends StatelessWidget {
   final bool isExpanded;
   final dynamic tags;
   final Set<int> expandedIndexes;
-  final List restaurants;
+  final List<dynamic> restaurants;
 
   const DistanceWidget({
     super.key,
@@ -215,13 +239,13 @@ class DistanceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: <Widget>[
         Row(
-          children: [
-            Icon(
+          children: <Widget>[
+            const Icon(
               Icons.map_outlined,
               color: AppColors.textPrimaryColor,
-              shadows: [
+              shadows: <Shadow>[
                 Shadow(
                   offset: Offset(2, 2),
                   blurRadius: 3,
@@ -229,16 +253,16 @@ class DistanceWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(width: 5),
-            WTEText(
+            const SizedBox(width: 10),
+            const WTEText(
               text: 'Distance',
               color: AppColors.textPrimaryColor,
               fontSize: 20,
               minFontSize: 20,
               fontWeight: FontWeight.bold,
             ),
-            if (!isExpanded) ...[
-              SizedBox(width: 10),
+            if (!isExpanded) ...<Widget>[
+              const SizedBox(width: 10),
               WTEText(
                 text: tags['distance'] > 1000
                     ? '${(tags['distance'] / 1000).toStringAsFixed(2)} km'
@@ -252,9 +276,9 @@ class DistanceWidget extends StatelessWidget {
             ],
           ],
         ),
-        if (!isExpanded) SizedBox(height: 5),
+        if (!isExpanded) const SizedBox(height: 5),
         AnimatedSize(
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           child: expandedIndexes.contains(index)
               ? Align(
                   alignment: Alignment.centerLeft,
@@ -275,7 +299,7 @@ class CuisineWidget extends StatelessWidget {
   final bool isExpanded;
   final dynamic tags;
   final Set<int> expandedIndexes;
-  final List restaurants;
+  final List<dynamic> restaurants;
 
   const CuisineWidget({
     super.key,
@@ -285,16 +309,17 @@ class CuisineWidget extends StatelessWidget {
     required this.expandedIndexes,
     required this.restaurants,
   });
+
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: [
+      children: <Widget>[
         Row(
-          children: [
-            Icon(
+          children: <Widget>[
+            const Icon(
               Icons.flatware,
               color: AppColors.textPrimaryColor,
-              shadows: [
+              shadows: <Shadow>[
                 Shadow(
                   offset: Offset(2, 2),
                   blurRadius: 3,
@@ -302,8 +327,8 @@ class CuisineWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(width: 10),
-            WTEText(
+            const SizedBox(width: 10),
+            const WTEText(
               text: 'Cuisine',
               color: AppColors.textPrimaryColor,
               fontSize: 20,
@@ -311,8 +336,8 @@ class CuisineWidget extends StatelessWidget {
               fontWeight: FontWeight.bold,
               textAlign: TextAlign.start,
             ),
-            if (!isExpanded) ...[
-              SizedBox(width: 10),
+            if (!isExpanded) ...<Widget>[
+              const SizedBox(width: 10),
               Expanded(
                 child: RestaurantCuisineInfo(
                   restaurant: restaurants[index],
@@ -323,9 +348,9 @@ class CuisineWidget extends StatelessWidget {
             ],
           ],
         ),
-        if (!isExpanded) SizedBox(height: 5),
+        if (!isExpanded) const SizedBox(height: 5),
         AnimatedSize(
-          duration: Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 300),
           child: expandedIndexes.contains(index)
               ? Align(
                   alignment: Alignment.centerLeft,
