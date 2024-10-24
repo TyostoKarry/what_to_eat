@@ -175,8 +175,10 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                             ],
                           ),
                         ),
-                        if (vetoUsed[index])
-                          const Icon(
+                        AnimatedOpacity(
+                          opacity: vetoUsed[index] ? 1 : 0,
+                          duration: const Duration(milliseconds: 400),
+                          child: const Icon(
                             Icons.block,
                             color: AppColors.wteDanger,
                             size: 70,
@@ -188,6 +190,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                               ),
                             ],
                           ),
+                        ),
                       ],
                     ),
                   ),
@@ -212,15 +215,19 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                     ),
                   ],
                 ),
-                child: Center(
-                  child: WTEText(
-                    text: resultFoodItem != null ? resultFoodItem!.name : '',
-                    color: AppColors.textPrimaryColor,
-                    shadowColor: AppColors.textPrimaryShadowColor,
-                    offset: const Offset(2, 2),
-                    fontSize: 20,
-                    minFontSize: 12,
-                    fontWeight: FontWeight.bold,
+                child: AnimatedOpacity(
+                  opacity: resultFoodItem != null ? 1 : 0,
+                  duration: const Duration(milliseconds: 400),
+                  child: Center(
+                    child: WTEText(
+                      text: resultFoodItem != null ? resultFoodItem!.name : '',
+                      color: AppColors.textPrimaryColor,
+                      shadowColor: AppColors.textPrimaryShadowColor,
+                      offset: const Offset(2, 2),
+                      fontSize: 20,
+                      minFontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),

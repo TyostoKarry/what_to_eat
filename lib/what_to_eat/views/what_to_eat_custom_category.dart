@@ -120,7 +120,8 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
       );
     } else {
       model.setSelectedCategory(
-          FoodCategory(name: 'Custom Category', foodItems: customFoodItems));
+        FoodCategory(name: 'Custom Category', foodItems: customFoodItems),
+      );
     }
   }
 
