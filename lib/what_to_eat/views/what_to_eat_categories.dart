@@ -28,6 +28,7 @@ class WhatToEatCategoriesState extends State<WhatToEatCategories> {
             WTEViewTitle(
               titleText: 'Select Food Category',
             ),
+            SizedBox(height: 10),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -87,7 +88,7 @@ class WhatToEatCategoriesState extends State<WhatToEatCategories> {
                           ),
                           Positioned(
                             bottom: -2,
-                            right: 4,
+                            right: 0,
                             child: FoodItemsPopup(
                               foodCategory:
                                   WhatToEatModel.foodCategories[index],

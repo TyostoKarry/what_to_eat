@@ -229,7 +229,7 @@ class DistanceWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(width: 5),
+            SizedBox(width: 10),
             WTEText(
               text: 'Distance',
               color: AppColors.textPrimaryColor,

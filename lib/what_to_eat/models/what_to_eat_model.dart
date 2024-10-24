@@ -158,6 +158,107 @@ class WhatToEatModel extends ChangeNotifier {
       ],
     ),
     FoodCategory(
+      name: 'National Cuisines',
+      foodItems: [
+        FoodItem(
+          name: 'Mexico',
+          image: 'empty_plate.jpg',
+          description:
+              'Mexican cuisine is known for its bold flavors, use of spices, and iconic dishes like tacos, enchiladas, and tamales. It’s a vibrant mix of indigenous and Spanish influences.',
+        ),
+        FoodItem(
+          name: 'Italy',
+          image: 'empty_plate.jpg',
+          description:
+              'Italian cuisine is celebrated for its regional diversity, focusing on fresh ingredients like tomatoes, olive oil, pasta, and cheese. Iconic dishes include pizza, pasta, and risotto.',
+        ),
+        FoodItem(
+          name: 'Japan',
+          image: 'empty_plate.jpg',
+          description:
+              'Japanese cuisine emphasizes seasonal ingredients, precision, and balance. Sushi, ramen, and tempura are among the well-known dishes that showcase Japan’s culinary finesse.',
+        ),
+        FoodItem(
+          name: 'India',
+          image: 'empty_plate.jpg',
+          description:
+              'Indian cuisine is rich in spices and diverse in flavors, with dishes ranging from mild to fiery. Curries, biryani, and tandoori are among the many beloved dishes across India’s regions.',
+        ),
+        FoodItem(
+          name: 'China',
+          image: 'empty_plate.jpg',
+          description:
+              'Chinese cuisine offers a wide variety of flavors, from savory stir-fries to spicy Szechuan dishes. Noodles, dumplings, and sweet and sour dishes are hallmarks of this cuisine.',
+        ),
+        FoodItem(
+          name: 'France',
+          image: 'empty_plate.jpg',
+          description:
+              'French cuisine is renowned for its sophistication and rich flavors, with an emphasis on technique. Croissants, coq au vin, and creme brulee are just a few examples of this refined tradition.',
+        ),
+        FoodItem(
+          name: 'Thailand',
+          image: 'empty_plate.jpg',
+          description:
+              'Thai cuisine is known for its bold balance of sweet, sour, salty, and spicy flavors. Dishes like pad Thai, green curry, and tom yum soup are loved worldwide for their complexity.',
+        ),
+        FoodItem(
+          name: 'Greece',
+          image: 'empty_plate.jpg',
+          description:
+              'Greek cuisine is Mediterranean at its best, featuring fresh ingredients like olive oil, herbs, lamb, and fish. Popular dishes include moussaka, tzatziki, and Greek salad.',
+        ),
+        FoodItem(
+          name: 'Lebanon',
+          image: 'empty_plate.jpg',
+          description:
+              'Lebanese cuisine is known for its mezze—small dishes like hummus, tabbouleh, and falafel—as well as flavorful grilled meats and rich desserts like baklava.',
+        ),
+        FoodItem(
+          name: 'Spain',
+          image: 'empty_plate.jpg',
+          description:
+              'Spanish cuisine highlights regional diversity, from seafood-rich paella to small tapas plates. Olive oil, garlic, and saffron are staples in many Spanish dishes.',
+        ),
+        FoodItem(
+          name: 'Korea',
+          image: 'empty_plate.jpg',
+          description:
+              'Korean cuisine is centered around fermented foods, rice, and vegetables, with famous dishes like kimchi, bibimbap, and Korean barbecue showcasing bold flavors and vibrant colors.',
+        ),
+        FoodItem(
+          name: 'Vietnam',
+          image: 'empty_plate.jpg',
+          description:
+              'Vietnamese cuisine is fresh and aromatic, with dishes like pho, banh mi, and fresh spring rolls exemplifying the use of herbs, rice noodles, and savory broths.',
+        ),
+        FoodItem(
+          name: 'Germany',
+          image: 'empty_plate.jpg',
+          description:
+              'German cuisine is known for hearty dishes like sausages, schnitzel, and pretzels. Potatoes, cabbage, and meats are staples, often served with mustard and beer.',
+        ),
+        FoodItem(
+          name: 'Morocco',
+          image: 'empty_plate.jpg',
+          description:
+              'Moroccan cuisine blends Arabic, Berber, and Mediterranean influences, with fragrant spices and slow-cooked dishes like tagine and couscous being central to the cuisine.',
+        ),
+        FoodItem(
+          name: 'Turkey',
+          image: 'empty_plate.jpg',
+          description:
+              'Turkish cuisine bridges European and Middle Eastern flavors, with kebabs, baklava, and rich yogurt-based sauces being highlights of this diverse culinary tradition.',
+        ),
+        FoodItem(
+          name: 'Brazil',
+          image: 'empty_plate.jpg',
+          description:
+              'Brazilian cuisine is vibrant and varied, known for dishes like feijoada (a black bean stew) and churrasco (grilled meats). It reflects the country’s blend of indigenous, African, and Portuguese influences.',
+        ),
+      ],
+    ),
+    FoodCategory(
       name: 'Comfort Foods',
       foodItems: [
         FoodItem(
@@ -682,107 +783,6 @@ class WhatToEatModel extends ChangeNotifier {
           image: 'empty_plate.jpg',
           description:
               'Pavlova is a meringue-based dessert with a crisp outer shell and a soft, marshmallow-like center, typically topped with whipped cream and fresh fruit like strawberries or kiwis.',
-        ),
-      ],
-    ),
-    FoodCategory(
-      name: 'National Cuisines',
-      foodItems: [
-        FoodItem(
-          name: 'Mexico',
-          image: 'empty_plate.jpg',
-          description:
-              'Mexican cuisine is known for its bold flavors, use of spices, and iconic dishes like tacos, enchiladas, and tamales. It’s a vibrant mix of indigenous and Spanish influences.',
-        ),
-        FoodItem(
-          name: 'Italy',
-          image: 'empty_plate.jpg',
-          description:
-              'Italian cuisine is celebrated for its regional diversity, focusing on fresh ingredients like tomatoes, olive oil, pasta, and cheese. Iconic dishes include pizza, pasta, and risotto.',
-        ),
-        FoodItem(
-          name: 'Japan',
-          image: 'empty_plate.jpg',
-          description:
-              'Japanese cuisine emphasizes seasonal ingredients, precision, and balance. Sushi, ramen, and tempura are among the well-known dishes that showcase Japan’s culinary finesse.',
-        ),
-        FoodItem(
-          name: 'India',
-          image: 'empty_plate.jpg',
-          description:
-              'Indian cuisine is rich in spices and diverse in flavors, with dishes ranging from mild to fiery. Curries, biryani, and tandoori are among the many beloved dishes across India’s regions.',
-        ),
-        FoodItem(
-          name: 'China',
-          image: 'empty_plate.jpg',
-          description:
-              'Chinese cuisine offers a wide variety of flavors, from savory stir-fries to spicy Szechuan dishes. Noodles, dumplings, and sweet and sour dishes are hallmarks of this cuisine.',
-        ),
-        FoodItem(
-          name: 'France',
-          image: 'empty_plate.jpg',
-          description:
-              'French cuisine is renowned for its sophistication and rich flavors, with an emphasis on technique. Croissants, coq au vin, and creme brulee are just a few examples of this refined tradition.',
-        ),
-        FoodItem(
-          name: 'Thailand',
-          image: 'empty_plate.jpg',
-          description:
-              'Thai cuisine is known for its bold balance of sweet, sour, salty, and spicy flavors. Dishes like pad Thai, green curry, and tom yum soup are loved worldwide for their complexity.',
-        ),
-        FoodItem(
-          name: 'Greece',
-          image: 'empty_plate.jpg',
-          description:
-              'Greek cuisine is Mediterranean at its best, featuring fresh ingredients like olive oil, herbs, lamb, and fish. Popular dishes include moussaka, tzatziki, and Greek salad.',
-        ),
-        FoodItem(
-          name: 'Lebanon',
-          image: 'empty_plate.jpg',
-          description:
-              'Lebanese cuisine is known for its mezze—small dishes like hummus, tabbouleh, and falafel—as well as flavorful grilled meats and rich desserts like baklava.',
-        ),
-        FoodItem(
-          name: 'Spain',
-          image: 'empty_plate.jpg',
-          description:
-              'Spanish cuisine highlights regional diversity, from seafood-rich paella to small tapas plates. Olive oil, garlic, and saffron are staples in many Spanish dishes.',
-        ),
-        FoodItem(
-          name: 'Korea',
-          image: 'empty_plate.jpg',
-          description:
-              'Korean cuisine is centered around fermented foods, rice, and vegetables, with famous dishes like kimchi, bibimbap, and Korean barbecue showcasing bold flavors and vibrant colors.',
-        ),
-        FoodItem(
-          name: 'Vietnam',
-          image: 'empty_plate.jpg',
-          description:
-              'Vietnamese cuisine is fresh and aromatic, with dishes like pho, banh mi, and fresh spring rolls exemplifying the use of herbs, rice noodles, and savory broths.',
-        ),
-        FoodItem(
-          name: 'Germany',
-          image: 'empty_plate.jpg',
-          description:
-              'German cuisine is known for hearty dishes like sausages, schnitzel, and pretzels. Potatoes, cabbage, and meats are staples, often served with mustard and beer.',
-        ),
-        FoodItem(
-          name: 'Morocco',
-          image: 'empty_plate.jpg',
-          description:
-              'Moroccan cuisine blends Arabic, Berber, and Mediterranean influences, with fragrant spices and slow-cooked dishes like tagine and couscous being central to the cuisine.',
-        ),
-        FoodItem(
-          name: 'Turkey',
-          image: 'empty_plate.jpg',
-          description:
-              'Turkish cuisine bridges European and Middle Eastern flavors, with kebabs, baklava, and rich yogurt-based sauces being highlights of this diverse culinary tradition.',
-        ),
-        FoodItem(
-          name: 'Brazil',
-          image: 'empty_plate.jpg',
-          description:
-              'Brazilian cuisine is vibrant and varied, known for dishes like feijoada (a black bean stew) and churrasco (grilled meats). It reflects the country’s blend of indigenous, African, and Portuguese influences.',
         ),
       ],
     ),

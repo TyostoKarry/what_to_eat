@@ -17,6 +17,7 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
   final List<TextEditingController> _foodItems = [];
   final List<double> _foodItemOpacities = [];
   bool _isAnimating = false;
+  bool _snackBarVisible = false;
 
   static const Duration disableButtonDuration = Duration(milliseconds: 300);
 
@@ -88,23 +89,30 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
     }
 
     if (validFoodItemsCount < 2) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Not Enough Items'),
-            content: const Text(
-                'You need at least 2 food items in order to spin the wheel.'),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
+      if (_snackBarVisible) return;
+      _snackBarVisible = true;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Center(
+            child: Text('Need at least 2 food items!'),
+          ),
+          duration: Duration(seconds: 2),
+          backgroundColor: Color.fromARGB(255, 56, 56, 56),
+          padding: EdgeInsets.all(8.0),
+          margin: EdgeInsets.only(bottom: 30.0, left: 100.0, right: 100.0),
+          behavior: SnackBarBehavior.floating,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(5.0),
+          ),
+          onVisible: () {
+            Future.delayed(Duration(seconds: 2), () {
+              setState(() {
+                _snackBarVisible = false;
+              });
+            });
+          },
+        ),
       );
     } else {
       model.setSelectedCategory(customCategory);
