@@ -107,6 +107,7 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
           ),
           onVisible: () {
             Future.delayed(Duration(seconds: 2), () {
+              if (!mounted) return;
               setState(() {
                 _snackBarVisible = false;
               });
