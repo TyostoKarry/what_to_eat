@@ -17,7 +17,7 @@ class FoodItemsPopup extends StatelessWidget {
       icon: Icon(
         Icons.info_outlined,
         color: AppColors.textSecondaryColor,
-        shadows: [
+        shadows: <Shadow>[
           Shadow(
             offset: Offset(2, 2),
             blurRadius: 3,
@@ -37,7 +37,7 @@ class FoodItemsPopup extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Column(
-            children: [
+            children: <Widget>[
               Text(
                 'Food Items in',
                 style: TextStyle(color: AppColors.textPrimaryColor),
@@ -54,7 +54,7 @@ class FoodItemsPopup extends StatelessWidget {
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: foodCategory.foodItems.map((foodItem) {
+              children: foodCategory.foodItems.map((FoodItem foodItem) {
                 return ListTile(
                   title: Text(foodItem.name,
                       style: TextStyle(
@@ -70,7 +70,7 @@ class FoodItemsPopup extends StatelessWidget {
               }).toList(),
             ),
           ),
-          actions: [
+          actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();

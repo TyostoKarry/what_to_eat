@@ -24,7 +24,7 @@ class WhatToEatCategoriesState extends State<WhatToEatCategories> {
           gradient: AppColors.getWhatToEatBackground(),
         ),
         child: Column(
-          children: [
+          children: <Widget>[
             WTEViewTitle(
               titleText: 'Select Food Category',
             ),
@@ -40,18 +40,18 @@ class WhatToEatCategoriesState extends State<WhatToEatCategories> {
                     childAspectRatio: 1.7,
                   ),
                   itemCount: WhatToEatModel.foodCategories.length,
-                  itemBuilder: (context, index) {
+                  itemBuilder: (BuildContext context, int index) {
                     return Material(
                       color: Colors.transparent,
                       elevation: 4,
                       borderRadius: BorderRadius.circular(16),
                       child: Stack(
-                        children: [
+                        children: <Widget>[
                           Ink(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 gradient: LinearGradient(
-                                  colors: [
+                                  colors: <Color>[
                                     AppColors.whatToEatButtonPrimaryColor,
                                     AppColors.whatToEatButtonSecondaryColor
                                   ],

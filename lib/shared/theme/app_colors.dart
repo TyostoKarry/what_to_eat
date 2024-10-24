@@ -43,7 +43,7 @@ class AppColors {
     return LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [
+      colors: <Color>[
         const Color.fromARGB(255, 86, 204, 242),
         const Color.fromARGB(255, 47, 128, 237),
       ],
@@ -54,7 +54,7 @@ class AppColors {
     return LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [
+      colors: <Color>[
         const Color.fromARGB(255, 174, 241, 97),
         const Color.fromARGB(255, 116, 201, 25),
       ],
@@ -65,7 +65,7 @@ class AppColors {
     return LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [
+      colors: <Color>[
         whereToEatButtonPrimaryColor,
         whereToEatButtonSecondaryColor,
       ],
@@ -76,7 +76,7 @@ class AppColors {
     return LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
-      colors: [
+      colors: <Color>[
         const Color.fromARGB(255, 202, 255, 141),
         const Color.fromARGB(255, 185, 255, 110),
       ],

@@ -37,7 +37,7 @@ class WTEText extends StatelessWidget {
         fontSize: fontSize,
         fontWeight: fontWeight,
         decoration: textDecoration,
-        shadows: [
+        shadows: <Shadow>[
           Shadow(
             offset: offset,
             blurRadius: 3,

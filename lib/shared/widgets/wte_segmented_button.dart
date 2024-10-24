@@ -99,7 +99,7 @@ class WTESegmentedButtonState extends State<WTESegmentedButton> {
       height: 50,
       width: double.infinity,
       child: Row(
-        children: List.generate(widget.options.length, (index) {
+        children: List<Widget>.generate(widget.options.length, (int index) {
           final String option = widget.options[index];
           final IconData selectedIcon = widget.selectedIcons[index];
           final IconData unselectedIcon = widget.unselectedIcons[index];
@@ -130,11 +130,11 @@ class WTESegmentedButtonState extends State<WTESegmentedButton> {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
+                  children: <Widget>[
                     Icon(
                       isSelected ? selectedIcon : unselectedIcon,
                       color: AppColors.textSecondaryColor,
-                      shadows: [
+                      shadows: <Shadow>[
                         Shadow(
                           offset: const Offset(2, 2),
                           blurRadius: 2,

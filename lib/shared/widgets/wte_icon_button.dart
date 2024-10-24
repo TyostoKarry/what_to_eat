@@ -32,7 +32,7 @@ class WTEIconButton extends StatelessWidget {
         color: isEnabled ? null : disabledColor,
         borderRadius: BorderRadius.circular(15),
         boxShadow: isEnabled
-            ? [
+            ? <BoxShadow>[
                 BoxShadow(
                   color: AppColors.textPrimaryShadowColor,
                   offset: Offset(2, 2),

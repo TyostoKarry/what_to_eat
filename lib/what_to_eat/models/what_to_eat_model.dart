@@ -61,10 +61,10 @@ class WhatToEatModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  static List<FoodCategory> foodCategories = [
+  static List<FoodCategory> foodCategories = <FoodCategory>[
     FoodCategory(
       name: 'Popular Food Types',
-      foodItems: [
+      foodItems: <FoodItem>[
         FoodItem(
           name: 'Pasta',
           image: 'empty_plate.jpg',
@@ -159,7 +159,7 @@ class WhatToEatModel extends ChangeNotifier {
     ),
     FoodCategory(
       name: 'National Cuisines',
-      foodItems: [
+      foodItems: <FoodItem>[
         FoodItem(
           name: 'Mexico',
           image: 'empty_plate.jpg',
@@ -260,7 +260,7 @@ class WhatToEatModel extends ChangeNotifier {
     ),
     FoodCategory(
       name: 'Comfort Foods',
-      foodItems: [
+      foodItems: <FoodItem>[
         FoodItem(
           name: 'Mac and Cheese',
           image: 'empty_plate.jpg',
@@ -343,7 +343,7 @@ class WhatToEatModel extends ChangeNotifier {
     ),
     FoodCategory(
       name: 'Light & Healthy',
-      foodItems: [
+      foodItems: <FoodItem>[
         FoodItem(
           name: 'Grilled Salmon with Asparagus',
           image: 'empty_plate.jpg',
@@ -432,7 +432,7 @@ class WhatToEatModel extends ChangeNotifier {
     ),
     FoodCategory(
       name: 'Grilling & BBQ',
-      foodItems: [
+      foodItems: <FoodItem>[
         FoodItem(
           name: 'BBQ Ribs',
           image: 'empty_plate.jpg',
@@ -521,7 +521,7 @@ class WhatToEatModel extends ChangeNotifier {
     ),
     FoodCategory(
       name: 'Pasta Varieties',
-      foodItems: [
+      foodItems: <FoodItem>[
         FoodItem(
           name: 'Spaghetti Bolognese',
           image: 'empty_plate.jpg',
@@ -598,7 +598,7 @@ class WhatToEatModel extends ChangeNotifier {
     ),
     FoodCategory(
       name: 'Breakfast & Brunch',
-      foodItems: [
+      foodItems: <FoodItem>[
         FoodItem(
           name: 'Pancakes',
           image: 'empty_plate.jpg',
@@ -693,7 +693,7 @@ class WhatToEatModel extends ChangeNotifier {
     ),
     FoodCategory(
       name: 'Desserts',
-      foodItems: [
+      foodItems: <FoodItem>[
         FoodItem(
           name: 'Tiramisu',
           image: 'empty_plate.jpg',

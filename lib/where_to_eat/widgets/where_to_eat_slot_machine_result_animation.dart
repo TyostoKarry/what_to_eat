@@ -74,7 +74,7 @@ class _WhereToEatSlotMachineResultAnimationState
     ));
 
     _controller.forward().then((_) {
-      Future.delayed(Duration(milliseconds: 1500), () {
+      Future<void>.delayed(Duration(milliseconds: 1500), () {
         if (mounted) {
           _measureTextSize();
           Provider.of<WhereToEatModel>(context, listen: false)
@@ -108,7 +108,7 @@ class _WhereToEatSlotMachineResultAnimationState
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
-      builder: (context, child) {
+      builder: (BuildContext context, Widget? child) {
         return Transform.translate(
           offset: _positionAnimation.value * 200,
           child: Opacity(

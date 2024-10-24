@@ -37,7 +37,7 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine> {
       _finalRestaurantName = _selectFinalRestaurantName();
 
       int lastItemDelay = (_shuffledRestaurants.length) * _delayBetweenItems;
-      Future.delayed(
+      Future<void>.delayed(
           Duration(milliseconds: lastItemDelay + _delayBetweenItems - 125), () {
         if (mounted) {
           setState(() {
@@ -49,10 +49,10 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine> {
   }
 
   List<String> _prepareShuffledRestaurantList(List<String> originalList) {
-    List<String> shuffledList = List.from(originalList)..shuffle();
+    List<String> shuffledList = List<String>.from(originalList)..shuffle();
 
     while (shuffledList.length < _minItems) {
-      shuffledList.addAll(List.from(originalList)..shuffle());
+      shuffledList.addAll(List<String>.from(originalList)..shuffle());
     }
 
     shuffledList = shuffledList.take(_minItems).toList();
@@ -81,7 +81,8 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine> {
   }
 
   String _selectFinalRestaurantName() {
-    final model = Provider.of<WhereToEatModel>(context, listen: false);
+    final WhereToEatModel model =
+        Provider.of<WhereToEatModel>(context, listen: false);
     if (widget.restaurantNames.length == 1) {
       model.setResultIndex(0);
       return widget.restaurantNames.first;
@@ -92,7 +93,7 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine> {
     List<MapEntry<int, String>> candidates = widget.restaurantNames
         .asMap()
         .entries
-        .where((entry) => entry.value != lastShuffledItem)
+        .where((MapEntry<int, String> entry) => entry.value != lastShuffledItem)
         .toList();
 
     candidates.shuffle();
@@ -109,8 +110,8 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine> {
       child: Center(
         child: Stack(
           alignment: Alignment.center,
-          children: [
-            ...List.generate(_shuffledRestaurants.length, (index) {
+          children: <Widget>[
+            ...List<Widget>.generate(_shuffledRestaurants.length, (int index) {
               return WhereToEatSlotMachineScrollAnimation(
                 restaurantName: _shuffledRestaurants[index],
                 animationDuration: Duration(

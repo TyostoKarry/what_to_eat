@@ -10,12 +10,12 @@ class WhereToEatNoRestaurants extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: [
+      children: <Widget>[
         Icon(
           Icons.location_off,
           size: 60,
           color: AppColors.textPrimaryColor,
-          shadows: [
+          shadows: <Shadow>[
             Shadow(
               offset: Offset(2, 2),
               blurRadius: 3,

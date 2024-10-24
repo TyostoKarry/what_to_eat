@@ -14,8 +14,8 @@ class WhatToEatCustomCategory extends StatefulWidget {
 }
 
 class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
-  final List<TextEditingController> _foodItems = [];
-  final List<double> _foodItemOpacities = [];
+  final List<TextEditingController> _foodItems = <TextEditingController>[];
+  final List<double> _foodItemOpacities = <double>[];
   bool _isAnimating = false;
   bool _snackBarVisible = false;
 
@@ -36,13 +36,13 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
       _foodItemOpacities.add(0.0);
     });
 
-    Future.delayed(Duration(milliseconds: 100), () {
+    Future<void>.delayed(Duration(milliseconds: 100), () {
       setState(() {
         _foodItemOpacities[_foodItemOpacities.length - 1] = 1.0;
       });
     });
 
-    await Future.delayed(disableButtonDuration);
+    await Future<void>.delayed(disableButtonDuration);
     setState(() {
       _isAnimating = false;
     });
@@ -56,7 +56,7 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
       _foodItemOpacities[index] = 0.0;
     });
 
-    Future.delayed(Duration(milliseconds: 300), () {
+    Future<void>.delayed(Duration(milliseconds: 300), () {
       setState(() {
         _foodItems[index].dispose();
         _foodItems.removeAt(index);
@@ -64,20 +64,21 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
       });
     });
 
-    await Future.delayed(disableButtonDuration);
+    await Future<void>.delayed(disableButtonDuration);
     setState(() {
       _isAnimating = false;
     });
   }
 
   void _saveCustomCategory() {
-    final model = Provider.of<WhatToEatModel>(context, listen: false);
+    final WhatToEatModel model =
+        Provider.of<WhatToEatModel>(context, listen: false);
 
     FoodCategory customCategory =
-        FoodCategory(name: 'Custom Category', foodItems: []);
+        FoodCategory(name: 'Custom Category', foodItems: <FoodItem>[]);
     int validFoodItemsCount = 0;
 
-    for (var foodItem in _foodItems) {
+    for (TextEditingController foodItem in _foodItems) {
       if (foodItem.text.isNotEmpty) {
         validFoodItemsCount++;
         customCategory.foodItems.add(FoodItem(
@@ -106,7 +107,7 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
             borderRadius: BorderRadius.circular(5.0),
           ),
           onVisible: () {
-            Future.delayed(Duration(seconds: 2), () {
+            Future<void>.delayed(Duration(seconds: 2), () {
               if (!mounted) return;
               setState(() {
                 _snackBarVisible = false;
@@ -122,7 +123,7 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
 
   @override
   void dispose() {
-    for (var foodItem in _foodItems) {
+    for (TextEditingController foodItem in _foodItems) {
       foodItem.dispose();
     }
     super.dispose();
@@ -136,7 +137,7 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
           gradient: AppColors.getWhatToEatBackground(),
         ),
         child: Column(
-          children: [
+          children: <Widget>[
             WTEViewTitle(
               titleText: 'Create Custom Category',
               padding: EdgeInsets.only(top: 10, bottom: 20),
@@ -145,7 +146,8 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
               child: SingleChildScrollView(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
-                  children: List.generate(_foodItems.length, (index) {
+                  children:
+                      List<Widget>.generate(_foodItems.length, (int index) {
                     return AnimatedOpacity(
                       opacity: _foodItemOpacities[index],
                       duration: Duration(milliseconds: 300),
@@ -153,7 +155,7 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
                         padding: const EdgeInsets.only(bottom: 16),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
+                          children: <Widget>[
                             Container(
                               margin: const EdgeInsets.only(right: 12),
                               child: Text(
@@ -162,7 +164,7 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
                                   color: AppColors.textPrimaryColor,
-                                  shadows: [
+                                  shadows: <Shadow>[
                                     Shadow(
                                       offset: Offset(2, 2),
                                       blurRadius: 3,
@@ -178,7 +180,7 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
                                 decoration: BoxDecoration(
                                   color: AppColors.foodItemBackgroundColor,
                                   borderRadius: BorderRadius.circular(12),
-                                  boxShadow: [
+                                  boxShadow: <BoxShadow>[
                                     BoxShadow(
                                       offset: Offset(0, 3),
                                       blurRadius: 6,
@@ -187,7 +189,7 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
                                   ],
                                 ),
                                 child: Row(
-                                  children: [
+                                  children: <Widget>[
                                     Expanded(
                                       child: Padding(
                                         padding:
@@ -213,7 +215,7 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
                                       icon: Icon(
                                         Icons.delete,
                                         color: AppColors.textPrimaryColor,
-                                        shadows: [
+                                        shadows: <Shadow>[
                                           Shadow(
                                             offset: Offset(2, 2),
                                             blurRadius: 3,

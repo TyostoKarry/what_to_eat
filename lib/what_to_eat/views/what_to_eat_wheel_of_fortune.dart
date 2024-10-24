@@ -24,10 +24,10 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
   FoodItem? resultFoodItem;
 
   int vetoesLeft = 0;
-  List<bool> vetoUsed = [];
+  List<bool> vetoUsed = <bool>[];
 
   String categoryName = '';
-  List<FoodItem> sessionItems = [];
+  List<FoodItem> sessionItems = <FoodItem>[];
 
   final Color primarySliceColor = AppColors.primarySliceColor;
   final Color secondarySliceColor = AppColors.secondarySliceColor;
@@ -35,7 +35,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
 
   // Function to generate color pattern based on the number of items
   List<Color> generateColorPattern(int itemCount) {
-    List<Color> colorPattern = [];
+    List<Color> colorPattern = <Color>[];
 
     // Alternate between primaryColor and secondaryColor
     for (int i = 0; i < itemCount; i++) {
@@ -60,10 +60,11 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    final selectedCategory =
+    final FoodCategory? selectedCategory =
         Provider.of<WhatToEatModel>(context, listen: false).selectedCategory;
     categoryName = selectedCategory?.name ?? 'No category selected';
-    sessionItems = List<FoodItem>.from(selectedCategory?.foodItems ?? []);
+    sessionItems =
+        List<FoodItem>.from(selectedCategory?.foodItems ?? <FoodItem>[]);
 
     // Determine the number of veto tickets based on the number of food items
     if (sessionItems.length >= 12) {
@@ -76,7 +77,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
       vetoesLeft = 0;
     }
 
-    vetoUsed = List.generate(vetoesLeft, (index) => false);
+    vetoUsed = List<bool>.generate(vetoesLeft, (int index) => false);
   }
 
   void useVeto() {
@@ -104,14 +105,14 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
           gradient: AppColors.getWhatToEatBackground(),
         ),
         child: Column(
-          children: [
+          children: <Widget>[
             WTEViewTitle(
               titleText: categoryName,
             ),
             Expanded(
               child: FortuneWheel(
                 selected: selected.stream,
-                items: [
+                items: <FortuneItem>[
                   for (int i = 0; i < sessionItems.length; i++)
                     FortuneItem(
                       child: Padding(
@@ -150,7 +151,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(vetoUsed.length, (index) {
+              children: List<Widget>.generate(vetoUsed.length, (int index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: SizedBox(
@@ -158,14 +159,14 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                     width: 70,
                     child: Stack(
                       alignment: Alignment.center,
-                      children: [
+                      children: <Widget>[
                         Transform.rotate(
                           angle: 30 * 3.14 / 180,
                           child: Icon(
                             Icons.local_activity,
                             color: AppColors.vetoTicketColor,
                             size: 40,
-                            shadows: [
+                            shadows: <Shadow>[
                               Shadow(
                                 offset: Offset(2, 2),
                                 blurRadius: 3,
@@ -179,7 +180,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                             Icons.block,
                             color: AppColors.wteDanger,
                             size: 70,
-                            shadows: [
+                            shadows: <Shadow>[
                               Shadow(
                                 offset: Offset(2, 2),
                                 blurRadius: 3,
@@ -203,7 +204,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                 decoration: BoxDecoration(
                   color: AppColors.foodItemBackgroundColor,
                   borderRadius: BorderRadius.circular(12),
-                  boxShadow: [
+                  boxShadow: <BoxShadow>[
                     BoxShadow(
                       color: Colors.black.withOpacity(0.1),
                       blurRadius: 6,
@@ -235,7 +236,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                   tapEnabled: !spinning,
                   onTap: () {
                     if (sessionItems.isNotEmpty) {
-                      final randomIndex =
+                      final int randomIndex =
                           Fortune.randomInt(0, sessionItems.length);
                       selected.add(randomIndex);
                       setState(
@@ -281,7 +282,7 @@ class VetoOrResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [
+      children: <Widget>[
         Flexible(
           flex: 1,
           child: WTEButton(

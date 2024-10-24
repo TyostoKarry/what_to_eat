@@ -25,8 +25,8 @@ class WhatToEatFoodSelected extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = context.watch<WhatToEatModel>();
-    final selectedFood = model.selectedFood ??
+    final WhatToEatModel model = context.watch<WhatToEatModel>();
+    final SelectedFood selectedFood = model.selectedFood ??
         SelectedFood(foodItem: FoodItem(name: '', image: '', description: ''));
 
     return Scaffold(
@@ -36,18 +36,18 @@ class WhatToEatFoodSelected extends StatelessWidget {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+          children: <Widget>[
             WTEViewTitle(
               titleText: 'Today I Will Eat',
             ),
             Column(
-              children: [
+              children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
+                      boxShadow: <BoxShadow>[
                         BoxShadow(
                           color: Colors.black.withOpacity(0.1),
                           blurRadius: 10,
@@ -77,7 +77,7 @@ class WhatToEatFoodSelected extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: AppColors.foodItemBackgroundColor,
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
+                      boxShadow: <BoxShadow>[
                         BoxShadow(
                           color: Colors.black.withOpacity(0.1),
                           blurRadius: 6,

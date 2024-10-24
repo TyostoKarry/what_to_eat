@@ -23,12 +23,12 @@ class WhereToEatLocationError extends StatelessWidget {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <Widget>[
           Icon(
             Icons.location_off,
             size: 60,
             color: AppColors.textPrimaryColor,
-            shadows: [
+            shadows: <Shadow>[
               Shadow(
                 offset: Offset(2, 2),
                 blurRadius: 3,
@@ -50,7 +50,7 @@ class WhereToEatLocationError extends StatelessWidget {
             child: WTEButton(
               text: buttonText,
               textColor: AppColors.textSecondaryColor,
-              gradientColors: [
+              gradientColors: <Color>[
                 AppColors.whereToEatButtonPrimaryColor,
                 AppColors.whereToEatButtonSecondaryColor
               ],

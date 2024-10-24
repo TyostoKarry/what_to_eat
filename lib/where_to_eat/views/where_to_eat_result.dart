@@ -43,7 +43,8 @@ class WhereToEatResultState extends State<WhereToEatResult>
 
   @override
   Widget build(BuildContext context) {
-    final model = Provider.of<WhereToEatModel>(context, listen: false);
+    final WhereToEatModel model =
+        Provider.of<WhereToEatModel>(context, listen: false);
 
     return Center(
       child: Padding(
@@ -64,7 +65,7 @@ class WhereToEatResultState extends State<WhereToEatResult>
                   horizontal: 20, vertical: ((60 - model.nameTextHeight) / 2)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   RestaurantNameInfo(
                       restaurant: widget.restaurants[model.resultIndex]),
                   RestaurantAddressInfo(

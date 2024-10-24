@@ -22,7 +22,8 @@ class _WhatToEatScreenState extends State<WhatToEatScreen> {
       body: WTESafeArea(
         child: Center(
           child: Consumer<WhatToEatModel>(
-            builder: (context, model, child) {
+            builder:
+                (BuildContext context, WhatToEatModel model, Widget? child) {
               return _buildBodyBasedOnState(model.whatToEatScreenState);
             },
           ),
