@@ -45,10 +45,11 @@ class WTEIconButton extends StatelessWidget {
         color: Colors.transparent,
         borderRadius: BorderRadius.circular(15),
         child: InkWell(
-            borderRadius: BorderRadius.circular(15),
-            splashColor: AppColors.splashColor,
-            onTap: isEnabled ? onTap : null,
-            child: animation),
+          borderRadius: BorderRadius.circular(15),
+          splashColor: AppColors.splashColor,
+          onTap: isEnabled ? onTap : null,
+          child: animation,
+        ),
       ),
     );
   }

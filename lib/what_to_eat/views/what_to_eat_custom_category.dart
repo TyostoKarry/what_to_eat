@@ -74,18 +74,19 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
     final WhatToEatModel model =
         Provider.of<WhatToEatModel>(context, listen: false);
 
-    FoodCategory customCategory =
-        const FoodCategory(name: 'Custom Category', foodItems: <FoodItem>[]);
+    List<FoodItem> customFoodItems = <FoodItem>[];
     int validFoodItemsCount = 0;
 
     for (TextEditingController foodItem in _foodItems) {
       if (foodItem.text.isNotEmpty) {
         validFoodItemsCount++;
-        customCategory.foodItems.add(FoodItem(
-          name: foodItem.text,
-          image: 'empty_plate.jpg',
-          description: '',
-        ));
+        customFoodItems.add(
+          FoodItem(
+            name: foodItem.text,
+            image: 'empty_plate.jpg',
+            description: '',
+          ),
+        );
       }
     }
 
@@ -118,7 +119,8 @@ class WhatToEatCustomCategoryState extends State<WhatToEatCustomCategory> {
         ),
       );
     } else {
-      model.setSelectedCategory(customCategory);
+      model.setSelectedCategory(
+          FoodCategory(name: 'Custom Category', foodItems: customFoodItems));
     }
   }
 

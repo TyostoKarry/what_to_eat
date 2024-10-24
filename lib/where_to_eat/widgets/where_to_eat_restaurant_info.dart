@@ -47,7 +47,8 @@ class _RestaurantAddressInfoState extends State<RestaurantAddressInfo> {
     if (restaurant['tags']['addr:street'] != null &&
         restaurant['tags']['addr:housenumber'] != null) {
       StringBuffer address = StringBuffer(
-          "${restaurant['tags']['addr:street']} ${restaurant['tags']['addr:housenumber']}");
+        "${restaurant['tags']['addr:street']} ${restaurant['tags']['addr:housenumber']}",
+      );
 
       if (restaurant['tags']['addr:unit'] != null) {
         address.write(" ${restaurant['tags']['addr:unit']}");
@@ -113,8 +114,11 @@ class RestaurantDistanceInfo extends StatelessWidget {
   final Map<String, dynamic> restaurant;
   final bool includeLabel;
 
-  const RestaurantDistanceInfo(
-      {required this.restaurant, this.includeLabel = true, super.key});
+  const RestaurantDistanceInfo({
+    required this.restaurant,
+    this.includeLabel = true,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -168,11 +172,12 @@ class RestaurantCuisineInfo extends StatelessWidget {
   final bool includeLabel;
   final double spaceBelow;
 
-  const RestaurantCuisineInfo(
-      {required this.restaurant,
-      this.includeLabel = true,
-      this.spaceBelow = 15,
-      super.key});
+  const RestaurantCuisineInfo({
+    required this.restaurant,
+    this.includeLabel = true,
+    this.spaceBelow = 15,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -413,7 +418,7 @@ class RestaurantContactInfo extends StatelessWidget {
                   offset: Offset(2, 2),
                   blurRadius: 3,
                   color: Color.fromARGB(140, 110, 110, 110),
-                )
+                ),
               ],
             ),
             SizedBox(width: 10),
@@ -446,7 +451,8 @@ class RestaurantWebsiteInfo extends StatelessWidget {
 
   Future<void> _launchGoogleSearch(String query) async {
     final Uri searchUrl = Uri.parse(
-        "https://www.google.com/search?q=${Uri.encodeComponent(query)}");
+      "https://www.google.com/search?q=${Uri.encodeComponent(query)}",
+    );
     if (!await launchUrl(
       searchUrl,
       mode: LaunchMode.inAppWebView,
@@ -476,9 +482,9 @@ class RestaurantWebsiteInfo extends StatelessWidget {
           onTap: () {
             _launchRestaurantWebsite(restaurant['tags']['website']);
           },
-          gradientColors: <Color>[
+          gradientColors: const <Color>[
             AppColors.whereToEatButtonPrimaryColor,
-            AppColors.whereToEatButtonSecondaryColor
+            AppColors.whereToEatButtonSecondaryColor,
           ],
         ),
       );
@@ -492,9 +498,9 @@ class RestaurantWebsiteInfo extends StatelessWidget {
         onTap: () {
           _launchGoogleSearch(restaurant['tags']['name']);
         },
-        gradientColors: <Color>[
+        gradientColors: const <Color>[
           AppColors.whereToEatButtonPrimaryColor,
-          AppColors.whereToEatButtonSecondaryColor
+          AppColors.whereToEatButtonSecondaryColor,
         ],
       ),
     );

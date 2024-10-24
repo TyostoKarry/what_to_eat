@@ -45,40 +45,60 @@ class _WhereToEatSlotMachineScrollAnimationState
     _positionAnimation = Tween<Offset>(
       begin: const Offset(0, -0.7),
       end: const Offset(0, 0.7),
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+    ).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
 
     _opacityAnimation = TweenSequence<double>(<TweenSequenceItem<double>>[
       TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 0.0, end: 1.0), weight: 50),
+        tween: Tween<double>(begin: 0.0, end: 1.0),
+        weight: 50,
+      ),
       TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 1.0, end: 0.0), weight: 50),
-    ]).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+        tween: Tween<double>(begin: 1.0, end: 0.0),
+        weight: 50,
+      ),
+    ]).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
 
     _paddingAnimation = TweenSequence<double>(<TweenSequenceItem<double>>[
       TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 60.0, end: 20.0), weight: 50),
+        tween: Tween<double>(begin: 60.0, end: 20.0),
+        weight: 50,
+      ),
       TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 20.0, end: 60.0), weight: 50),
-    ]).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+        tween: Tween<double>(begin: 20.0, end: 60.0),
+        weight: 50,
+      ),
+    ]).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
 
     _fontSizeAnimation = TweenSequence<double>(<TweenSequenceItem<double>>[
       TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 16.0, end: 28.0), weight: 50),
+        tween: Tween<double>(begin: 16.0, end: 28.0),
+        weight: 50,
+      ),
       TweenSequenceItem<double>(
-          tween: Tween<double>(begin: 28.0, end: 16.0), weight: 50),
-    ]).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeInOut,
-    ));
+        tween: Tween<double>(begin: 28.0, end: 16.0),
+        weight: 50,
+      ),
+    ]).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
 
     Future<void>.delayed(
         Duration(milliseconds: widget.index * widget.delayBetweenItems), () {

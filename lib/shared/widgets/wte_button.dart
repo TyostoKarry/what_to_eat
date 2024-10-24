@@ -21,7 +21,7 @@ class WTEButton extends StatelessWidget {
     this.tapEnabled = true,
     this.gradientColors = const <Color>[
       AppColors.whatToEatButtonPrimaryColor,
-      AppColors.whatToEatButtonSecondaryColor
+      AppColors.whatToEatButtonSecondaryColor,
     ],
     super.key,
   });

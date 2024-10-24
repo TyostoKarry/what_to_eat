@@ -13,7 +13,8 @@ class WhatToEatFoodSelected extends StatelessWidget {
 
   Future<void> _launchGoogleSearch(String query) async {
     final Uri searchUrl = Uri.parse(
-        'https://www.google.com/search?q=${Uri.encodeComponent(query)}');
+      'https://www.google.com/search?q=${Uri.encodeComponent(query)}',
+    );
 
     if (!await launchUrl(
       searchUrl,
@@ -28,7 +29,8 @@ class WhatToEatFoodSelected extends StatelessWidget {
     final WhatToEatModel model = context.watch<WhatToEatModel>();
     final SelectedFood selectedFood = model.selectedFood ??
         const SelectedFood(
-            foodItem: FoodItem(name: '', image: '', description: ''));
+          foodItem: FoodItem(name: '', image: '', description: ''),
+        );
 
     return Scaffold(
       body: Container(

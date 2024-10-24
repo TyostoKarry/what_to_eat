@@ -18,7 +18,7 @@ void main() {
         ),
         ChangeNotifierProvider<WhereToEatModel>(
           create: (BuildContext context) => WhereToEatModel(),
-        )
+        ),
       ],
       child: const MainApp(),
     ),

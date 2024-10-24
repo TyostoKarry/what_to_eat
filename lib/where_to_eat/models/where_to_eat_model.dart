@@ -123,7 +123,8 @@ class WhereToEatModel extends ChangeNotifier {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.denied) {
         setWhereToEatScreenState(
-            WhereToEatScreenState.locationPermissionDenied);
+          WhereToEatScreenState.locationPermissionDenied,
+        );
         return Future<bool>.error('Location permissions are denied');
       }
     }
@@ -175,8 +176,10 @@ class WhereToEatModel extends ChangeNotifier {
           restaurant['tags']['distance'] = distance;
         }
 
-        allRestaurants.sort((dynamic a, dynamic b) =>
-            a['tags']['distance'].compareTo(b['tags']['distance']));
+        allRestaurants.sort(
+          (dynamic a, dynamic b) =>
+              a['tags']['distance'].compareTo(b['tags']['distance']),
+        );
 
         _searchedRestaurantsNearby = RestaurantsNearby(
           allRestaurants: allRestaurants,
@@ -192,8 +195,12 @@ class WhereToEatModel extends ChangeNotifier {
     }
   }
 
-  List<dynamic> filterRestaurantsBasedOnSelection(Set<String> selected,
-      Position position, int searchRange, String? selectedCuisine) {
+  List<dynamic> filterRestaurantsBasedOnSelection(
+    Set<String> selected,
+    Position position,
+    int searchRange,
+    String? selectedCuisine,
+  ) {
     List<dynamic> restaurants = filterAnenity(selected);
 
     restaurants = _filterDistance(restaurants, searchRange, position);
@@ -209,7 +216,8 @@ class WhereToEatModel extends ChangeNotifier {
     if (selected.contains('Restaurants')) {
       filteredRestaurants = searchedRestaurantsNearby.allRestaurants
           .where(
-              (dynamic element) => element['tags']['amenity'] == 'restaurant')
+            (dynamic element) => element['tags']['amenity'] == 'restaurant',
+          )
           .toList();
     }
     if (selected.contains('Fast Food')) {
@@ -225,25 +233,36 @@ class WhereToEatModel extends ChangeNotifier {
   }
 
   List<dynamic> _filterDistance(
-      List<dynamic> restaurants, int searchRange, Position position) {
+    List<dynamic> restaurants,
+    int searchRange,
+    Position position,
+  ) {
     List<dynamic> filteredRestaurants = restaurants.where((dynamic restaurant) {
       double restaurantLat = restaurant['lat'];
       double restaurantLon = restaurant['lon'];
       double distance = Geolocator.distanceBetween(
-          position.latitude, position.longitude, restaurantLat, restaurantLon);
+        position.latitude,
+        position.longitude,
+        restaurantLat,
+        restaurantLon,
+      );
 
       restaurant['tags']['distance'] = distance;
       return distance <= searchRange;
     }).toList();
 
-    filteredRestaurants.sort((dynamic a, dynamic b) =>
-        a['tags']['distance'].compareTo(b['tags']['distance']));
+    filteredRestaurants.sort(
+      (dynamic a, dynamic b) =>
+          a['tags']['distance'].compareTo(b['tags']['distance']),
+    );
 
     return filteredRestaurants;
   }
 
   List<dynamic> filterCuisine(
-      List<dynamic> restaurants, String? selectedCuisine) {
+    List<dynamic> restaurants,
+    String? selectedCuisine,
+  ) {
     if (selectedCuisine == null ||
         selectedCuisine.isEmpty ||
         selectedCuisine == 'any') {
@@ -265,15 +284,21 @@ class WhereToEatModel extends ChangeNotifier {
   }
 
   List<dynamic> filterDistanceWithoutPosition(
-      List<dynamic> restaurants, int searchRange) {
+    List<dynamic> restaurants,
+    int searchRange,
+  ) {
     List<dynamic> filteredRestaurants = restaurants
-        .where((dynamic restaurant) =>
-            restaurant['tags']['distance'] != null &&
-            restaurant['tags']['distance'] < searchRange)
+        .where(
+          (dynamic restaurant) =>
+              restaurant['tags']['distance'] != null &&
+              restaurant['tags']['distance'] < searchRange,
+        )
         .toList();
 
-    filteredRestaurants.sort((dynamic a, dynamic b) =>
-        a['tags']['distance'].compareTo(b['tags']['distance']));
+    filteredRestaurants.sort(
+      (dynamic a, dynamic b) =>
+          a['tags']['distance'].compareTo(b['tags']['distance']),
+    );
 
     return filteredRestaurants;
   }
@@ -467,6 +492,6 @@ class WhereToEatModel extends ChangeNotifier {
     "uzbek",
     "venezuelan",
     "vietnamese",
-    "western"
+    "western",
   ];
 }

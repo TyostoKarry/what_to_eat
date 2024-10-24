@@ -134,8 +134,8 @@ class WTESegmentedButtonState extends State<WTESegmentedButton> {
                     Icon(
                       isSelected ? selectedIcon : unselectedIcon,
                       color: AppColors.textSecondaryColor,
-                      shadows: <Shadow>[
-                        const Shadow(
+                      shadows: const <Shadow>[
+                        Shadow(
                           offset: Offset(2, 2),
                           blurRadius: 2,
                           color: AppColors.textSecondaryShadowColor,
@@ -144,14 +144,15 @@ class WTESegmentedButtonState extends State<WTESegmentedButton> {
                     ),
                     const SizedBox(width: 6),
                     WTEText(
-                        text: option,
-                        color: AppColors.textSecondaryColor,
-                        fontWeight:
-                            isSelected ? FontWeight.bold : FontWeight.normal,
-                        fontSize: 16,
-                        minFontSize: 16,
-                        shadowColor: AppColors.textSecondaryShadowColor,
-                        offset: const Offset(2, 2)),
+                      text: option,
+                      color: AppColors.textSecondaryColor,
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontSize: 16,
+                      minFontSize: 16,
+                      shadowColor: AppColors.textSecondaryShadowColor,
+                      offset: const Offset(2, 2),
+                    ),
                   ],
                 ),
               ),

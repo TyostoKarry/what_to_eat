@@ -62,26 +62,36 @@ class WhereToEatResultState extends State<WhereToEatResult>
             child: Padding(
               key: _contentKey,
               padding: EdgeInsets.symmetric(
-                  horizontal: 20, vertical: ((60 - model.nameTextHeight) / 2)),
+                horizontal: 20,
+                vertical: ((60 - model.nameTextHeight) / 2),
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   RestaurantNameInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                   RestaurantAddressInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                   RestaurantDistanceInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                   RestaurantCuisineInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                   RestaurantDietaryOptionsInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                   RestaurantOpeningHoursInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                   RestaurantContactInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                   RestaurantWebsiteInfo(
-                      restaurant: widget.restaurants[model.resultIndex]),
+                    restaurant: widget.restaurants[model.resultIndex],
+                  ),
                 ],
               ),
             ),

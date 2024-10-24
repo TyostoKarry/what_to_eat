@@ -13,11 +13,12 @@ class WhereToEatListRestaurants extends StatefulWidget {
   final double currentRange;
   final String? selectedCuisine;
 
-  const WhereToEatListRestaurants(
-      {super.key,
-      required this.selected,
-      required this.currentRange,
-      required this.selectedCuisine});
+  const WhereToEatListRestaurants({
+    super.key,
+    required this.selected,
+    required this.currentRange,
+    required this.selectedCuisine,
+  });
 
   @override
   State<WhereToEatListRestaurants> createState() =>
@@ -35,7 +36,9 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
     restaurants = model.filterAnenity(widget.selected);
     restaurants = model.filterCuisine(restaurants, widget.selectedCuisine);
     restaurants = model.filterDistanceWithoutPosition(
-        restaurants, widget.currentRange.toInt());
+      restaurants,
+      widget.currentRange.toInt(),
+    );
 
     bool hasRestaurants = restaurants.isNotEmpty;
 
@@ -71,12 +74,17 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                             : const EdgeInsets.fromLTRB(20, 7, 20, 7),
                       ),
                       duration: const Duration(milliseconds: 100),
-                      builder: (BuildContext context, EdgeInsets padding,
-                          Widget? child) {
+                      builder: (
+                        BuildContext context,
+                        EdgeInsets padding,
+                        Widget? child,
+                      ) {
                         return AnimatedContainer(
                           duration: const Duration(milliseconds: 300),
                           margin: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 7),
+                            horizontal: 20,
+                            vertical: 7,
+                          ),
                           padding: padding,
                           decoration: BoxDecoration(
                             gradient: AppColors.getWhereToEatResultBackground(),
@@ -100,8 +108,11 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                                       ),
                                       duration:
                                           const Duration(milliseconds: 300),
-                                      builder: (BuildContext context,
-                                          double fontSize, Widget? child) {
+                                      builder: (
+                                        BuildContext context,
+                                        double fontSize,
+                                        Widget? child,
+                                      ) {
                                         return Center(
                                           child: WTEText(
                                             text: tags['name'],
@@ -126,7 +137,11 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                                           offset: Offset(1, 1),
                                           blurRadius: 3,
                                           color: Color.fromARGB(
-                                              140, 110, 110, 110),
+                                            140,
+                                            110,
+                                            110,
+                                            110,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -134,20 +149,25 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                                 ],
                               ),
                               TweenAnimationBuilder<double>(
-                                  tween: Tween<double>(
-                                    begin: 5,
-                                    end: isExpanded ? 10 : 5,
-                                  ),
-                                  duration: const Duration(milliseconds: 300),
-                                  builder: (BuildContext context, double size,
-                                      Widget? child) {
-                                    return SizedBox(height: size);
-                                  }),
+                                tween: Tween<double>(
+                                  begin: 5,
+                                  end: isExpanded ? 10 : 5,
+                                ),
+                                duration: const Duration(milliseconds: 300),
+                                builder: (
+                                  BuildContext context,
+                                  double size,
+                                  Widget? child,
+                                ) {
+                                  return SizedBox(height: size);
+                                },
+                              ),
                               AnimatedSize(
                                 duration: const Duration(milliseconds: 300),
                                 child: expandedIndexes.contains(index)
                                     ? RestaurantAddressInfo(
-                                        restaurant: restaurants[index])
+                                        restaurant: restaurants[index],
+                                      )
                                     : Container(),
                               ),
                               if (tags['distance'] != null)
@@ -183,7 +203,7 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
             ),
           ),
         ] else
-          const WhereToEatNoRestaurants()
+          const WhereToEatNoRestaurants(),
       ],
     );
   }

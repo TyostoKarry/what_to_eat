@@ -49,23 +49,26 @@ class WhatToEatCategoriesState extends State<WhatToEatCategories> {
                         children: <Widget>[
                           Ink(
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                gradient: const LinearGradient(
-                                  colors: <Color>[
-                                    AppColors.whatToEatButtonPrimaryColor,
-                                    AppColors.whatToEatButtonSecondaryColor
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                )),
+                              borderRadius: BorderRadius.circular(12),
+                              gradient: const LinearGradient(
+                                colors: <Color>[
+                                  AppColors.whatToEatButtonPrimaryColor,
+                                  AppColors.whatToEatButtonSecondaryColor,
+                                ],
+                                begin: Alignment.topLeft,
+                                end: Alignment.bottomRight,
+                              ),
+                            ),
                             child: InkWell(
                               borderRadius: BorderRadius.circular(16),
                               splashColor: AppColors.splashColor,
                               onTap: () {
-                                Provider.of<WhatToEatModel>(context,
-                                        listen: false)
-                                    .setSelectedCategory(
-                                        WhatToEatModel.foodCategories[index]);
+                                Provider.of<WhatToEatModel>(
+                                  context,
+                                  listen: false,
+                                ).setSelectedCategory(
+                                  WhatToEatModel.foodCategories[index],
+                                );
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
@@ -109,7 +112,8 @@ class WhatToEatCategoriesState extends State<WhatToEatCategories> {
                 onTap: () {
                   Provider.of<WhatToEatModel>(context, listen: false)
                       .setWhatToEatScreenState(
-                          WhatToEatScreenState.customCategory);
+                    WhatToEatScreenState.customCategory,
+                  );
                 },
               ),
             ),

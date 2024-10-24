@@ -248,10 +248,11 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
                   },
                 ),
                 secondChild: VetoOrResult(
-                    vetoesLeft: vetoesLeft,
-                    spinning: spinning,
-                    useVeto: useVeto,
-                    resultFoodItem: resultFoodItem),
+                  vetoesLeft: vetoesLeft,
+                  spinning: spinning,
+                  useVeto: useVeto,
+                  resultFoodItem: resultFoodItem,
+                ),
                 crossFadeState: resultFoodItem == null
                     ? CrossFadeState.showFirst
                     : CrossFadeState.showSecond,

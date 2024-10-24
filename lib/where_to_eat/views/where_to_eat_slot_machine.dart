@@ -115,7 +115,8 @@ class _WhereToEatSlotMachineState extends State<WhereToEatSlotMachine> {
               return WhereToEatSlotMachineScrollAnimation(
                 restaurantName: _shuffledRestaurants[index],
                 animationDuration: Duration(
-                    milliseconds: _singleItemHalfAnimationDuration * 2),
+                  milliseconds: _singleItemHalfAnimationDuration * 2,
+                ),
                 delayBetweenItems: _delayBetweenItems,
                 index: index,
                 totalItems: _shuffledRestaurants.length,

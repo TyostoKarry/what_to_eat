@@ -45,8 +45,9 @@ class FoodItemsPopup extends StatelessWidget {
               Text(
                 foodCategory.name,
                 style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.textPrimaryColor),
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.textPrimaryColor,
+                ),
                 textAlign: TextAlign.center,
               ),
             ],
@@ -56,15 +57,20 @@ class FoodItemsPopup extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: foodCategory.foodItems.map((FoodItem foodItem) {
                 return ListTile(
-                  title: Text(foodItem.name,
-                      style: const TextStyle(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          color: AppColors.textPrimaryColor)),
+                  title: Text(
+                    foodItem.name,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.textPrimaryColor,
+                    ),
+                  ),
                   subtitle: Text(
                     foodItem.description,
                     style: const TextStyle(
-                        fontSize: 15, color: AppColors.textPrimaryColor),
+                      fontSize: 15,
+                      color: AppColors.textPrimaryColor,
+                    ),
                   ),
                 );
               }).toList(),
