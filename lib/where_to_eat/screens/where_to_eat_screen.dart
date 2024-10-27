@@ -30,10 +30,8 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
   bool _isMenuVisible = false;
   bool isEnabled = false;
   final Duration _menuAnimationDuration = const Duration(milliseconds: 300);
-  final GlobalKey _dropdownSearchKey = GlobalKey();
-  final GlobalKey _sliderContainerKey = GlobalKey();
-  double _dropdownSearchHeight = 0.0;
-  double _sliderContainerHeight = 0.0;
+  final GlobalKey _menuKey = GlobalKey();
+  double _menuHeight = 0.0;
   List<dynamic> _restaurants = <dynamic>[];
   Set<String> selected = <String>{'Restaurants', 'Fast Food'};
   final TextEditingController _cuisineController = TextEditingController();
@@ -50,13 +48,9 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
   }
 
   void _calculateMenuWidgetHeights() {
-    final RenderBox dropdownSearchRenderBox =
-        _dropdownSearchKey.currentContext!.findRenderObject() as RenderBox;
-    _dropdownSearchHeight = dropdownSearchRenderBox.size.height;
-
-    final RenderBox sliderRenderBox =
-        _sliderContainerKey.currentContext!.findRenderObject() as RenderBox;
-    _sliderContainerHeight = sliderRenderBox.size.height;
+    final RenderBox segmentedButtonRenderBox =
+        _menuKey.currentContext!.findRenderObject() as RenderBox;
+    _menuHeight = segmentedButtonRenderBox.size.height;
   }
 
   void _launchOpenStreetMapCopyright() async {
@@ -164,9 +158,6 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double totalMenuHeight =
-        _dropdownSearchHeight + 5 + _sliderContainerHeight + 5;
-
     return Scaffold(
       body: WTESafeArea(
         child: Container(
@@ -201,90 +192,68 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                       },
                     ),
                   ),
-                  GestureDetector(
-                    onTap: _launchOpenStreetMapCopyright,
-                    child: const WTEText(
-                      text: "Map data from OpenStreetMap",
-                      color: AppColors.textPrimaryColor,
-                      fontSize: 12,
-                      minFontSize: 12,
-                      textDecoration: TextDecoration.underline,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: _launchOpenStreetMapCopyright,
-                    child: const WTEText(
-                      text:
-                          "Providing real-time location-based restaurant data",
-                      color: AppColors.textPrimaryColor,
-                      fontSize: 12,
-                      minFontSize: 12,
-                      textDecoration: TextDecoration.underline,
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      children: <Widget>[
-                        WTEIconButton(
-                          width: 60,
-                          height: 50,
-                          animation: AnimatedRotation(
-                            turns: _isMenuVisible ? 0.0 : 0.5,
-                            duration: _menuAnimationDuration,
-                            child: const Icon(
-                              Icons.keyboard_arrow_up,
-                              color: AppColors.textSecondaryColor,
-                            ),
-                          ),
-                          backgroundGradient:
-                              AppColors.getWhereToEatButtonBackground(),
-                          disabledColor: Colors.grey.withOpacity(0.3),
-                          onTap: () {
-                            setState(() {
-                              _isMenuVisible = !_isMenuVisible;
-                            });
-                          },
-                          isEnabled: isEnabled,
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: WTESegmentedButton(
-                            options: const <String>['Restaurants', 'Fast Food'],
-                            selected: selected,
-                            selectedIcons: const <IconData>[
-                              Icons.restaurant_outlined,
-                              Icons.fastfood_outlined,
-                            ],
-                            unselectedIcons: const <IconData>[
-                              Icons.close,
-                              Icons.close,
-                            ],
-                            multiSelectionEnabled: true,
-                            allowEmptySelection: false,
-                            isEnabled: isEnabled,
-                            onSelectionChanged: (Set<String> newSelection) {
-                              setState(() {
-                                selected = newSelection;
-                              });
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                   AnimatedContainer(
                     duration: _menuAnimationDuration,
-                    height: _isMenuVisible ? totalMenuHeight : 0.0,
+                    height: _isMenuVisible ? _menuHeight : 0.0,
                     curve: Curves.easeInOut,
                     child: SingleChildScrollView(
                       child: Column(
+                        key: _menuKey,
                         children: <Widget>[
+                          GestureDetector(
+                            onTap: _launchOpenStreetMapCopyright,
+                            child: const WTEText(
+                              text: "Map data from OpenStreetMap",
+                              color: AppColors.textPrimaryColor,
+                              fontSize: 12,
+                              minFontSize: 12,
+                              textDecoration: TextDecoration.underline,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: _launchOpenStreetMapCopyright,
+                            child: const WTEText(
+                              text:
+                                  "Providing real-time location-based restaurant data",
+                              color: AppColors.textPrimaryColor,
+                              fontSize: 12,
+                              minFontSize: 12,
+                              textDecoration: TextDecoration.underline,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: WTESegmentedButton(
+                                options: const <String>[
+                                  'Restaurants',
+                                  'Fast Food',
+                                ],
+                                selected: selected,
+                                selectedIcons: const <IconData>[
+                                  Icons.restaurant_outlined,
+                                  Icons.fastfood_outlined,
+                                ],
+                                unselectedIcons: const <IconData>[
+                                  Icons.close,
+                                  Icons.close,
+                                ],
+                                multiSelectionEnabled: true,
+                                allowEmptySelection: false,
+                                isEnabled: isEnabled,
+                                onSelectionChanged: (Set<String> newSelection) {
+                                  setState(() {
+                                    selected = newSelection;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
                             child: Container(
-                              key: _sliderContainerKey,
                               decoration: BoxDecoration(
                                 color: AppColors.whereToEatButtonPrimaryColor
                                     .withOpacity(0.8),
@@ -321,7 +290,6 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                           Padding(
                             padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
                             child: DropdownSearch<String>(
-                              key: _dropdownSearchKey,
                               items: (
                                 String filter,
                                 LoadProps? infiniteScrollProps,
@@ -386,6 +354,26 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                     padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
                     child: Row(
                       children: <Widget>[
+                        WTEIconButton(
+                          animation: AnimatedRotation(
+                            turns: _isMenuVisible ? 0.0 : 0.5,
+                            duration: _menuAnimationDuration,
+                            child: const Icon(
+                              Icons.keyboard_arrow_up,
+                              color: AppColors.textSecondaryColor,
+                            ),
+                          ),
+                          backgroundGradient:
+                              AppColors.getWhereToEatButtonBackground(),
+                          disabledColor: Colors.grey.withOpacity(0.3),
+                          onTap: () {
+                            setState(() {
+                              _isMenuVisible = !_isMenuVisible;
+                            });
+                          },
+                          isEnabled: isEnabled,
+                        ),
+                        const SizedBox(width: 10),
                         WTEIconButton(
                           animation: const Icon(
                             Icons.menu,
