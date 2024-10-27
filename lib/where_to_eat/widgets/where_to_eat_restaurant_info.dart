@@ -248,30 +248,10 @@ class RestaurantDietaryOptionsInfo extends StatefulWidget {
 
 class _RestaurantDietaryOptionsInfoState
     extends State<RestaurantDietaryOptionsInfo> {
-  List<String> diets = <String>[];
-
-  void _populateDietaryOptions(Map<String, dynamic> restaurant) {
-    diets.clear();
-    restaurant['tags'].forEach((String key, dynamic value) {
-      if (key.startsWith('diet:') && (value == 'yes' || value == 'only')) {
-        String dietType = key.split(':')[1];
-
-        String formattedDiet = dietType[0].toUpperCase() +
-            dietType.substring(1).replaceAll('_', ' ');
-
-        if (value == 'only') {
-          formattedDiet += " (Only)";
-        }
-
-        diets.add(formattedDiet);
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    _populateDietaryOptions(widget.restaurant);
-    if (diets.isEmpty) return Container();
+    if (widget.restaurant['tags']['vegan'].isEmpty &&
+        widget.restaurant['tags']['diets'].isEmpty) return Container();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -299,14 +279,24 @@ class _RestaurantDietaryOptionsInfoState
             ),
           ],
         ),
-        WTEText(
-          text: diets.join(", "),
-          color: AppColors.textPrimaryColor,
-          fontSize: 20,
-          minFontSize: 18,
-          maxLines: 4,
-          textAlign: TextAlign.left,
-        ),
+        if (widget.restaurant['tags']['vegan'].isNotEmpty)
+          WTEText(
+            text: widget.restaurant['tags']['vegan'].join(", "),
+            color: AppColors.textPrimaryColor,
+            fontSize: 20,
+            minFontSize: 18,
+            maxLines: 4,
+            textAlign: TextAlign.left,
+          ),
+        if (widget.restaurant['tags']['diets'].isNotEmpty)
+          WTEText(
+            text: widget.restaurant['tags']['diets'].join(", "),
+            color: AppColors.textPrimaryColor,
+            fontSize: 20,
+            minFontSize: 18,
+            maxLines: 4,
+            textAlign: TextAlign.left,
+          ),
         const SizedBox(height: 15),
       ],
     );

@@ -94,9 +94,11 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                             children: <Widget>[
                               Row(
                                 children: <Widget>[
-                                  const Icon(
-                                    Icons.keyboard_arrow_up,
-                                    color: Colors.transparent,
+                                  Icon(
+                                    Icons.eco_outlined,
+                                    color: tags['vegan'].isNotEmpty
+                                        ? AppColors.textPrimaryColor
+                                        : Colors.transparent,
                                   ),
                                   Expanded(
                                     child: TweenAnimationBuilder<double>(
