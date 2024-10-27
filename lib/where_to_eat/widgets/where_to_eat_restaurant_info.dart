@@ -32,9 +32,13 @@ class RestaurantNameInfo extends StatelessWidget {
 
 class RestaurantAddressInfo extends StatefulWidget {
   final Map<String, dynamic> restaurant;
+  final bool includeLabel;
+  final double spaceBelow;
 
   const RestaurantAddressInfo({
     required this.restaurant,
+    this.includeLabel = true,
+    this.spaceBelow = 15,
     super.key,
   });
 
@@ -44,9 +48,11 @@ class RestaurantAddressInfo extends StatefulWidget {
 
 class _RestaurantAddressInfoState extends State<RestaurantAddressInfo> {
   String? buildAddress(Map<String, dynamic> restaurant) {
+    StringBuffer address;
+
     if (restaurant['tags']['addr:street'] != null &&
         restaurant['tags']['addr:housenumber'] != null) {
-      StringBuffer address = StringBuffer(
+      address = StringBuffer(
         "${restaurant['tags']['addr:street']} ${restaurant['tags']['addr:housenumber']}",
       );
 
@@ -66,29 +72,30 @@ class _RestaurantAddressInfoState extends State<RestaurantAddressInfo> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        const Row(
-          children: <Widget>[
-            Icon(
-              Icons.location_on,
-              color: AppColors.textPrimaryColor,
-              shadows: <Shadow>[
-                Shadow(
-                  offset: Offset(2, 2),
-                  blurRadius: 3,
-                  color: Color.fromARGB(140, 110, 110, 110),
-                ),
-              ],
-            ),
-            SizedBox(width: 10),
-            WTEText(
-              text: 'Address',
-              color: AppColors.textPrimaryColor,
-              fontSize: 20,
-              minFontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ],
-        ),
+        if (widget.includeLabel)
+          const Row(
+            children: <Widget>[
+              Icon(
+                Icons.location_on,
+                color: AppColors.textPrimaryColor,
+                shadows: <Shadow>[
+                  Shadow(
+                    offset: Offset(2, 2),
+                    blurRadius: 3,
+                    color: Color.fromARGB(140, 110, 110, 110),
+                  ),
+                ],
+              ),
+              SizedBox(width: 10),
+              WTEText(
+                text: 'Address',
+                color: AppColors.textPrimaryColor,
+                fontSize: 20,
+                minFontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ],
+          ),
         WTEText(
           text: buildAddress(widget.restaurant)!,
           color: AppColors.textPrimaryColor,
@@ -104,7 +111,7 @@ class _RestaurantAddressInfoState extends State<RestaurantAddressInfo> {
             minFontSize: 18,
             textAlign: TextAlign.left,
           ),
-        const SizedBox(height: 15),
+        SizedBox(height: widget.spaceBelow),
       ],
     );
   }

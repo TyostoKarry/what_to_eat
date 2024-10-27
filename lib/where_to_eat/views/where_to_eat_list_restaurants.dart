@@ -162,14 +162,14 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
                                   return SizedBox(height: size);
                                 },
                               ),
-                              AnimatedSize(
-                                duration: const Duration(milliseconds: 300),
-                                child: expandedIndexes.contains(index)
-                                    ? RestaurantAddressInfo(
-                                        restaurant: restaurants[index],
-                                      )
-                                    : Container(),
-                              ),
+                              if (tags['addr:street'] != null)
+                                AddressWidget(
+                                  index: index,
+                                  isExpanded: isExpanded,
+                                  tags: tags,
+                                  expandedIndexes: expandedIndexes,
+                                  restaurants: restaurants,
+                                ),
                               if (tags['distance'] != null)
                                 DistanceWidget(
                                   index: index,
@@ -215,6 +215,85 @@ class _WhereToEatListRestaurantsState extends State<WhereToEatListRestaurants> {
         RestaurantOpeningHoursInfo(restaurant: restaurants[index]),
         RestaurantContactInfo(restaurant: restaurants[index]),
         RestaurantWebsiteInfo(restaurant: restaurants[index]),
+      ],
+    );
+  }
+}
+
+class AddressWidget extends StatelessWidget {
+  final int index;
+  final bool isExpanded;
+  final dynamic tags;
+  final Set<int> expandedIndexes;
+  final List<dynamic> restaurants;
+
+  const AddressWidget({
+    super.key,
+    required this.index,
+    required this.isExpanded,
+    required this.tags,
+    required this.expandedIndexes,
+    required this.restaurants,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const Baseline(
+              baseline: 26.5,
+              baselineType: TextBaseline.alphabetic,
+              child: Icon(
+                Icons.location_on,
+                color: AppColors.textPrimaryColor,
+                shadows: <Shadow>[
+                  Shadow(
+                    offset: Offset(2, 2),
+                    blurRadius: 3,
+                    color: Color.fromARGB(140, 110, 110, 110),
+                  ),
+                ],
+              ),
+            ),
+            if (isExpanded) ...<Widget>[
+              const SizedBox(width: 10),
+              const WTEText(
+                text: 'Address',
+                color: AppColors.textPrimaryColor,
+                fontSize: 20,
+                minFontSize: 20,
+                fontWeight: FontWeight.bold,
+                textAlign: TextAlign.start,
+              ),
+            ],
+            if (!isExpanded) ...<Widget>[
+              const SizedBox(width: 10),
+              Expanded(
+                child: RestaurantAddressInfo(
+                  restaurant: restaurants[index],
+                  includeLabel: false,
+                  spaceBelow: 0,
+                ),
+              ),
+            ],
+          ],
+        ),
+        if (!isExpanded) const SizedBox(height: 5),
+        AnimatedSize(
+          duration: const Duration(milliseconds: 300),
+          child: expandedIndexes.contains(index)
+              ? Align(
+                  alignment: Alignment.centerLeft,
+                  child: RestaurantAddressInfo(
+                    restaurant: restaurants[index],
+                    includeLabel: false,
+                  ),
+                )
+              : Container(),
+        ),
       ],
     );
   }
@@ -317,17 +396,22 @@ class CuisineWidget extends StatelessWidget {
     return Column(
       children: <Widget>[
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const Icon(
-              Icons.flatware,
-              color: AppColors.textPrimaryColor,
-              shadows: <Shadow>[
-                Shadow(
-                  offset: Offset(2, 2),
-                  blurRadius: 3,
-                  color: Color.fromARGB(140, 110, 110, 110),
-                ),
-              ],
+            const Baseline(
+              baseline: 26.5,
+              baselineType: TextBaseline.alphabetic,
+              child: Icon(
+                Icons.flatware,
+                color: AppColors.textPrimaryColor,
+                shadows: <Shadow>[
+                  Shadow(
+                    offset: Offset(2, 2),
+                    blurRadius: 3,
+                    color: Color.fromARGB(140, 110, 110, 110),
+                  ),
+                ],
+              ),
             ),
             if (isExpanded) ...<Widget>[
               const SizedBox(width: 10),
