@@ -253,14 +253,16 @@ class DistanceWidget extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(width: 10),
-            const WTEText(
-              text: 'Distance',
-              color: AppColors.textPrimaryColor,
-              fontSize: 20,
-              minFontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
+            if (isExpanded) ...<Widget>[
+              const SizedBox(width: 10),
+              const WTEText(
+                text: 'Distance',
+                color: AppColors.textPrimaryColor,
+                fontSize: 20,
+                minFontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ],
             if (!isExpanded) ...<Widget>[
               const SizedBox(width: 10),
               WTEText(
@@ -327,15 +329,17 @@ class CuisineWidget extends StatelessWidget {
                 ),
               ],
             ),
-            const SizedBox(width: 10),
-            const WTEText(
-              text: 'Cuisine',
-              color: AppColors.textPrimaryColor,
-              fontSize: 20,
-              minFontSize: 20,
-              fontWeight: FontWeight.bold,
-              textAlign: TextAlign.start,
-            ),
+            if (isExpanded) ...<Widget>[
+              const SizedBox(width: 10),
+              const WTEText(
+                text: 'Cuisine',
+                color: AppColors.textPrimaryColor,
+                fontSize: 20,
+                minFontSize: 20,
+                fontWeight: FontWeight.bold,
+                textAlign: TextAlign.start,
+              ),
+            ],
             if (!isExpanded) ...<Widget>[
               const SizedBox(width: 10),
               Expanded(
