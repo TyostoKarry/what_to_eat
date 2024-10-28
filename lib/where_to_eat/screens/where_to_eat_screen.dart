@@ -240,8 +240,16 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                                   Icons.close,
                                   Icons.close,
                                 ],
+                                selectedColors: const <Color>[
+                                  AppColors.whereToEatButtonPrimaryColor,
+                                  AppColors.whereToEatButtonSecondaryColor,
+                                ],
+                                unselectedColor: AppColors
+                                    .whereToEatButtonPrimaryColor
+                                    .withOpacity(0.8),
                                 multiSelectionEnabled: true,
                                 allowEmptySelection: false,
+                                switchSelectionOnEmpty: true,
                                 isEnabled: isEnabled,
                                 onSelectionChanged: (Set<String> newSelection) {
                                   setState(() {
@@ -397,11 +405,8 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                                     WhereToEatScreenState.apiError
                                 ? "Retry"
                                 : "Where To Eat",
+                            gradient: AppColors.getWhereToEatButtonBackground(),
                             textColor: AppColors.textSecondaryColor,
-                            gradientColors: const <Color>[
-                              AppColors.whereToEatButtonPrimaryColor,
-                              AppColors.whereToEatButtonSecondaryColor,
-                            ],
                             colorEnabled: isEnabled,
                             splashEnabled: isEnabled,
                             tapEnabled: isEnabled,

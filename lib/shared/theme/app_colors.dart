@@ -10,6 +10,10 @@ class AppColors {
       Color.fromARGB(255, 30, 148, 9);
   static const Color whereToEatButtonSecondaryColor =
       Color.fromARGB(255, 15, 104, 7);
+  static const Color whoToPayButtonPrimaryColor =
+      Color.fromARGB(255, 255, 211, 66);
+  static const Color whoToPayButtonSecondaryColor =
+      Color.fromARGB(255, 197, 160, 37);
   static const Color textPrimaryColor = Color.fromARGB(255, 0, 0, 0);
   static const Color textPrimaryShadowColor = Color.fromARGB(25, 0, 0, 0);
   static const Color textSecondaryColor = Color.fromARGB(255, 211, 211, 211);
@@ -50,6 +54,17 @@ class AppColors {
     );
   }
 
+  static LinearGradient getWhatToEatButtonBackground() {
+    return const LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: <Color>[
+        whatToEatButtonPrimaryColor,
+        whatToEatButtonSecondaryColor,
+      ],
+    );
+  }
+
   static LinearGradient getWhereToEatBackground() {
     return const LinearGradient(
       begin: Alignment.topCenter,
@@ -63,8 +78,8 @@ class AppColors {
 
   static LinearGradient getWhereToEatButtonBackground() {
     return const LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
       colors: <Color>[
         whereToEatButtonPrimaryColor,
         whereToEatButtonSecondaryColor,
@@ -79,6 +94,28 @@ class AppColors {
       colors: <Color>[
         Color.fromARGB(255, 227, 253, 199),
         Color.fromARGB(255, 211, 253, 166),
+      ],
+    );
+  }
+
+  static LinearGradient getWhoToPayBackground() {
+    return const LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: <Color>[
+        Color.fromARGB(255, 253, 255, 134),
+        Color.fromARGB(255, 255, 245, 152),
+      ],
+    );
+  }
+
+  static LinearGradient getWhoToPayButtonBackground() {
+    return const LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: <Color>[
+        whoToPayButtonPrimaryColor,
+        whoToPayButtonSecondaryColor,
       ],
     );
   }

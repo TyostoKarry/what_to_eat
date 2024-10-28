@@ -50,14 +50,8 @@ class WhatToEatCategoriesState extends State<WhatToEatCategories> {
                           Ink(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(12),
-                              gradient: const LinearGradient(
-                                colors: <Color>[
-                                  AppColors.whatToEatButtonPrimaryColor,
-                                  AppColors.whatToEatButtonSecondaryColor,
-                                ],
-                                begin: Alignment.topLeft,
-                                end: Alignment.bottomRight,
-                              ),
+                              gradient:
+                                  AppColors.getWhatToEatButtonBackground(),
                             ),
                             child: InkWell(
                               borderRadius: BorderRadius.circular(16),
@@ -108,6 +102,7 @@ class WhatToEatCategoriesState extends State<WhatToEatCategories> {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: WTEButton(
                 text: 'Create Custom Category',
+                gradient: AppColors.getWhatToEatButtonBackground(),
                 textColor: AppColors.textSecondaryColor,
                 onTap: () {
                   Provider.of<WhatToEatModel>(context, listen: false)

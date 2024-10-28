@@ -49,11 +49,8 @@ class WhereToEatLocationError extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 20),
             child: WTEButton(
               text: buttonText,
+              gradient: AppColors.getWhereToEatButtonBackground(),
               textColor: AppColors.textSecondaryColor,
-              gradientColors: const <Color>[
-                AppColors.whereToEatButtonPrimaryColor,
-                AppColors.whereToEatButtonSecondaryColor,
-              ],
               onTap: onTap,
             ),
           ),

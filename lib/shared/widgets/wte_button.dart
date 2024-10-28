@@ -5,24 +5,21 @@ import 'package:what_to_eat/shared/widgets/wte_text.dart';
 
 class WTEButton extends StatelessWidget {
   final String text;
+  final LinearGradient gradient;
   final Color textColor;
   final VoidCallback onTap;
   final bool colorEnabled;
   final bool splashEnabled;
   final bool tapEnabled;
-  final List<Color> gradientColors;
 
   const WTEButton({
     required this.text,
+    required this.gradient,
     required this.textColor,
     required this.onTap,
     this.colorEnabled = true,
     this.splashEnabled = true,
     this.tapEnabled = true,
-    this.gradientColors = const <Color>[
-      AppColors.whatToEatButtonPrimaryColor,
-      AppColors.whatToEatButtonSecondaryColor,
-    ],
     super.key,
   });
 
@@ -38,13 +35,7 @@ class WTEButton extends StatelessWidget {
         child: Ink(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            gradient: colorEnabled
-                ? LinearGradient(
-                    colors: gradientColors,
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  )
-                : null,
+            gradient: colorEnabled ? gradient : null,
             color: colorEnabled ? null : Colors.grey.withOpacity(0.3),
           ),
           child: InkWell(

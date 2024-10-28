@@ -237,6 +237,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
               child: AnimatedCrossFade(
                 firstChild: WTEButton(
                   text: "Spin the Wheel",
+                  gradient: AppColors.getWhatToEatButtonBackground(),
                   textColor: AppColors.textSecondaryColor,
                   colorEnabled: !spinning,
                   splashEnabled: !spinning,
@@ -295,6 +296,7 @@ class VetoOrResult extends StatelessWidget {
           flex: 1,
           child: WTEButton(
             text: "Use Veto",
+            gradient: AppColors.getWhatToEatButtonBackground(),
             textColor: AppColors.textSecondaryColor,
             colorEnabled: vetoesLeft > 0,
             splashEnabled: vetoesLeft > 0,
@@ -311,6 +313,7 @@ class VetoOrResult extends StatelessWidget {
           flex: 1,
           child: WTEButton(
             text: "Select Food",
+            gradient: AppColors.getWhatToEatButtonBackground(),
             textColor: AppColors.textSecondaryColor,
             colorEnabled: !spinning,
             splashEnabled: !spinning,

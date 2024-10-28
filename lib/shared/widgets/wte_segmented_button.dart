@@ -8,8 +8,12 @@ class WTESegmentedButton extends StatefulWidget {
   final List<IconData> selectedIcons;
   final List<IconData> unselectedIcons;
   final Set<String> selected;
+  final List<Color> selectedColors;
+  final Color unselectedColor;
+  final double height;
   final bool multiSelectionEnabled;
   final bool allowEmptySelection;
+  final bool switchSelectionOnEmpty;
   final bool isEnabled;
   final void Function(Set<String>) onSelectionChanged;
 
@@ -19,8 +23,12 @@ class WTESegmentedButton extends StatefulWidget {
     required this.selectedIcons,
     required this.unselectedIcons,
     required this.selected,
+    required this.selectedColors,
+    required this.unselectedColor,
+    this.height = 50,
     this.multiSelectionEnabled = false,
     this.allowEmptySelection = false,
+    this.switchSelectionOnEmpty = false,
     this.isEnabled = true,
     required this.onSelectionChanged,
   });
@@ -50,10 +58,12 @@ class WTESegmentedButtonState extends State<WTESegmentedButton> {
         if (widget.allowEmptySelection || selectedOptions.length > 1) {
           selectedOptions.remove(value);
         } else if (!widget.allowEmptySelection && selectedOptions.length == 1) {
-          int currentIndex = widget.options.indexOf(value);
-          int nextIndex = (currentIndex + 1) % widget.options.length;
-          selectedOptions.clear();
-          selectedOptions.add(widget.options[nextIndex]);
+          if (widget.switchSelectionOnEmpty) {
+            int currentIndex = widget.options.indexOf(value);
+            int nextIndex = (currentIndex + 1) % widget.options.length;
+            selectedOptions.clear();
+            selectedOptions.add(widget.options[nextIndex]);
+          }
         }
       } else {
         if (!widget.multiSelectionEnabled) {
@@ -96,7 +106,7 @@ class WTESegmentedButtonState extends State<WTESegmentedButton> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
+      height: widget.height,
       width: double.infinity,
       child: Row(
         children: List<Widget>.generate(widget.options.length, (int index) {
@@ -110,18 +120,25 @@ class WTESegmentedButtonState extends State<WTESegmentedButton> {
             child: GestureDetector(
               onTap: widget.isEnabled ? () => _toggleSelection(option) : null,
               child: Container(
+                height: widget.height,
                 padding: const EdgeInsets.symmetric(vertical: 12.0),
                 decoration: BoxDecoration(
                   gradient: widget.isEnabled
                       ? isSelected
-                          ? AppColors.getWhereToEatButtonBackground()
+                          ? LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: <Color>[
+                                widget.selectedColors[0],
+                                widget.selectedColors[1],
+                              ],
+                            )
                           : null
                       : null,
                   color: widget.isEnabled
                       ? isSelected
                           ? null
-                          : AppColors.whereToEatButtonPrimaryColor
-                              .withOpacity(0.8)
+                          : widget.unselectedColor
                       : isSelected
                           ? Colors.grey.withOpacity(0.3)
                           : Colors.grey.withOpacity(0.2),
