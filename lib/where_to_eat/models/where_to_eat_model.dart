@@ -165,6 +165,8 @@ class WhereToEatModel extends ChangeNotifier {
         for (dynamic restaurant in allRestaurants) {
           double restaurantLat = restaurant['lat'];
           double restaurantLon = restaurant['lon'];
+          List<String> vegan = <String>[];
+          List<String> diets = <String>[];
 
           double distance = Geolocator.distanceBetween(
             lat,
@@ -173,6 +175,33 @@ class WhereToEatModel extends ChangeNotifier {
             restaurantLon,
           );
 
+          restaurant['tags'].forEach((String key, dynamic value) {
+            if (key.startsWith('diet:') &&
+                (value == 'yes' || value == 'only')) {
+              String dietType = key.split(':')[1];
+
+              String formattedDiet = dietType[0].toUpperCase() +
+                  dietType.substring(1).replaceAll('_', ' ');
+
+              if (value == 'only') {
+                formattedDiet += " (Only)";
+              }
+
+              if (dietType == 'vegetarian' ||
+                  dietType == 'vegan' ||
+                  dietType == 'pescetarian' ||
+                  dietType == 'lacto_vegetarian' ||
+                  dietType == 'ovo_vegetarian' ||
+                  dietType == 'fruitarian') {
+                vegan.add(formattedDiet);
+              } else {
+                diets.add(formattedDiet);
+              }
+            }
+          });
+
+          restaurant['tags']['vegan'] = vegan;
+          restaurant['tags']['diets'] = diets;
           restaurant['tags']['distance'] = distance;
         }
 

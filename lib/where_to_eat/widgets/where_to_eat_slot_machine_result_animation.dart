@@ -82,7 +82,7 @@ class _WhereToEatSlotMachineResultAnimationState
     );
 
     _controller.forward().then((_) {
-      Future<void>.delayed(const Duration(milliseconds: 1500), () {
+      Future<void>.delayed(const Duration(milliseconds: 500), () {
         if (mounted) {
           _measureTextSize();
           Provider.of<WhereToEatModel>(context, listen: false)
