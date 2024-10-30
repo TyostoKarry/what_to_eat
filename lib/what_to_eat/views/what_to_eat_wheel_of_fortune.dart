@@ -29,9 +29,9 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
   String categoryName = '';
   List<FoodItem> sessionItems = <FoodItem>[];
 
-  final Color primarySliceColor = AppColors.primarySliceColor;
-  final Color secondarySliceColor = AppColors.secondarySliceColor;
-  final Color thirdSliceColor = AppColors.thirdSliceColor;
+  final Color primarySliceColor = AppColors.whatToEatPrimarySliceColor;
+  final Color secondarySliceColor = AppColors.whatToEatSecondarySliceColor;
+  final Color thirdSliceColor = AppColors.whatToEatTertiarySliceColor;
 
   // Function to generate color pattern based on the number of items
   List<Color> generateColorPattern(int itemCount) {

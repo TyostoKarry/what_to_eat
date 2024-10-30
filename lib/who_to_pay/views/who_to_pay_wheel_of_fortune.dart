@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
+import 'package:provider/provider.dart';
 
 import 'package:what_to_eat/shared/theme/app_colors.dart';
+import 'package:what_to_eat/shared/widgets/wte_button_custom_child.dart';
 import 'package:what_to_eat/shared/widgets/wte_text.dart';
+import 'package:what_to_eat/who_to_pay/models/who_to_pay_model.dart';
 
 class WhoToPayWheelOfFortune extends StatefulWidget {
   const WhoToPayWheelOfFortune({super.key});
@@ -13,12 +16,44 @@ class WhoToPayWheelOfFortune extends StatefulWidget {
 }
 
 class _WhoToPayWheelOfFortuneState extends State<WhoToPayWheelOfFortune> {
+  WhoToPayModel? model;
   final StreamController<int> selected = StreamController<int>();
   List<String> sessionItems = <String>['Person 1', 'Person 2'];
 
-  final Color primarySliceColor = AppColors.primarySliceColor;
-  final Color secondarySliceColor = AppColors.secondarySliceColor;
-  final Color thirdSliceColor = AppColors.whoToPayButtonPrimaryColor;
+  final Color primarySliceColor = AppColors.whoToPayPrimarySliceColor;
+  final Color secondarySliceColor = AppColors.whoToPaySecondarySliceColor;
+  final Color thirdSliceColor = AppColors.whoToPayTertiarySliceColor;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final WhoToPayModel newModel =
+        Provider.of<WhoToPayModel>(context, listen: false);
+
+    if (model != newModel) {
+      model?.removeListener(_checkSpin);
+      model = newModel;
+      model?.addListener(_checkSpin);
+    }
+  }
+
+  @override
+  void dispose() {
+    model?.removeListener(_checkSpin);
+    selected.close();
+    super.dispose();
+  }
+
+  void _checkSpin() {
+    if (model?.isSpinning == true) {
+      _spinWheel();
+    }
+  }
+
+  void _spinWheel() {
+    final int randomIndex = Fortune.randomInt(0, sessionItems.length);
+    selected.add(randomIndex);
+  }
 
   // Function to generate color pattern based on the number of items
   List<Color> generateColorPattern(int itemCount) {
@@ -143,6 +178,11 @@ class _WhoToPayWheelOfFortuneState extends State<WhoToPayWheelOfFortune> {
             ],
             physics: NoPanPhysics(),
             animateFirst: false,
+            onAnimationEnd: () {
+              if (mounted) {
+                model?.setSpinning(false);
+              }
+            },
           ),
         ),
         const WTEText(
@@ -151,31 +191,55 @@ class _WhoToPayWheelOfFortuneState extends State<WhoToPayWheelOfFortune> {
           fontSize: 12,
           minFontSize: 12,
         ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: <Widget>[
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    sessionItems.add('Person ${sessionItems.length + 1}');
-                  });
-                },
-                icon: const Icon(Icons.add_circle_outline),
+        Consumer<WhoToPayModel>(
+          builder: (BuildContext context, WhoToPayModel model, Widget? child) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  WTEButtonCustomChild(
+                    width: 50,
+                    height: 50,
+                    backgroundGradient: AppColors.getWhoToPayButtonBackground(),
+                    disabledColor:
+                        AppColors.whoToPayButtonPrimaryColor.withOpacity(0.8),
+                    isEnabled: model.isSpinning == false,
+                    onTap: () {
+                      setState(() {
+                        sessionItems.add('Person ${sessionItems.length + 1}');
+                      });
+                    },
+                    child: const Icon(
+                      Icons.add,
+                      color: AppColors.textTertiaryColor,
+                    ),
+                  ),
+                  const SizedBox(width: 50),
+                  WTEButtonCustomChild(
+                    width: 50,
+                    height: 50,
+                    backgroundGradient: AppColors.getWhoToPayButtonBackground(),
+                    disabledColor:
+                        AppColors.whoToPayButtonPrimaryColor.withOpacity(0.8),
+                    isEnabled:
+                        sessionItems.length > 2 && model.isSpinning == false,
+                    onTap: () {
+                      if (sessionItems.length > 2) {
+                        setState(() {
+                          sessionItems.removeLast();
+                        });
+                      }
+                    },
+                    child: const Icon(
+                      Icons.remove,
+                      color: AppColors.textTertiaryColor,
+                    ),
+                  ),
+                ],
               ),
-              IconButton(
-                onPressed: () {
-                  if (sessionItems.length > 2) {
-                    setState(() {
-                      sessionItems.removeLast();
-                    });
-                  }
-                },
-                icon: const Icon(Icons.remove_circle_outline),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ],
     );

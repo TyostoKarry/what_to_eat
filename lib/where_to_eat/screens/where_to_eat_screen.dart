@@ -12,7 +12,7 @@ import 'package:what_to_eat/where_to_eat/views/where_to_eat_loading.dart';
 import 'package:what_to_eat/where_to_eat/views/where_to_eat_location_error.dart';
 import 'package:what_to_eat/where_to_eat/views/where_to_eat_result.dart';
 import 'package:what_to_eat/where_to_eat/views/where_to_eat_slot_machine.dart';
-import 'package:what_to_eat/shared/widgets/wte_icon_button.dart';
+import 'package:what_to_eat/shared/widgets/wte_button_custom_child.dart';
 import 'package:what_to_eat/shared/widgets/wte_button.dart';
 import 'package:what_to_eat/shared/widgets/wte_safe_area.dart';
 import 'package:what_to_eat/shared/widgets/wte_segmented_button.dart';
@@ -362,15 +362,7 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                     padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
                     child: Row(
                       children: <Widget>[
-                        WTEIconButton(
-                          animation: AnimatedRotation(
-                            turns: _isMenuVisible ? 0.0 : 0.5,
-                            duration: _menuAnimationDuration,
-                            child: const Icon(
-                              Icons.keyboard_arrow_up,
-                              color: AppColors.textSecondaryColor,
-                            ),
-                          ),
+                        WTEButtonCustomChild(
                           backgroundGradient:
                               AppColors.getWhereToEatButtonBackground(),
                           disabledColor: Colors.grey.withOpacity(0.3),
@@ -380,13 +372,17 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                             });
                           },
                           isEnabled: isEnabled,
+                          child: AnimatedRotation(
+                            turns: _isMenuVisible ? 0.0 : 0.5,
+                            duration: _menuAnimationDuration,
+                            child: const Icon(
+                              Icons.keyboard_arrow_up,
+                              color: AppColors.textSecondaryColor,
+                            ),
+                          ),
                         ),
                         const SizedBox(width: 10),
-                        WTEIconButton(
-                          animation: const Icon(
-                            Icons.menu,
-                            color: AppColors.textSecondaryColor,
-                          ),
+                        WTEButtonCustomChild(
                           backgroundGradient:
                               AppColors.getWhereToEatButtonBackground(),
                           disabledColor: Colors.grey.withOpacity(0.3),
@@ -397,6 +393,10 @@ class _WhereToEatScreenState extends State<WhereToEatScreen> {
                             await getPositionAndNearbyRestaurants();
                           },
                           isEnabled: isEnabled,
+                          child: const Icon(
+                            Icons.menu,
+                            color: AppColors.textSecondaryColor,
+                          ),
                         ),
                         const SizedBox(width: 10),
                         Expanded(

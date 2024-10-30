@@ -20,6 +20,18 @@ class _WhoToPayScreenState extends State<WhoToPayScreen> {
   Set<String> selected = <String>{'Wheel'};
 
   @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<WhoToPayModel>(
+        context,
+        listen: false,
+      ).setSpinning(false);
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: WTESafeArea(
@@ -97,11 +109,25 @@ class _WhoToPayScreenState extends State<WhoToPayScreen> {
               ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                child: WTEButton(
-                  text: 'Who To Pay',
-                  gradient: AppColors.getWhoToPayButtonBackground(),
-                  textColor: AppColors.textSecondaryColor,
-                  onTap: () {},
+                child: Consumer<WhoToPayModel>(
+                  builder: (
+                    BuildContext context,
+                    WhoToPayModel model,
+                    Widget? child,
+                  ) {
+                    bool isEnabled = !model.isSpinning;
+                    return WTEButton(
+                      text: 'Who To Pay',
+                      gradient: AppColors.getWhoToPayButtonBackground(),
+                      textColor: AppColors.textSecondaryColor,
+                      onTap: () {
+                        model.startSpin();
+                      },
+                      colorEnabled: isEnabled,
+                      splashEnabled: isEnabled,
+                      tapEnabled: isEnabled,
+                    );
+                  },
                 ),
               ),
             ],
