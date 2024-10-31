@@ -7,6 +7,7 @@ import 'package:what_to_eat/shared/widgets/wte_safe_area.dart';
 import 'package:what_to_eat/shared/widgets/wte_segmented_button.dart';
 import 'package:what_to_eat/shared/widgets/wte_view_title.dart';
 import 'package:what_to_eat/who_to_pay/models/who_to_pay_model.dart';
+import 'package:what_to_eat/who_to_pay/views/who_to_pay_arrow_wheel.dart';
 import 'package:what_to_eat/who_to_pay/views/who_to_pay_wheel_of_fortune.dart';
 
 class WhoToPayScreen extends StatefulWidget {
@@ -142,7 +143,7 @@ class _WhoToPayScreenState extends State<WhoToPayScreen> {
       case WhoToPayScreenState.wheenOfFortune:
         return const WhoToPayWheelOfFortune();
       case WhoToPayScreenState.arrowWheel:
-        return Container();
+        return const WhoToPayArrowWheel();
       case WhoToPayScreenState.coinFlip:
         return Container();
     }
