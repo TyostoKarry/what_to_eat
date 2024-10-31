@@ -110,43 +110,47 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
               titleText: categoryName,
             ),
             Expanded(
-              child: FortuneWheel(
-                selected: selected.stream,
-                items: <FortuneItem>[
-                  for (int i = 0; i < sessionItems.length; i++)
-                    FortuneItem(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: WTEText(
-                          text: sessionItems[i].name,
-                          color: AppColors.wheelTextColor,
-                          shadowColor: AppColors.wheelTextShadowColor,
-                          offset: const Offset(2, 2),
-                          fontSize: 14,
-                          minFontSize: 8,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FortuneWheel(
+                  selected: selected.stream,
+                  items: <FortuneItem>[
+                    for (int i = 0; i < sessionItems.length; i++)
+                      FortuneItem(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: WTEText(
+                            text: sessionItems[i].name,
+                            color: AppColors.wheelTextColor,
+                            shadowColor: AppColors.wheelTextShadowColor,
+                            offset: const Offset(2, 2),
+                            fontSize: 14,
+                            minFontSize: 8,
+                          ),
+                        ),
+                        style: FortuneItemStyle(
+                          color: colorPattern[i],
+                          borderWidth: 0,
                         ),
                       ),
-                      style: FortuneItemStyle(
-                        color: colorPattern[i],
-                        borderWidth: 0,
-                      ),
-                    ),
-                ],
-                physics: NoPanPhysics(),
-                animateFirst: false,
-                onAnimationStart: () {
-                  setState(() {
-                    spinning = true;
-                  });
-                },
-                onAnimationEnd: () {
-                  setState(() {
-                    if (resultIndex >= 0 && resultIndex < sessionItems.length) {
-                      resultFoodItem = sessionItems[resultIndex];
-                    }
-                    spinning = false;
-                  });
-                },
+                  ],
+                  physics: NoPanPhysics(),
+                  animateFirst: false,
+                  onAnimationStart: () {
+                    setState(() {
+                      spinning = true;
+                    });
+                  },
+                  onAnimationEnd: () {
+                    setState(() {
+                      if (resultIndex >= 0 &&
+                          resultIndex < sessionItems.length) {
+                        resultFoodItem = sessionItems[resultIndex];
+                      }
+                      spinning = false;
+                    });
+                  },
+                ),
               ),
             ),
             Row(

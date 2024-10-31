@@ -151,95 +151,96 @@ class _WhoToPayWheelOfFortuneState extends State<WhoToPayWheelOfFortune> {
     return Column(
       children: <Widget>[
         Expanded(
-          child: FortuneWheel(
-            selected: selected.stream,
-            items: <FortuneItem>[
-              for (int i = 0; i < sessionItems.length; i++)
-                FortuneItem(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: WTEText(
-                      text: sessionItems[i],
-                      color: AppColors.wheelTextColor,
-                      shadowColor: AppColors.wheelTextShadowColor,
-                      offset: const Offset(2, 2),
-                      fontSize: 14,
-                      minFontSize: 8,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: FortuneWheel(
+              selected: selected.stream,
+              items: <FortuneItem>[
+                for (int i = 0; i < sessionItems.length; i++)
+                  FortuneItem(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                      child: WTEText(
+                        text: sessionItems[i],
+                        color: AppColors.wheelTextColor,
+                        shadowColor: AppColors.wheelTextShadowColor,
+                        offset: const Offset(2, 2),
+                        fontSize: 14,
+                        minFontSize: 8,
+                      ),
                     ),
+                    style: FortuneItemStyle(
+                      color: colorPattern[i],
+                      borderWidth: 0,
+                    ),
+                    onTap: () {
+                      _editSessionItem(i);
+                    },
                   ),
-                  style: FortuneItemStyle(
-                    color: colorPattern[i],
-                    borderWidth: 0,
-                  ),
-                  onTap: () {
-                    _editSessionItem(i);
-                  },
-                ),
-            ],
-            physics: NoPanPhysics(),
-            animateFirst: false,
-            onAnimationEnd: () {
-              if (mounted) {
-                model?.setSpinning(false);
-              }
-            },
+              ],
+              physics: NoPanPhysics(),
+              animateFirst: false,
+              onAnimationEnd: () {
+                if (mounted) {
+                  model?.setSpinning(false);
+                }
+              },
+            ),
           ),
         ),
+        Consumer<WhoToPayModel>(
+          builder: (BuildContext context, WhoToPayModel model, Widget? child) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                WTEButtonCustomChild(
+                  width: 50,
+                  height: 50,
+                  backgroundGradient: AppColors.getWhoToPayButtonBackground(),
+                  disabledColor:
+                      AppColors.whoToPayButtonPrimaryColor.withOpacity(0.8),
+                  isEnabled: model.isSpinning == false,
+                  onTap: () {
+                    setState(() {
+                      sessionItems.add('Person ${sessionItems.length + 1}');
+                    });
+                  },
+                  child: const Icon(
+                    Icons.add,
+                    color: AppColors.textTertiaryColor,
+                  ),
+                ),
+                const SizedBox(width: 50),
+                WTEButtonCustomChild(
+                  width: 50,
+                  height: 50,
+                  backgroundGradient: AppColors.getWhoToPayButtonBackground(),
+                  disabledColor:
+                      AppColors.whoToPayButtonPrimaryColor.withOpacity(0.8),
+                  isEnabled:
+                      sessionItems.length > 2 && model.isSpinning == false,
+                  onTap: () {
+                    if (sessionItems.length > 2) {
+                      setState(() {
+                        sessionItems.removeLast();
+                      });
+                    }
+                  },
+                  child: const Icon(
+                    Icons.remove,
+                    color: AppColors.textTertiaryColor,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+        const SizedBox(height: 10),
         const WTEText(
           text: 'Tap a segment to modify name',
           color: AppColors.textPrimaryColor,
           fontSize: 12,
           minFontSize: 12,
-        ),
-        Consumer<WhoToPayModel>(
-          builder: (BuildContext context, WhoToPayModel model, Widget? child) {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(20, 5, 20, 0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  WTEButtonCustomChild(
-                    width: 50,
-                    height: 50,
-                    backgroundGradient: AppColors.getWhoToPayButtonBackground(),
-                    disabledColor:
-                        AppColors.whoToPayButtonPrimaryColor.withOpacity(0.8),
-                    isEnabled: model.isSpinning == false,
-                    onTap: () {
-                      setState(() {
-                        sessionItems.add('Person ${sessionItems.length + 1}');
-                      });
-                    },
-                    child: const Icon(
-                      Icons.add,
-                      color: AppColors.textTertiaryColor,
-                    ),
-                  ),
-                  const SizedBox(width: 50),
-                  WTEButtonCustomChild(
-                    width: 50,
-                    height: 50,
-                    backgroundGradient: AppColors.getWhoToPayButtonBackground(),
-                    disabledColor:
-                        AppColors.whoToPayButtonPrimaryColor.withOpacity(0.8),
-                    isEnabled:
-                        sessionItems.length > 2 && model.isSpinning == false,
-                    onTap: () {
-                      if (sessionItems.length > 2) {
-                        setState(() {
-                          sessionItems.removeLast();
-                        });
-                      }
-                    },
-                    child: const Icon(
-                      Icons.remove,
-                      color: AppColors.textTertiaryColor,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
         ),
       ],
     );
