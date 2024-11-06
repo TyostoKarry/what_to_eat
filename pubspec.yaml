@@ -26,4 +26,5 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/
+    - assets/images/who_to_pay/
   uses-material-design: true
