@@ -16,11 +16,15 @@ class EntryScreen extends StatefulWidget {
 class EntryScreenState extends State<EntryScreen> {
   int? _selectedSide;
 
-  void _onSideSelected(int side) {
+  void _handleSideSelection(int side) {
     setState(() {
       _selectedSide = side;
     });
 
+    if (side == 3) {
+      widget.onItemTapped(side);
+      return;
+    }
     Future<void>.delayed(const Duration(milliseconds: 150), () {
       widget.onItemTapped(side);
     });
@@ -28,7 +32,7 @@ class EntryScreenState extends State<EntryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (_selectedSide != null) {
+    if (_selectedSide == 1 || _selectedSide == 2) {
       return WTESplitScreenAnimation(expandLeft: _selectedSide == 1);
     }
 
@@ -39,7 +43,7 @@ class EntryScreenState extends State<EntryScreen> {
             Expanded(
               child: WhatToEatWidget(
                 onTap: () {
-                  _onSideSelected(1);
+                  _handleSideSelection(1);
                 },
               ),
             ),
@@ -48,12 +52,12 @@ class EntryScreenState extends State<EntryScreen> {
                 children: <Widget>[
                   WhereToEatWidget(
                     onTap: () {
-                      _onSideSelected(2);
+                      _handleSideSelection(2);
                     },
                   ),
                   WhoToPayWidget(
                     onTap: () {
-                      _onSideSelected(3);
+                      _handleSideSelection(3);
                     },
                   ),
                 ],
