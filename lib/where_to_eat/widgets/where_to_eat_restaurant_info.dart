@@ -475,14 +475,11 @@ class RestaurantWebsiteInfo extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
         child: WTEButton(
           text: "Restaurant Website",
+          gradient: AppColors.getWhereToEatButtonBackground(),
           textColor: AppColors.textSecondaryColor,
           onTap: () {
             _launchRestaurantWebsite(restaurant['tags']['website']);
           },
-          gradientColors: const <Color>[
-            AppColors.whereToEatButtonPrimaryColor,
-            AppColors.whereToEatButtonSecondaryColor,
-          ],
         ),
       );
     }
@@ -491,14 +488,11 @@ class RestaurantWebsiteInfo extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(0, 5, 0, 10),
       child: WTEButton(
         text: "Search on Google",
+        gradient: AppColors.getWhereToEatButtonBackground(),
         textColor: AppColors.textSecondaryColor,
         onTap: () {
           _launchGoogleSearch(restaurant['tags']['name']);
         },
-        gradientColors: const <Color>[
-          AppColors.whereToEatButtonPrimaryColor,
-          AppColors.whereToEatButtonSecondaryColor,
-        ],
       ),
     );
   }

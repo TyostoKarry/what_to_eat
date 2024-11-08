@@ -126,6 +126,7 @@ class WhatToEatFoodSelected extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
               child: WTEButton(
                 text: "Search The Web",
+                gradient: AppColors.getWhatToEatButtonBackground(),
                 textColor: AppColors.textSecondaryColor,
                 onTap: () {
                   _launchGoogleSearch(selectedFood.foodItem.name);

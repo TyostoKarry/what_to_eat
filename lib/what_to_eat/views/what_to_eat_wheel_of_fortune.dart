@@ -29,9 +29,9 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
   String categoryName = '';
   List<FoodItem> sessionItems = <FoodItem>[];
 
-  final Color primarySliceColor = AppColors.primarySliceColor;
-  final Color secondarySliceColor = AppColors.secondarySliceColor;
-  final Color thirdSliceColor = AppColors.thirdSliceColor;
+  final Color primarySliceColor = AppColors.whatToEatPrimarySliceColor;
+  final Color secondarySliceColor = AppColors.whatToEatSecondarySliceColor;
+  final Color thirdSliceColor = AppColors.whatToEatTertiarySliceColor;
 
   // Function to generate color pattern based on the number of items
   List<Color> generateColorPattern(int itemCount) {
@@ -110,43 +110,47 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
               titleText: categoryName,
             ),
             Expanded(
-              child: FortuneWheel(
-                selected: selected.stream,
-                items: <FortuneItem>[
-                  for (int i = 0; i < sessionItems.length; i++)
-                    FortuneItem(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                        child: WTEText(
-                          text: sessionItems[i].name,
-                          color: AppColors.wheelTextColor,
-                          shadowColor: AppColors.wheelTextShadowColor,
-                          offset: const Offset(2, 2),
-                          fontSize: 14,
-                          minFontSize: 8,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FortuneWheel(
+                  selected: selected.stream,
+                  items: <FortuneItem>[
+                    for (int i = 0; i < sessionItems.length; i++)
+                      FortuneItem(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                          child: WTEText(
+                            text: sessionItems[i].name,
+                            color: AppColors.wheelTextColor,
+                            shadowColor: AppColors.wheelTextShadowColor,
+                            offset: const Offset(2, 2),
+                            fontSize: 14,
+                            minFontSize: 8,
+                          ),
+                        ),
+                        style: FortuneItemStyle(
+                          color: colorPattern[i],
+                          borderWidth: 0,
                         ),
                       ),
-                      style: FortuneItemStyle(
-                        color: colorPattern[i],
-                        borderWidth: 0,
-                      ),
-                    ),
-                ],
-                physics: NoPanPhysics(),
-                animateFirst: false,
-                onAnimationStart: () {
-                  setState(() {
-                    spinning = true;
-                  });
-                },
-                onAnimationEnd: () {
-                  setState(() {
-                    if (resultIndex >= 0 && resultIndex < sessionItems.length) {
-                      resultFoodItem = sessionItems[resultIndex];
-                    }
-                    spinning = false;
-                  });
-                },
+                  ],
+                  physics: NoPanPhysics(),
+                  animateFirst: false,
+                  onAnimationStart: () {
+                    setState(() {
+                      spinning = true;
+                    });
+                  },
+                  onAnimationEnd: () {
+                    setState(() {
+                      if (resultIndex >= 0 &&
+                          resultIndex < sessionItems.length) {
+                        resultFoodItem = sessionItems[resultIndex];
+                      }
+                      spinning = false;
+                    });
+                  },
+                ),
               ),
             ),
             Row(
@@ -237,6 +241,7 @@ class _WhatToEatWheelOfFortuneState extends State<WhatToEatWheelOfFortune> {
               child: AnimatedCrossFade(
                 firstChild: WTEButton(
                   text: "Spin the Wheel",
+                  gradient: AppColors.getWhatToEatButtonBackground(),
                   textColor: AppColors.textSecondaryColor,
                   colorEnabled: !spinning,
                   splashEnabled: !spinning,
@@ -295,6 +300,7 @@ class VetoOrResult extends StatelessWidget {
           flex: 1,
           child: WTEButton(
             text: "Use Veto",
+            gradient: AppColors.getWhatToEatButtonBackground(),
             textColor: AppColors.textSecondaryColor,
             colorEnabled: vetoesLeft > 0,
             splashEnabled: vetoesLeft > 0,
@@ -311,6 +317,7 @@ class VetoOrResult extends StatelessWidget {
           flex: 1,
           child: WTEButton(
             text: "Select Food",
+            gradient: AppColors.getWhatToEatButtonBackground(),
             textColor: AppColors.textSecondaryColor,
             colorEnabled: !spinning,
             splashEnabled: !spinning,

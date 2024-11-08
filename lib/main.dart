@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-import 'package:what_to_eat/what_to_eat/models/what_to_eat_model.dart';
-import 'package:what_to_eat/where_to_eat/models/where_to_eat_model.dart';
 import 'package:what_to_eat/core/screens/entry_screen.dart';
-import 'package:what_to_eat/what_to_eat/screens/what_to_eat_screen.dart';
-import 'package:what_to_eat/where_to_eat/screens/where_to_eat_screen.dart';
 import 'package:what_to_eat/shared/theme/app_colors.dart';
+import 'package:what_to_eat/what_to_eat/models/what_to_eat_model.dart';
+import 'package:what_to_eat/what_to_eat/screens/what_to_eat_screen.dart';
+import 'package:what_to_eat/where_to_eat/models/where_to_eat_model.dart';
+import 'package:what_to_eat/where_to_eat/screens/where_to_eat_screen.dart';
+import 'package:what_to_eat/who_to_pay/models/who_to_pay_model.dart';
+import 'package:what_to_eat/who_to_pay/screens/who_to_pay_screen.dart';
 
 void main() {
   runApp(
@@ -18,6 +20,9 @@ void main() {
         ),
         ChangeNotifierProvider<WhereToEatModel>(
           create: (BuildContext context) => WhereToEatModel(),
+        ),
+        ChangeNotifierProvider<WhoToPayModel>(
+          create: (BuildContext context) => WhoToPayModel(),
         ),
       ],
       child: const MainApp(),
@@ -61,6 +66,10 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       Provider.of<WhereToEatModel>(context, listen: false)
           .setWhereToEatScreenState(WhereToEatScreenState.initial);
     }
+    if (_currentScreenIndex == 3 && index != 3) {
+      Provider.of<WhoToPayModel>(context, listen: false)
+          .setWhoToPayScreenState(WhoToPayScreenState.wheenOfFortune);
+    }
     setState(() {
       _currentScreenIndex = index;
     });
@@ -72,7 +81,7 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
       EntryScreen(onItemTapped: _onItemTapped),
       const WhatToEatScreen(),
       const WhereToEatScreen(),
-      const Text('Settings'),
+      const WhoToPayScreen(),
     ];
 
     return Scaffold(
@@ -97,8 +106,8 @@ class _MyNavigationBarState extends State<MyNavigationBar> {
             backgroundColor: AppColors.navBarBackgroundColor,
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
+            icon: Icon(Icons.paid),
+            label: 'Who to Pay',
             backgroundColor: AppColors.navBarBackgroundColor,
           ),
         ],
