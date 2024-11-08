@@ -250,7 +250,7 @@ class WhoToPayWidget extends StatelessWidget {
                           ),
                         ],
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8),
                       Text(
                         'Who To Pay',
                         style: TextStyle(
