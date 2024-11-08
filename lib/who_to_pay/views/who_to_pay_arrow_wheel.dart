@@ -87,7 +87,7 @@ class _WhoToPayArrowWheelState extends State<WhoToPayArrowWheel>
             child: Container(
               decoration: const BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.whoToPayButtonPrimaryColor,
+                color: AppColors.whoToPayPrimaryColor,
                 boxShadow: <BoxShadow>[
                   BoxShadow(
                     color: AppColors.wheelTextShadowColor,

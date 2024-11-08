@@ -232,40 +232,46 @@ class WhoToPayWidget extends StatelessWidget {
               ),
               child: InkWell(
                 onTap: onTap,
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Icon(
-                      Icons.paid,
-                      color: AppColors.textPrimaryColor,
-                      shadows: <Shadow>[
-                        Shadow(
-                          offset: Offset(2, 2),
-                          blurRadius: 3,
-                          color: Color.fromARGB(140, 110, 110, 110),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      'Who To Pay',
-                      style: TextStyle(
-                        fontSize: 24,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                  ),
+                  child: const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.paid,
                         color: AppColors.textPrimaryColor,
                         shadows: <Shadow>[
                           Shadow(
-                            offset: Offset(2, 2),
+                            offset: Offset(1, 1),
                             blurRadius: 3,
-                            color: Color.fromARGB(
-                              140,
-                              110,
-                              110,
-                              110,
-                            ),
+                            color: Color.fromARGB(140, 110, 110, 110),
                           ),
                         ],
                       ),
-                    ),
-                  ],
+                      const SizedBox(width: 8),
+                      Text(
+                        'Who To Pay',
+                        style: TextStyle(
+                          fontSize: 22,
+                          color: AppColors.textPrimaryColor,
+                          shadows: <Shadow>[
+                            Shadow(
+                              offset: Offset(1, 1),
+                              blurRadius: 3,
+                              color: Color.fromARGB(
+                                140,
+                                110,
+                                110,
+                                110,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

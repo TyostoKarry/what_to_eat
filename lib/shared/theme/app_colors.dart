@@ -31,9 +31,11 @@ class AppColors {
   static const Color wheelTextColor = Color.fromARGB(255, 255, 255, 255);
   static const Color wheelTextShadowColor = Color.fromARGB(100, 0, 0, 0);
 
+  // who_to_pay_arrow_wheel.dart
+  static const Color whoToPayPrimaryColor = Color.fromARGB(255, 233, 191, 52);
+
   // who_to_pay_wheel_of_fortune.dart
-  static const Color whoToPayPrimarySliceColor =
-      Color.fromARGB(255, 233, 191, 52);
+  static const Color whoToPayPrimarySliceColor = whoToPayPrimaryColor;
   static const Color whoToPaySecondarySliceColor =
       Color.fromARGB(255, 197, 160, 37);
   static const Color whoToPayTertiarySliceColor =
