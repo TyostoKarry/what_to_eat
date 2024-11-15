@@ -19,6 +19,7 @@ class _WhoToPayWheelOfFortuneState extends State<WhoToPayWheelOfFortune> {
   WhoToPayModel? model;
   final StreamController<int> selected = StreamController<int>();
   List<String> sessionItems = <String>['Person 1', 'Person 2'];
+  final TextEditingController _controller = TextEditingController();
 
   final Color primarySliceColor = AppColors.whoToPayPrimarySliceColor;
   final Color secondarySliceColor = AppColors.whoToPaySecondarySliceColor;
@@ -41,6 +42,7 @@ class _WhoToPayWheelOfFortuneState extends State<WhoToPayWheelOfFortune> {
   void dispose() {
     model?.removeListener(_checkSpin);
     selected.close();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -74,8 +76,7 @@ class _WhoToPayWheelOfFortuneState extends State<WhoToPayWheelOfFortune> {
   }
 
   void _editSessionItem(int index) {
-    TextEditingController controller =
-        TextEditingController(text: sessionItems[index]);
+    _controller.text = sessionItems[index];
 
     showModalBottomSheet(
       context: context,
@@ -106,7 +107,7 @@ class _WhoToPayWheelOfFortuneState extends State<WhoToPayWheelOfFortune> {
               ),
               const SizedBox(height: 10),
               TextField(
-                controller: controller,
+                controller: _controller,
                 decoration: const InputDecoration(
                   labelText: 'Enter new name',
                   border: OutlineInputBorder(),
@@ -128,7 +129,7 @@ class _WhoToPayWheelOfFortuneState extends State<WhoToPayWheelOfFortune> {
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        sessionItems[index] = controller.text;
+                        sessionItems[index] = _controller.text;
                       });
                       Navigator.of(context).pop();
                     },
